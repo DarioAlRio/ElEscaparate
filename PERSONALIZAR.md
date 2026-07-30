@@ -144,6 +144,13 @@ servicio ni de que tengas el correo montado: hoy ya funciona. El número sale de
   (Formspree, Basin, Web3Forms; todos con plan gratuito) y pega el endpoint que
   te den en ese `action`. A partir de ahí el botón envía de verdad.
 
+**Si el visitante no tiene correo configurado** —mucha gente no lo tiene, usa
+el correo dentro del navegador— un enlace `mailto:` no abre nada y el clic
+parece roto. Por eso, tanto ahí como en los enlaces del pie, si al segundo del
+clic seguimos en la página se enseña un cartel con dos salidas que siempre
+funcionan: escribir desde el correo web o copiar la dirección al portapapeles.
+Si el programa de correo sí se abre, el cartel no llega a aparecer.
+
 Pulsar Enter dentro de un campo equivale al botón principal, el de WhatsApp.
 El campo trampa `_apellido` sigue ahí para el spam: si un robot lo rellena, el
 mensaje no sale por ninguna de las dos vías.

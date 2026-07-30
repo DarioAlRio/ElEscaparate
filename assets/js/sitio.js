@@ -174,9 +174,13 @@
       return;
     }
     avisa("Abriendo tu programa de correo con el mensaje escrito.");
-    window.location.href = "mailto:" + forma.getAttribute("data-correo") +
+    var carta = "mailto:" + forma.getAttribute("data-correo") +
       "?subject=" + encodeURIComponent("Presupuesto desde la web") +
       "&body=" + encodeURIComponent(mensaje());
+    window.location.href = carta;
+    /* Que el salvavidas vigile también esta salida: si no hay programa de
+       correo, el clic no habría hecho nada visible. */
+    document.dispatchEvent(new CustomEvent("carta-abierta", { detail: carta }));
   }
 
   /* Enviar con Enter equivale al botón principal, el de WhatsApp. */
@@ -307,4 +311,116 @@
   document.addEventListener("keydown", function (ev) {
     if (ev.key === "Escape" && cierre.getAttribute("data-estado") === "cerrada") pon(false);
   });
+})();
+
+/* =========================================================================
+   Salvavidas del correo.
+
+   Un enlace «mailto:» solo abre algo si el visitante tiene un programa de
+   correo configurado en su equipo. Mucha gente no lo tiene —usa el correo en
+   el navegador— y para esa el clic no hace absolutamente nada: ni se abre
+   nada, ni hay mensaje de error, ni sabe por qué.
+
+   Aquí se vigila el clic: si algo se abre, el navegador pierde el foco y no
+   pasa nada más. Si al segundo seguimos en la página y con el foco puesto, es
+   que no se abrió nada, y entonces sale un cartel con las dos salidas que
+   funcionan siempre: escribir desde el correo web o copiar la dirección.
+
+   Vale para los enlaces del pie, los de la página de presupuesto y el botón
+   «Enviar por correo» del formulario, que avisa por su cuenta.
+   ========================================================================= */
+
+(function () {
+  "use strict";
+
+  var ESPERA = 1100;
+  var VIDA = 14000;
+  var cartel = null;
+  var relojMira = null;
+  var relojVida = null;
+
+  /* De «mailto:x@y?subject=…&body=…» a sus tres piezas. */
+  function partes(carta) {
+    var resto = String(carta).replace(/^mailto:/i, "");
+    var corte = resto.indexOf("?");
+    var consulta = new URLSearchParams(corte === -1 ? "" : resto.slice(corte + 1));
+    return {
+      direccion: decodeURIComponent(corte === -1 ? resto : resto.slice(0, corte)),
+      asunto: consulta.get("subject") || "",
+      cuerpo: consulta.get("body") || ""
+    };
+  }
+
+  function monta() {
+    if (cartel) return cartel;
+    cartel = document.createElement("div");
+    cartel.className = "salvavidas";
+    cartel.setAttribute("role", "status");
+    cartel.innerHTML =
+      '<p>¿No se te ha abierto el correo? Tu equipo no tiene ninguno configurado.</p>' +
+      '<a data-gmail href="#" target="_blank" rel="noopener">Escribir desde el navegador</a>' +
+      '<button type="button" data-copia>Copiar la dirección</button>' +
+      '<button type="button" class="salvavidas__cierra" data-cierra>Cerrar</button>';
+
+    cartel.querySelector("[data-cierra]").addEventListener("click", esconde);
+    cartel.querySelector("[data-copia]").addEventListener("click", function () {
+      var boton = this;
+      var direccion = cartel.getAttribute("data-direccion") || "";
+      if (!navigator.clipboard) return;
+      navigator.clipboard.writeText(direccion).then(function () {
+        boton.textContent = "Dirección copiada";
+      });
+    });
+
+    document.body.appendChild(cartel);
+    return cartel;
+  }
+
+  function esconde() {
+    clearTimeout(relojVida);
+    if (cartel) cartel.setAttribute("data-visible", "no");
+  }
+
+  function enseña(carta) {
+    var datos = partes(carta);
+    var nodo = monta();
+    nodo.setAttribute("data-direccion", datos.direccion);
+    nodo.querySelector("[data-gmail]").href =
+      "https://mail.google.com/mail/?view=cm&fs=1&to=" + encodeURIComponent(datos.direccion) +
+      "&su=" + encodeURIComponent(datos.asunto) +
+      "&body=" + encodeURIComponent(datos.cuerpo);
+    nodo.querySelector("[data-copia]").textContent = "Copiar la dirección";
+    nodo.setAttribute("data-visible", "si");
+
+    clearTimeout(relojVida);
+    relojVida = setTimeout(esconde, VIDA);
+  }
+
+  /* Si el programa de correo se abre, el navegador pierde el foco: eso es lo
+     que se mira. Con la pestaña oculta tampoco se enseña nada. */
+  function vigila(carta) {
+    clearTimeout(relojMira);
+    relojMira = setTimeout(function () {
+      if (document.visibilityState !== "visible") return;
+      if (document.hasFocus && !document.hasFocus()) return;
+      enseña(carta);
+    }, ESPERA);
+  }
+
+  document.addEventListener("click", function (ev) {
+    var enlace = ev.target.closest ? ev.target.closest('a[href^="mailto:"]') : null;
+    if (!enlace || ev.defaultPrevented) return;
+    esconde();
+    vigila(enlace.getAttribute("href"));
+  });
+
+  document.addEventListener("carta-abierta", function (ev) { vigila(ev.detail); });
+
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key === "Escape") esconde();
+  });
+
+  /* Si el programa de correo tardó en arrancar y aparece después, el navegador
+     pierde el foco: el cartel ya no pinta nada y se retira solo. */
+  window.addEventListener("blur", esconde);
 })();
