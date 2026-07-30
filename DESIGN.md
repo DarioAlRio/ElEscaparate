@@ -84,6 +84,10 @@ Tres, y los tres son CSS, sin imágenes:
 
 1. **Toldo** (`.toldo`): franjas verticales con el borde inferior festoneado
    mediante dos capas de `mask` (círculos repetidos abajo, rectángulo arriba).
+   El radio del festón **es la mitad de la raya**, no un valor suelto: así cada
+   luna es media circunferencia entera del ancho de su raya y toca con la de al
+   lado, sin muescas planas entre medias. El corte se difumina 0,75 px en
+   medida absoluta, para que el borde no dentee también en el toldo fino.
    Va bajo la cabecera de todas las páginas y sobre cada escaparate en vivo.
 2. **Persiana** (`.persiana`): lamas en `repeating-linear-gradient`. Cubre el
    marco hasta que hay algo que enseñar.
