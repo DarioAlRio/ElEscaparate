@@ -244,9 +244,10 @@ button, input, select, textarea {
 /* Etiqueta de precio, como la de un escaparate. Va dentro del titular, detrás
    de la última palabra, y mide en em para crecer con la letra.
    A 2.5em de alto la tarjeta es más grande que la línea del titular, así que la
-   ensancha: eso es el peaje del tamaño, no un descuadre. El desplome, -0.9em,
-   es mitad de su alto menos la altura de mayúscula, de modo que crece lo mismo
-   por arriba que por abajo y queda centrada sobre el título. */
+   ensancha: eso es el peaje del tamaño, no un descuadre. Centrada sobre las
+   mayúsculas iría a -0.9em (mitad de su alto menos la altura de mayúscula); va
+   0.25em por encima a propósito, para que asome sobre el titular en vez de
+   caerle hacia el párrafo. */
 .junto { white-space: nowrap; }
 
 .colgante {
@@ -254,7 +255,7 @@ button, input, select, textarea {
   width: 3.6em;   /* proporción del viewBox: 158 / 110 */
   height: 2.5em;
   margin-left: 1.4em;
-  vertical-align: -0.9em;
+  vertical-align: -0.4em;
   overflow: visible;
   pointer-events: none;
 }
@@ -1368,6 +1369,49 @@ button, input, select, textarea {
   font-size: var(--t-s);
 }
 .aviso-forma[data-visible="si"] { display: block; }
+
+/* Red de seguridad del correo: un mailto solo abre algo si el visitante tiene
+   programa de correo configurado. Si no lo tiene, el clic no hace nada y no se
+   entera de por qué. Este cartel aparece un segundo después del clic y ofrece
+   las dos salidas que siempre funcionan: el correo web y copiar la dirección.
+   Va por encima de la cabecera (40) y por debajo del visor (60). */
+.salvavidas {
+  position: fixed;
+  z-index: 50;
+  left: 50%;
+  bottom: var(--e3);
+  transform: translateX(-50%);
+  display: none;
+  align-items: center;
+  gap: var(--e2);
+  flex-wrap: wrap;
+  justify-content: center;
+  width: min(38rem, calc(100vw - 2rem));
+  padding: var(--e2) var(--e3);
+  border: 2px solid var(--azul-linea);
+  border-radius: var(--radio);
+  background: var(--azul-hondo);
+  color: var(--cal);
+  font-size: var(--t-s);
+  box-shadow: 0 18px 40px rgba(6, 21, 47, 0.35);
+}
+.salvavidas[data-visible="si"] { display: flex; }
+.salvavidas p { margin: 0; flex: 1 1 12rem; }
+.salvavidas a,
+.salvavidas button {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--accion);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.salvavidas a:focus-visible,
+.salvavidas button:focus-visible { outline: 3px solid var(--accion); outline-offset: 3px; }
+.salvavidas .salvavidas__cierra { color: var(--azul-suave); text-decoration: none; }
 
 /* --- 15. Cierre y pie --------------------------------------------------- */
 
