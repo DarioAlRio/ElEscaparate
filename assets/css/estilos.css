@@ -239,7 +239,36 @@ button, input, select, textarea {
 .lectura { max-width: var(--ancho-lectura); }
 
 /* Encabezado de sección: letrero grande con su línea de apoyo. */
-.titular-seccion { margin-bottom: var(--e4); }
+.titular-seccion { margin-bottom: var(--e4); position: relative; }
+
+/* Etiqueta de precio, como la de un escaparate. Va dentro del titular, detrás
+   de la última palabra, y mide en em para crecer con la letra.
+   A 2.5em de alto la tarjeta es más grande que la línea del titular, así que la
+   ensancha: eso es el peaje del tamaño, no un descuadre. El desplome, -0.9em,
+   es mitad de su alto menos la altura de mayúscula, de modo que crece lo mismo
+   por arriba que por abajo y queda centrada sobre el título. */
+.junto { white-space: nowrap; }
+
+.colgante {
+  display: inline-block;
+  width: 3.6em;   /* proporción del viewBox: 158 / 110 */
+  height: 2.5em;
+  margin-left: 1.4em;
+  vertical-align: -0.9em;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.colgante__tarjeta { fill: var(--senal); }
+.colgante__ojal { fill: var(--cal); stroke: rgba(13, 23, 38, 0.55); stroke-width: 1.5; }
+
+.colgante__texto {
+  fill: var(--tinta);
+  font-family: var(--letra-titular);
+  font-weight: 800;
+  font-size: 30px;
+  letter-spacing: 0.1em;
+}
 .titular-seccion h2 { font-size: var(--t-3xl); }
 .titular-seccion p {
   margin-top: var(--e2);

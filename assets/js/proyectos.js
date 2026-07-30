@@ -9,7 +9,7 @@
      nombre    Cómo se llama el negocio.
      oficio    A qué se dedica, en dos o tres palabras.
      tipo      una-pagina · multipagina · tienda
-               (tiene que coincidir con los filtros de portfolio.html)
+               (tiene que coincidir con los filtros de trabajos.html)
      anio      Año de entrega.
      destacado true para que salga en la portada. Deja tres o cuatro.
      nota      Una frase de lo que resolviste. Sale en la ficha.
