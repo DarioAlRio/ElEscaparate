@@ -20,19 +20,19 @@ que la maqueta sea real**. No son tu tarifa. Revísalos uno por uno.
 Dónde aparecen:
 
 - `index.html` → bloque `<!-- PRECIOS -->`, las tres filas de la oferta.
-- `servicios.html` → un `<dl class="datos">` por formato, y la etiqueta
+- `diseno-web.html` → un `<dl class="datos">` por formato, y la etiqueta
   `<meta name="description">` de arriba, que también los repite.
 - `index.html` → «Entrega entre 1 y 4 semanas» en el sello de la portada.
 
 Lo mismo con las condiciones que he escrito porque son las habituales, pero que
 son tuyas: **mitad y mitad**, **dos rondas de cambios**, **un mes de ajustes**,
-**contesto en un día laborable**. Están en `metodo.html`, `servicios.html`
-(desplegables) y `contacto.html`.
+**contesto en un día laborable**. Están en `como-trabajo.html`, `diseno-web.html`
+(desplegables) y `presupuesto.html`.
 
 ## 2. El teléfono ✓ ya está puesto
 
 **684 08 24 90**, en el pie de las seis páginas con pie completo y en la lista
-«Si prefieres el camino corto» de `contacto.html`. Va de dos formas:
+«Si prefieres el camino corto» de `presupuesto.html`. Va de dos formas:
 
 - `https://wa.me/34684082490` abre el chat de WhatsApp directamente.
 - `tel:+34684082490` marca desde el móvil.
@@ -43,7 +43,7 @@ sitios.
 ## 3. El correo ✓ puesto, pendiente de comprobar que llega
 
 **contacto@elescaparateweb.com**, en el pie de las seis páginas con pie
-completo, en la lista «Si prefieres el camino corto» de `contacto.html` y en el
+completo, en la lista «Si prefieres el camino corto» de `presupuesto.html` y en el
 atributo `data-correo` del formulario.
 
 Lo único que queda es asegurarte de que **ese buzón recibe de verdad**. Mándate
@@ -150,7 +150,7 @@ mensaje no sale por ninguna de las dos vías.
 
 ## 8. Tu biografía
 
-`estudio.html` habla de cómo trabajas, que es verdad y es lo que vende, pero no
+`sobre-mi.html` habla de cómo trabajas, que es verdad y es lo que vende, pero no
 cuenta nada que solo puedas contar tú: de dónde vienes, desde cuándo, dónde
 vives, por qué acabaste haciendo esto. Está marcado con
 `<!-- BIOGRAFÍA: escríbela tú -->`. Dos párrafos tuyos valen más que toda la
@@ -178,28 +178,34 @@ node _dev-servidor.js
 Y abre `http://localhost:5174`. También funciona abriendo `index.html` con doble
 clic: no hay build, no hay npm, no hay nada que compilar.
 
-## Direcciones limpias, sin perder el doble clic
+## Las direcciones de cada página
 
-Los enlaces del código son relativos y con extensión (`servicios.html`), que es
-lo que permite abrir la web con doble clic sin servidor. **El `.html` lo quita
-el servidor al publicar**, no el código:
+| Página | Dirección | Por qué |
+|---|---|---|
+| Portada | `/` | — |
+| Qué monto | `/diseno-web` | Es lo que la gente escribe en Google |
+| La calle | `/trabajos` | Corto y en español; «portfolio» no lo busca nadie |
+| Cómo trabajo | `/como-trabajo` | Igual que el título de la página |
+| El estudio | `/sobre-mi` | La dirección que todo el mundo espera de un «quién soy» |
+| Contacto | `/presupuesto` | Es lo que se busca con intención de contratar |
 
-- **Netlify o Cloudflare Pages:** no hay que hacer nada. Al pedir
-  `/servicios.html` responden con una redirección permanente a `/servicios`, así
-  que el visitante acaba viendo siempre la dirección limpia.
-- **Hosting clásico por FTP (Apache):** sube también el archivo `.htaccess` que
-  va en la carpeta; hace exactamente eso mismo, más la página de error. Es un
-  archivo oculto: en el explorador de Windows activa «Elementos ocultos» o no lo
-  verás al arrastrar.
-- **Otro tipo de hosting:** dímelo y miramos la equivalencia.
+Las antiguas (`/servicios`, `/portfolio`, `/metodo`, `/estudio`, `/contacto`)
+redirigen con un 301 permanente a la nueva, así que ningún enlace se rompe.
 
-`canonical`, `og:url` y `sitemap.xml` ya apuntan a las direcciones limpias
-(`https://elescaparateweb.com/servicios`), que son las que indexa Google.
+Los archivos siguen llamándose `.html` y los enlaces del código son relativos,
+que es lo que permite abrir la web con doble clic sin servidor. **El `.html` lo
+quita el servidor**, no el código:
 
-El único peaje es un salto de redirección la primera vez que alguien pincha un
-enlace interno. El navegador se lo guarda y no se repite.
+- **Vercel**, que es donde está la web: lo hace `vercel.json` con `cleanUrls`.
+  Ese archivo tiene que subir con el resto o las direcciones limpias dan 404.
+- **Hosting clásico por FTP (Apache):** sube el `.htaccess`, que hace lo mismo
+  más la página de error. Es un archivo oculto: en el explorador de Windows
+  activa «Elementos ocultos» o no lo verás al arrastrar.
 
-Para publicar: arrastra la carpeta entera a Netlify, o súbela por FTP. No subas
+`canonical`, `og:url` y `sitemap.xml` apuntan a las direcciones limpias, que son
+las que indexa Google.
+
+Para publicar: sube la carpeta al repositorio y Vercel despliega solo. No subas
 `_dev-servidor.js`, `PRODUCT.md`, `DESIGN.md`, `CLAUDE.md` ni este archivo.
 
 ## Un aviso sobre las capturas

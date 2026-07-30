@@ -1,11 +1,18 @@
 # Direcciones limpias, sin .html a la vista.
 #
 # Solo hace falta en hosting Apache (el clásico de FTP: cPanel, Plesk, la
-# mayoría de los compartidos españoles). En Netlify y Cloudflare Pages este
-# archivo no se usa: ahí las direcciones sin extensión funcionan de fábrica.
+# mayoría de los compartidos españoles). La web está en Vercel, y allí manda
+# vercel.json; esto queda por si algún día se muda a un compartido.
 
 Options -MultiViews
 RewriteEngine On
+
+# 0. Direcciones antiguas, antes de que las páginas tuvieran nombre de buscador.
+RewriteRule ^servicios/?$ /diseno-web [R=301,L]
+RewriteRule ^portfolio/?$ /trabajos [R=301,L]
+RewriteRule ^metodo/?$ /como-trabajo [R=301,L]
+RewriteRule ^estudio/?$ /sobre-mi [R=301,L]
+RewriteRule ^contacto/?$ /presupuesto [R=301,L]
 
 # 1. Si alguien entra con .html, se le manda a la dirección limpia (301).
 RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
