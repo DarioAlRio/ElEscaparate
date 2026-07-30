@@ -5,7 +5,7 @@ se contradicen, manda el código y hay que corregir esto.
 
 ## El mundo
 
-**Rotulación de comercio de barrio.** Toldo a rayas con el borde festoneado,
+**Letrerismo de comercio de barrio.** Toldo a rayas con el borde festoneado,
 persiana de lamas, escaparate con su reflejo y cartel de CERRADO / ABIERTO.
 Nace de que el cliente objetivo tiene un local con fachada: la web es la otra
 fachada, y esa traducción sostiene toda la página sin necesidad de explicarla.
@@ -21,7 +21,7 @@ enteras; no es un acento sobre fondo neutro.
 
 La primera versión salió verde botella con ocre, que es exactamente la paleta
 de otra web del mismo autor (Pastor de Adrada). Se rehízo sobre el otro gran
-par de la rotulación española: **azulejo y bermellón**, el de la fachada de
+par de la letrerismo española: **azulejo y bermellón**, el de la fachada de
 mercado y la barra de bar.
 
 | Ficha | Valor | Papel |
@@ -31,7 +31,7 @@ mercado y la barra de bar.
 | `--azul-alto` | `#17417f` | Persiana bajada, huecos sin captura |
 | `--azul-linea` | `#234f8f` | Bordes sobre oscuro |
 | `--accion` | `#ff5c3a` | **Única señal de acción.** Botones, toldo, foco sobre azul |
-| `--accion-hondo` | `#ff7452` | Hover: el rótulo se enciende, no se apaga |
+| `--accion-hondo` | `#ff7452` | Hover: el letrero se enciende, no se apaga |
 | `--accion-tinta` | `#b83410` | El mismo bermellón para texto y grafismo sobre claro |
 | `--azulejo` | `#3bb3c9` | Turquesa del segundo formato |
 | `--senal` | `#ffd23f` | Amarillo de señal del tercer formato |

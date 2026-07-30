@@ -151,9 +151,29 @@ node _dev-servidor.js
 Y abre `http://localhost:5174`. También funciona abriendo `index.html` con doble
 clic: no hay build, no hay npm, no hay nada que compilar.
 
-Para publicar: arrastra la carpeta entera a Netlify, o súbela por FTP a
-cualquier hosting. No subas `_dev-servidor.js`, `PRODUCT.md`, `DESIGN.md` ni
-este archivo.
+## Direcciones limpias, sin perder el doble clic
+
+Los enlaces del código son relativos y con extensión (`servicios.html`), que es
+lo que permite abrir la web con doble clic sin servidor. **El `.html` lo quita
+el servidor al publicar**, no el código:
+
+- **Netlify o Cloudflare Pages:** no hay que hacer nada. Al pedir
+  `/servicios.html` responden con una redirección permanente a `/servicios`, así
+  que el visitante acaba viendo siempre la dirección limpia.
+- **Hosting clásico por FTP (Apache):** sube también el archivo `.htaccess` que
+  va en la carpeta; hace exactamente eso mismo, más la página de error. Es un
+  archivo oculto: en el explorador de Windows activa «Elementos ocultos» o no lo
+  verás al arrastrar.
+- **Otro tipo de hosting:** dímelo y miramos la equivalencia.
+
+`canonical`, `og:url` y `sitemap.xml` ya apuntan a las direcciones limpias
+(`https://elescaparateweb.com/servicios`), que son las que indexa Google.
+
+El único peaje es un salto de redirección la primera vez que alguien pincha un
+enlace interno. El navegador se lo guarda y no se repite.
+
+Para publicar: arrastra la carpeta entera a Netlify, o súbela por FTP. No subas
+`_dev-servidor.js`, `PRODUCT.md`, `DESIGN.md` ni este archivo.
 
 ## Un aviso sobre las capturas
 
