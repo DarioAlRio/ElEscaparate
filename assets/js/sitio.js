@@ -100,38 +100,99 @@
     });
   });
 
-  forma.addEventListener("submit", function (ev) {
+  /* Revisa el formulario entero. Devuelve true si está listo para enviarse por
+     donde sea; si no, marca el primer fallo y lleva el foco hasta él. */
+  function listo() {
     var fallo = null;
     forma.querySelectorAll("input, textarea, select").forEach(function (campo) {
       if (campo.type === "hidden" || campo.type === "radio" || campo.type === "checkbox") return;
+      if (campo.name.charAt(0) === "_") return;
       if (!revisa(campo) && !fallo) fallo = campo;
     });
 
     if (fallo) {
-      ev.preventDefault();
       aviso.setAttribute("data-visible", "si");
       aviso.textContent = "Falta algo por revisar. Te lo he marcado más abajo.";
       fallo.focus();
-      return;
+      return false;
+    }
+    return true;
+  }
+
+  /* La trampa de spam: si un robot la rellena, aquí se acaba el viaje. */
+  function esRobot() {
+    var trampa = forma.querySelector("[name='_apellido']");
+    return !!(trampa && (trampa.value || "").trim());
+  }
+
+  /* El mismo mensaje para las dos salidas, en el orden en que se lee bien. */
+  function mensaje() {
+    function val(nombre) {
+      var campo = forma.elements[nombre];
+      if (!campo) return "";
+      if (campo.length && !campo.value) {
+        var elegido = forma.querySelector("[name='" + nombre + "']:checked");
+        return elegido ? elegido.value : "";
+      }
+      return (campo.value || "").trim();
     }
 
-    /* Sin servicio de formularios configurado no se envía a ninguna parte:
-       se abre el correo con todo escrito para que no se pierda el contacto. */
-    if (forma.getAttribute("action").indexOf("PENDIENTE") !== -1) {
-      ev.preventDefault();
-      var datos = new FormData(forma);
-      var cuerpo = [];
-      datos.forEach(function (valor, clave) {
-        if (clave.charAt(0) === "_" || !String(valor).trim()) return;
-        cuerpo.push(clave + ": " + valor);
-      });
-      aviso.setAttribute("data-visible", "si");
-      aviso.textContent = "Abriendo tu programa de correo con el mensaje escrito…";
-      window.location.href = "mailto:" + forma.getAttribute("data-correo") +
-        "?subject=" + encodeURIComponent("Presupuesto desde la web") +
-        "&body=" + encodeURIComponent(cuerpo.join("\n"));
+    var lineas = [];
+    lineas.push("Hola, soy " + val("nombre") + " (" + val("negocio") + ").");
+    lineas.push("");
+    lineas.push(val("mensaje"));
+    lineas.push("");
+    if (val("formato")) lineas.push("Formato: " + val("formato"));
+    if (val("presupuesto")) lineas.push("Presupuesto: " + val("presupuesto"));
+    if (val("web")) lineas.push("Web actual: " + val("web"));
+    lineas.push("Correo: " + val("correo"));
+    if (val("telefono")) lineas.push("Teléfono: " + val("telefono"));
+    return lineas.join("\n");
+  }
+
+  function avisa(texto) {
+    aviso.setAttribute("data-visible", "si");
+    aviso.textContent = texto;
+  }
+
+  /* Salida 1: WhatsApp. No necesita servicio ninguno. */
+  function porWhatsapp() {
+    var numero = forma.getAttribute("data-whatsapp");
+    if (!numero) return;
+    var url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje());
+    avisa("Abriendo WhatsApp con el mensaje escrito. Solo te queda darle a enviar.");
+    var ventana = window.open(url, "_blank", "noopener");
+    if (!ventana) window.location.href = url;
+  }
+
+  /* Salida 2: correo. Con un endpoint de verdad se envía a la bandeja; sin él,
+     se abre el programa de correo del visitante con todo escrito. */
+  function porCorreo() {
+    if (forma.getAttribute("action").indexOf("PENDIENTE") === -1) {
+      avisa("Enviando…");
+      forma.submit();
+      return;
     }
+    avisa("Abriendo tu programa de correo con el mensaje escrito.");
+    window.location.href = "mailto:" + forma.getAttribute("data-correo") +
+      "?subject=" + encodeURIComponent("Presupuesto desde la web") +
+      "&body=" + encodeURIComponent(mensaje());
+  }
+
+  /* Enviar con Enter equivale al botón principal, el de WhatsApp. */
+  forma.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    if (esRobot() || !listo()) return;
+    porWhatsapp();
   });
+
+  var botonCorreo = forma.querySelector("[data-via='correo']");
+  if (botonCorreo) {
+    botonCorreo.addEventListener("click", function () {
+      if (esRobot() || !listo()) return;
+      porCorreo();
+    });
+  }
 })();
 
 /* =========================================================================
