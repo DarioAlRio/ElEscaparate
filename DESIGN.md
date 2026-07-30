@@ -138,8 +138,8 @@ disfraz y sin tarjetas dentro de tarjetas.
 ## Estructura
 
 ```
-index.html · servicios.html · portfolio.html · metodo.html
-estudio.html · contacto.html · 404.html
+index.html · diseno-web.html · trabajos.html · como-trabajo.html
+sobre-mi.html · presupuesto.html · 404.html
 assets/css/estilos.css     Sistema completo, un solo archivo
 assets/js/proyectos.js     Datos del portfolio (lo único que se toca a menudo)
 assets/js/escaparates.js   Motor de capturas, fichas y visor
