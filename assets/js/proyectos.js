@@ -32,16 +32,7 @@ window.PROYECTOS = [
   },
   {
     url: "",
-    nombre: "Pastor de Adrada",
-    oficio: "Quesería de leche cruda",
-    tipo: "multipagina",
-    anio: "2026",
-    destacado: true,
-    nota: "El oficio primero y el pedido por WhatsApp a un toque."
-  },
-  {
-    url: "",
-    nombre: "Zarea Beauty Studio",
+    nombre: "Beauty Studio",
     oficio: "Centro de belleza",
     tipo: "multipagina",
     anio: "2026",
@@ -50,12 +41,24 @@ window.PROYECTOS = [
   },
   {
     url: "",
-    nombre: "El Nido Biblioteca",
-    oficio: "Biblioteca y actividades",
+    nombre: "Biblioteca",
+    oficio: "Centro cultural",
     tipo: "multipagina",
     anio: "2026",
-    destacado: false,
+    destacado: true,
     nota: "Agenda de actividades que se actualiza sin tocar código."
+  },
+  {
+    url: "https://nova-strike-beta.vercel.app/",
+    nombre: "Nova Strike",
+    oficio: "Videojuego arcade",
+    tipo: "una-pagina",
+    anio: "2026",
+    destacado: false,
+    /* El juego se dibuja en un canvas: sin esperar, la captura sale en negro
+       porque el script todavía no ha pintado nada. */
+    espera: 6,
+    nota: "Naves alienígenas y niveles infinitos, en el navegador y sin instalar nada."
   },
   {
     url: "",
