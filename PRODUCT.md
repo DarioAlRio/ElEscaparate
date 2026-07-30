@@ -12,9 +12,8 @@ trabajo hecho.
 
 Nombre y dominio, decididos el 29/07/2026: **El Escaparate**, en
 **elescaparateweb.com**, que es el que estaba libre. El `.com` a secas y el
-`.es` los tiene un tercero que los vende. Descartados por el camino: *Rótulo*
-—la primera propuesta, con la que se construyó la web—, *Marquesina* y
-*Chaflán*.
+`.es` los tiene un tercero que los vende. Descartados por el camino:
+*Marquesina* y *Chaflán*.
 
 ## Mecanismo propio
 
