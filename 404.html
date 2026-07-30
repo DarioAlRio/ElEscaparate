@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es" class="sin-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Esta persiana no abre · El Escaparate</title>
+<meta name="description" content="La página que buscabas no existe o ha cambiado de sitio.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b2350">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,700..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/estilos.css">
+<script>document.documentElement.classList.remove("sin-js");</script>
+</head>
+<body>
+
+<a class="salta" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera">
+  <div class="envoltura cabecera__fila">
+    <a class="marca" href="index.html" aria-label="El Escaparate, inicio">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="10" fill="#17417f"/>
+        <path d="M8 14h48v20H8z" fill="#ff5c3a"/>
+        <path d="M8 14h12v20H8zm24 0h12v20H32z" fill="#eaeef2"/>
+        <path d="M8 34h48l-4 6-4-6-4 6-4-6-4 6-4-6-4 6-4-6-4 6-4-6-4 6-4-6z" fill="#17417f"/>
+        <rect x="16" y="44" width="32" height="12" rx="2" fill="#eaeef2"/>
+      </svg>
+      <span>El Escaparate<span class="marca__punto">.</span></span>
+    </a>
+
+    <nav class="nav cabecera__nav" id="nav-principal" data-nav data-abierta="no" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="servicios.html">Qué monto</a>
+      <a href="portfolio.html">La calle</a>
+      <a href="metodo.html">Cómo trabajo</a>
+      <a href="estudio.html">El estudio</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+
+    <div class="cabecera__acciones">
+      <a class="boton boton--pequeno" href="contacto.html">Pedir presupuesto</a>
+      <button class="abre-nav" type="button" data-abre-nav aria-expanded="false" aria-controls="nav-principal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+        Menú
+      </button>
+    </div>
+  </div>
+  <div class="toldo" aria-hidden="true"></div>
+</header>
+
+<main id="contenido">
+  <section class="franja franja--azul">
+    <div class="envoltura portada__rejilla">
+      <div>
+        <h1 class="titulo-pagina">Esta persiana no abre</h1>
+        <p class="portada__entrada">
+          La dirección que has pedido no existe, o existía y se ha movido. No es
+          culpa tuya: cuando alguien llega aquí es que un enlace está mal puesto.
+        </p>
+        <div class="acciones">
+          <a class="boton" href="index.html">Volver a la portada</a>
+          <a class="boton boton--fantasma" href="portfolio.html">Ver la calle</a>
+        </div>
+      </div>
+
+      <div class="escaparate-vivo" data-estado="cerrado" aria-hidden="true">
+        <div class="toldo toldo--fino" ></div>
+        <div class="marco" style="margin-top:var(--e3)">
+          <div class="persiana">
+            <span class="cartel">CERRADO</span>
+            <p>Vuelve por la puerta principal.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pie">
+  <div class="envoltura">
+    <div class="pie__legal" style="margin-top:0;border-top:0;padding-top:0">
+      <p>© <span data-anio>2026</span> El Escaparate. Hecho a mano, sin plantillas.</p>
+      <p><a href="contacto.html">Avísame del enlace roto</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/sitio.js"></script>
+</body>
+</html>
