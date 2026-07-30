@@ -10,8 +10,11 @@ negocios pequeños que ya tienen clientes en la calle y no tienen presencia
 decente en internet. Es la web del propio estudio: capta encargos y enseña
 trabajo hecho.
 
-El nombre es una propuesta, no una decisión cerrada. Alternativas descartadas
-por ahora: **Marquesina** y **Chaflán**. Cómo cambiarlo: PERSONALIZAR.md.
+Nombre y dominio, decididos el 29/07/2026: **El Escaparate**, en
+**elescaparateweb.com**, que es el que estaba libre. El `.com` a secas y el
+`.es` los tiene un tercero que los vende. Descartados por el camino: *Rótulo*
+—la primera propuesta, con la que se construyó la web—, *Marquesina* y
+*Chaflán*.
 
 ## Mecanismo propio
 
