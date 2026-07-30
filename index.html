@@ -160,12 +160,17 @@
           <!-- La etiqueta va dentro del titular, justo detrás de la última
                palabra. El <span> no parte para que tarjeta y palabra nunca se
                separen de línea; la etiqueta mide en em, así que crece con el
-               titular. Decorativa. -->
-          <h2>Tres formatos, ni uno <span class="junto">más<svg class="colgante" viewBox="158 -12 158 110" aria-hidden="true">
+               titular. Decorativa.
+
+               Lleva medidas y colores también como atributos, que el CSS pisa:
+               sin ellos, si la hoja de estilos llega vieja o cacheada, un SVG
+               sin dimensiones se estira a lo ancho del bloque y se pinta de
+               negro (el relleno por defecto). Pasó en producción. -->
+          <h2>Tres formatos, ni uno <span class="junto">más<svg class="colgante" viewBox="158 -12 158 110" width="176" height="122" aria-hidden="true">
             <g transform="rotate(-18 180 64)">
-              <polygon class="colgante__tarjeta" points="162,64 190,30 308,30 308,98 190,98"/>
-              <circle class="colgante__ojal" cx="180" cy="64" r="6"/>
-              <text class="colgante__texto" x="251" y="64" text-anchor="middle" dominant-baseline="central">SALE</text>
+              <polygon class="colgante__tarjeta" points="162,64 190,30 308,30 308,98 190,98" fill="#ffd23f"/>
+              <circle class="colgante__ojal" cx="180" cy="64" r="6" fill="#eaeef2" stroke="rgba(13,23,38,.55)" stroke-width="1.5"/>
+              <text class="colgante__texto" x="251" y="64" text-anchor="middle" dominant-baseline="central" font-size="30" fill="#0d1726">SALE</text>
             </g>
           </svg></span></h2>
           <p>Cada encargo entra por uno de estos tres. Si el tuyo no encaja del todo, lo hablamos y te digo cuál se le parece.</p>
