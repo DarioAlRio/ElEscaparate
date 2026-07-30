@@ -29,22 +29,35 @@ son tuyas: **mitad y mitad**, **dos rondas de cambios**, **un mes de ajustes**,
 **contesto en un día laborable**. Están en `metodo.html`, `servicios.html`
 (desplegables) y `contacto.html`.
 
-## 2. El correo ⚠️ OBLIGATORIO
+## 2. El teléfono ✓ ya está puesto
 
-`hola@elescaparateweb.com` aparece en el pie de las siete páginas, en
-`contacto.html` («Si prefieres el camino corto») y en el atributo `data-correo`
-del formulario. **Comprueba que ese buzón existe de verdad** antes de publicar:
-tener un correo en la web que nadie lee es peor que no tenerlo.
+**684 08 24 90**, en el pie de las seis páginas con pie completo y en la lista
+«Si prefieres el camino corto» de `contacto.html`. Va de dos formas:
 
-Como el dominio está en Cloudflare, lo más rápido es su **Email Routing**: es
-gratis, no necesitas contratar buzón y reenvía `hola@elescaparateweb.com` a tu
-correo de siempre. Si prefieres otro nombre de buzón, cámbialo en los cuatro
-sitios de arriba.
+- `https://wa.me/34684082490` abre el chat de WhatsApp directamente.
+- `tel:+34684082490` marca desde el móvil.
 
-Si quieres WhatsApp, sustituye esa línea del `contacto.html` por
-`<a href="https://wa.me/34XXXXXXXXX">`.
+Si algún día cambias de número, búscalo como `684082490` y aparece en los siete
+sitios.
 
-## 3. El nombre y el dominio ✓ ya están puestos
+## 3. El correo ✓ puesto, pendiente de comprobar que llega
+
+**contacto@elescaparateweb.com**, en el pie de las seis páginas con pie
+completo, en la lista «Si prefieres el camino corto» de `contacto.html` y en el
+atributo `data-correo` del formulario.
+
+Lo único que queda es asegurarte de que **ese buzón recibe de verdad**. Mándate
+una prueba desde otro correo antes de publicar: tener una dirección en la web
+que nadie lee es peor que no ponerla.
+
+Si todavía no lo tienes montado, como el dominio está en Cloudflare lo más
+rápido es su **Email Routing**: gratis, sin contratar buzón, reenvía
+`contacto@elescaparateweb.com` a tu correo de siempre.
+
+Mientras tanto no te quedas incomunicado: el WhatsApp funciona desde el primer
+día y el formulario tiene su propio botón para él.
+
+## 4. El nombre y el dominio ✓ ya están puestos
 
 Marca **El Escaparate**, dominio **elescaparateweb.com**, ya escritos en el
 título, la cabecera, el pie, las etiquetas de redes, `robots.txt` y
@@ -59,7 +72,7 @@ Dos cosas para el futuro:
   se cambia el dominio en `<link rel="canonical">`, en las `og:url`, en
   `robots.txt` y en `sitemap.xml`. Media hora.
 
-## 4. El logotipo
+## 5. El logotipo
 
 Es un SVG dibujado a mano en `favicon.svg` y repetido en la cabecera de cada
 página: un toldo a rayas sobre un escaparate. No depende de ninguna tipografía
@@ -68,7 +81,7 @@ que hay que sustituir es ese `<svg>`.
 
 ---
 
-## 5. El portfolio
+## 6. El portfolio
 
 Todo vive en `assets/js/proyectos.js`. **Solo hace falta la URL**: la miniatura
 se genera sola desde fuera.
@@ -110,18 +123,32 @@ medio minuto; a partir de ahí es instantánea).
 Revisa también el campo `tipo` de cada uno: los he puesto todos como
 `multipagina` a ojo y tú sabes cuál era cada encargo.
 
-## 6. El formulario
+## 7. El formulario
 
-El `action` pone `PENDIENTE-pon-aqui-tu-endpoint`. Mientras siga así, al enviar
-se abre el programa de correo del visitante con el mensaje ya escrito: funciona,
-pero pierdes contactos por el camino.
+Tiene **dos salidas** y el visitante elige. Los dos botones validan lo mismo
+antes de dejar pasar nada, y los dos mandan el mismo texto ordenado: quién es,
+qué cuenta, formato, presupuesto, web actual y sus datos de contacto.
 
-Para recibirlos en tu bandeja, date de alta en un servicio de formularios
-(Formspree, Basin, Web3Forms; todos tienen plan gratuito) y pega el endpoint que
-te den en el `action` de `contacto.html`. El campo trampa `_apellido` ya está
-puesto para el spam.
+**Enviar por WhatsApp** (botón principal). Abre tu chat con el mensaje ya
+escrito; al visitante solo le queda darle a enviar. No depende de ningún
+servicio ni de que tengas el correo montado: hoy ya funciona. El número sale de
+`data-whatsapp` en la etiqueta `<form>`.
 
-## 7. Tu biografía
+**Enviar por correo.** Depende del `action`, que ahora pone
+`PENDIENTE-pon-aqui-tu-endpoint`:
+
+- Mientras siga así, abre el programa de correo del visitante con el mensaje
+  escrito. Funciona, pero pierdes contactos por el camino: mucha gente no tiene
+  configurado el correo en el ordenador.
+- Para recibirlos en tu bandeja, date de alta en un servicio de formularios
+  (Formspree, Basin, Web3Forms; todos con plan gratuito) y pega el endpoint que
+  te den en ese `action`. A partir de ahí el botón envía de verdad.
+
+Pulsar Enter dentro de un campo equivale al botón principal, el de WhatsApp.
+El campo trampa `_apellido` sigue ahí para el spam: si un robot lo rellena, el
+mensaje no sale por ninguna de las dos vías.
+
+## 8. Tu biografía
 
 `estudio.html` habla de cómo trabajas, que es verdad y es lo que vende, pero no
 cuenta nada que solo puedas contar tú: de dónde vienes, desde cuándo, dónde
@@ -132,7 +159,7 @@ página.
 Falta también una foto tuya. Sin ella, «detrás de esto hay una persona» es una
 frase; con ella, es un hecho.
 
-## 8. Textos legales
+## 9. Textos legales
 
 Falta aviso legal, política de privacidad y cookies. Esta web **no pone
 cookies** (no hay analítica ni tipografías autoalojadas de terceros con
