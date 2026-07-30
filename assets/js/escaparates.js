@@ -6,7 +6,10 @@
    No hay backend ni claves. La dirección que se pide sí viaja al servicio.
 
    Expone window.Escaparates con:
-     captura(url, movil)   → Promise con la dirección de una imagen válida
+     captura(url, movil, espera, estricto)
+                           → Promise con la dirección de una imagen válida.
+                             `espera` en segundos; `estricto` prohíbe que la
+                             sirva un servicio que no respete esa espera.
      normaliza(texto)      → URL completa o null
      pinta(nodo, lista)    → rellena una rejilla de fichas
      abreVisor(proyecto)   → abre el visor a pantalla completa
@@ -19,6 +22,13 @@
      a más de treinta segundos; las siguientes son instantáneas. Se aguanta 22
      antes de pasar al siguiente servicio. */
   var ESPERA = 22000;
+
+  /* Lo que se le pide al servicio que aguante con la web abierta antes de
+     disparar, cuando la dirección la escribe el visitante. Diez segundos es lo
+     que tardan en pasar los intros más largos que hemos visto. Es el único
+     número que hay que tocar si algún día se prefiere velocidad a fidelidad. */
+  var ESPERA_VISITANTE = 10;
+
   var memoria = {};
 
   /* --- Dirección ------------------------------------------------------- */
@@ -78,19 +88,113 @@
           (movil ? "&vpw=390" : "")
       };
     },
+    /* Microlink va aparte porque no se le pide la imagen, se le pide su ficha
+       JSON y de ahí se saca la dirección definitiva de la captura en su CDN.
+       Dos motivos, los dos medidos el 30/07/2026:
+
+       · El cupo gratuito son 25 peticiones al día por visitante, y cada vista
+         del visor gasta una. Guardando la dirección del CDN, volver a ver la
+         misma ficha no gasta ninguna: el CDN no cuenta para el cupo.
+       · Por defecto devuelve un PNG de 2560×1600 y 2,7 MB. Pidiéndole JPEG al
+         72 % y sin doblar la densidad, la misma captura pesa 104 KB. */
     microlink: function (url, movil, espera) {
+      var api = "https://api.microlink.io/?url=" + encodeURIComponent(url) +
+        "&screenshot=true&meta=false&type=jpeg&quality=72" +
+        "&viewport.deviceScaleFactor=1" +
+        "&viewport.width=" + (movil ? 390 : 1280) +
+        "&viewport.height=" + (movil ? 780 : 800) +
+        (espera ? "&waitForTimeout=" + (espera * 1000) : "");
+
       return {
         ancho: movil ? 390 : 1280,
-        src: "https://api.microlink.io/?url=" + encodeURIComponent(url) +
-          "&screenshot=true&meta=false&embed=screenshot.url" +
-          (espera ? "&waitForTimeout=" + (espera * 1000) : "") +
-          (movil ? "&viewport.width=390&viewport.height=780" : "")
+        fuente: function () {
+          /* Abriendo la web con doble clic no hay fetch que valga: el origen es
+             un archivo. Ahí se cae al modo antiguo, que es un <img> normal. */
+          if (!window.fetch) return Promise.resolve(api + "&embed=screenshot.url");
+
+          var corta;
+          var plazo = new Promise(function (_, mal) {
+            corta = setTimeout(function () { mal(new Error("microlink no contesta")); }, ESPERA + espera * 1000);
+          });
+
+          var consulta = fetch(api, { referrerPolicy: "no-referrer" })
+            .then(function (r) {
+              if (r.status === 429) throw new Error("microlink: cupo diario agotado");
+              if (!r.ok) throw new Error("microlink: ha respondido " + r.status);
+              return r.json();
+            })
+            .then(function (ficha) {
+              var src = ficha && ficha.data && ficha.data.screenshot && ficha.data.screenshot.url;
+              if (!src) throw new Error("microlink: no ha devuelto captura");
+              return src;
+            })
+            .catch(function (fallo) {
+              /* Si el que ha fallado es el servicio, se respeta el fallo. Si lo
+                 que falla es el fetch —file://, sin red, CORS—, se prueba con
+                 la imagen directa antes de darse por vencido. */
+              if (fallo.message.indexOf("microlink:") === 0) throw fallo;
+              return api + "&embed=screenshot.url";
+            });
+
+          return Promise.race([consulta, plazo]).then(function (src) {
+            clearTimeout(corta);
+            return src;
+          }, function (fallo) {
+            clearTimeout(corta);
+            throw fallo;
+          });
+        }
       };
     }
   };
 
-  function turnos(espera) {
-    return espera ? ["microlink", "thum", "mshots"] : ["thum", "mshots", "microlink"];
+  /* --- Lo ya capturado se recuerda -------------------------------------- */
+
+  /* Una captura buena vale para semanas: las webs no cambian cada tarde. Se
+     guarda la dirección de la imagen (no la imagen) en el navegador del
+     visitante, así recargar la página —o volver mañana— no gasta cupo. */
+  var BAUL = "escaparate:capturas:1";
+  var CADUCA = 30 * 24 * 60 * 60 * 1000;
+  var CABEN = 40;
+
+  function baul() {
+    try { return JSON.parse(localStorage.getItem(BAUL)) || {}; } catch (e) { return {}; }
+  }
+
+  function recuerda(clave) {
+    var ficha = baul()[clave];
+    return ficha && ficha.src ? ficha : null;
+  }
+
+  function guarda(clave, src) {
+    try {
+      var caja = baul();
+      caja[clave] = { src: src, fecha: Date.now() };
+      var claves = Object.keys(caja);
+      if (claves.length > CABEN) {
+        claves.sort(function (a, b) { return caja[a].fecha - caja[b].fecha; })
+          .slice(0, claves.length - CABEN)
+          .forEach(function (vieja) { delete caja[vieja]; });
+      }
+      localStorage.setItem(BAUL, JSON.stringify(caja));
+    } catch (e) { /* sin sitio o sin permiso: se sigue sin recordar nada */ }
+  }
+
+  /* Sin espera manda thum.io, que es el más rápido.
+     Con espera manda microlink, el único que la respeta de verdad. Y aquí está
+     la trampa que costó descubrir: si microlink falla —su límite gratuito
+     devuelve errores pasajeros— la cadena caía en thum.io, que dispara al
+     instante, y la captura salía con el logo del intro. Se veía sobre todo al
+     abrir el visor, porque cada vista pide una captura nueva.
+     Por eso, cuando la espera es un requisito de verdad (el portfolio, que es
+     trabajo propio), no se acepta sustituto: se reintenta microlink y, si
+     tampoco, se dice que no hay captura. Mejor eso que enseñar el intro de la
+     web de un cliente como si fuera su web.
+     En el escaparate del visitante sí se permite el relevo: ahí puede entrar
+     cualquier dirección y enseñar algo vale más que no enseñar nada. */
+  function turnos(espera, estricto) {
+    if (!espera) return ["thum", "mshots", "microlink"];
+    return estricto ? ["microlink", "microlink"] : ["microlink", "thum", "mshots"];
   }
 
   function pide(src, margen, anchoPedido) {
@@ -131,22 +235,49 @@
     });
   }
 
-  function captura(url, movil, espera) {
+  function captura(url, movil, espera, estricto) {
     var pausa = segundos(espera);
-    var clave = (movil ? "m|" : "e|") + pausa + "|" + url;
+    var clave = (movil ? "m|" : "e|") + pausa + (estricto ? "|x|" : "|·|") + url;
     if (memoria[clave]) return memoria[clave];
 
-    var cola = turnos(pausa);
+    var cola = turnos(pausa, estricto);
     var indice = 0;
     function intenta() {
-      if (indice >= cola.length) return Promise.reject(new Error("ningún servicio de captura respondió"));
-      var receta = SERVICIOS[cola[indice++]](url, movil, pausa);
+      if (indice >= cola.length) {
+        return Promise.reject(new Error(pausa && estricto
+          ? "el servicio de capturas con espera no ha respondido"
+          : "ningún servicio de captura respondió"));
+      }
+      var nombre = cola[indice];
+      /* Repetir el mismo servicio sin respirar no sirve de nada: si acaba de
+         fallar por su límite de uso, necesita un momento. */
+      var respiro = indice > 0 && cola[indice - 1] === nombre ? 1500 : 0;
+      indice++;
+      var receta = SERVICIOS[nombre](url, movil, pausa);
       /* La espera del servicio se suma al plazo propio: si le pedimos que
          aguante diez segundos, no podemos rendirnos antes de que dispare. */
-      return pide(receta.src, pausa * 1000, receta.ancho).catch(intenta);
+      return new Promise(function (sigue) { setTimeout(sigue, respiro); })
+        .then(function () { return receta.fuente ? receta.fuente() : receta.src; })
+        .then(function (src) { return pide(src, pausa * 1000, receta.ancho); })
+        .catch(intenta);
     }
 
-    var promesa = intenta();
+    /* Primero, lo que ya se capturó otro día: si la imagen sigue cargando, ni
+       se molesta a los servicios. Si ya no carga, se pide de nuevo. */
+    var recuerdo = recuerda(clave);
+    var fresco = recuerdo && Date.now() - recuerdo.fecha < CADUCA;
+    var promesa = (fresco ? pide(recuerdo.src, 0, 0).catch(intenta) : intenta())
+      .then(function (src) {
+        guarda(clave, src);
+        return src;
+      })
+      .catch(function (fallo) {
+        /* Última bala: una captura vieja se parece mucho más a la web que un
+           hueco vacío. Solo si la hay. */
+        if (recuerdo) return recuerdo.src;
+        throw fallo;
+      });
+
     memoria[clave] = promesa;
     promesa.catch(function () { delete memoria[clave]; });
     return promesa;
@@ -207,12 +338,17 @@
       lienzo.appendChild(cortina);
 
       lienzo.addEventListener("cerca", function () {
-        captura(proyecto.url, false, proyecto.espera).then(function (src) {
+        captura(proyecto.url, false, proyecto.espera, true).then(function (src) {
           img.src = src;
           cortina.remove();
-        }).catch(function () {
-          cortina.innerHTML = '<span class="cartel">SIN CAPTURA</span>' +
-            '<span>Ábrela en una pestaña para verla.</span>';
+        }).catch(function (fallo) {
+          /* Decir por qué: «sin captura» a secas parece una web rota, y casi
+             siempre es el cupo diario del servicio, que se repone solo. */
+          var motivo = fallo && /cupo/.test(fallo.message)
+            ? "Se ha agotado el cupo diario del servicio de capturas. Vuelve dentro de un rato."
+            : "Ábrela en una pestaña para verla.";
+          cortina.innerHTML = '<span class="cartel">SIN CAPTURA</span><span></span>';
+          cortina.lastChild.textContent = motivo;
         });
       });
       observa(lienzo);
@@ -348,7 +484,9 @@
     var nota = visor.querySelector("[data-nota]");
     nota.textContent = "";
     img.removeAttribute("src");
-    captura(actual.url, movil, actual.espera).then(function (src) {
+    /* Estricta como en la rejilla: si la ficha pide espera, aquí también manda,
+       y sin ella no se enseña una captura disparada al instante. */
+    captura(actual.url, movil, actual.espera, true).then(function (src) {
       img.src = src;
     }).catch(function () {
       nota.textContent = "No se ha podido generar la captura. Prueba «En vivo» o abre la web en una pestaña.";
@@ -441,10 +579,11 @@
       caja.setAttribute("data-estado", "cargando");
       aviso.querySelector("[data-mensaje]").textContent = "";
       img.removeAttribute("src");
-      /* Cuatro segundos de cortesía: aquí puede entrar cualquier web, y muchas
+      /* Diez segundos de cortesía: aquí puede entrar cualquier web, y muchas
          tienen animación de entrada. Sin esta espera saldría el logo del intro
-         en vez de la página. */
-      captura(url, movil, 4).then(function (src) {
+         en vez de la página. Se paga en tiempo —la captura tarda diez segundos
+         más— y por eso la persiana enseña que está trabajando. */
+      captura(url, movil, ESPERA_VISITANTE).then(function (src) {
         img.src = src;
         img.alt = "Captura de " + url;
         caja.setAttribute("data-estado", "abierto");

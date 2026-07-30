@@ -111,6 +111,17 @@ imagen, así que no sirve. Microlink es algo más lento y tiene un límite diari
 de uso gratuito más justo; por eso no se le pasa todo, solo las fichas que lo
 necesitan.
 
+Y una consecuencia importante: **en las fichas con `espera` no se acepta
+sustituto**. Si Microlink falla se le da un segundo intento, y si tampoco, la
+ficha dice «SIN CAPTURA». Antes la cadena caía en thum.io, que dispara al
+instante, y salía el logo del intro de la web de un cliente como si fuera su
+web — se veía sobre todo al abrir el visor, porque cada vista pide una captura
+nueva. Es mejor un hueco honesto que una captura falsa de un trabajo tuyo.
+
+En el escaparate del visitante —«Mira tu web como la ve un desconocido» y
+«Pruébalo con la web que quieras»— sí se permite el relevo: ahí puede entrar
+cualquier dirección y enseñar algo vale más que no enseñar nada.
+
 Los otros cuatro proyectos siguen con `url: ""` y salen con el cartel **EN
 OBRA**, que es lo honesto mientras no estén publicados. En cuanto pegues una
 dirección, esa ficha se ilumina sola.
@@ -119,6 +130,13 @@ Si una miniatura sale con el logo del intro, súbele la `espera`. Si sale un
 rectángulo gris, es que el servicio todavía la estaba generando: recarga al
 minuto y ya estará (la primera captura de una web nueva puede tardar más de
 medio minuto; a partir de ahí es instantánea).
+
+**Si pone «SIN CAPTURA» y habla del cupo**, es el límite gratuito de Microlink:
+**25 peticiones al día, y se cuentan por visitante**, no en total. A un visitante
+normal le sobran de largo; el único que lo agota eres tú probando y recargando.
+Se repone solo en unas horas. Para que no vuelva a pasar, la dirección de cada
+captura buena se guarda en el navegador durante 30 días: recargar la página ya
+no gasta ninguna petición.
 
 Revisa también el campo `tipo` de cada uno: los he puesto todos como
 `multipagina` a ojo y tú sabes cuál era cada encargo.
@@ -220,7 +238,15 @@ Para publicar: sube la carpeta al repositorio y Vercel despliega solo. No subas
 Las miniaturas se piden a servicios públicos de screenshots: thum.io, mShots de
 WordPress y Microlink. Si uno falla se prueba el siguiente, y el orden cambia
 según el caso — con `espera` manda Microlink, sin ella manda thum.io, que es el
-más rápido. Eso significa dos cosas:
+más rápido.
+
+El escaparate donde el visitante pega su dirección espera **10 segundos** antes
+de disparar, para que no salga el logo del intro de su web. Se nota: la captura
+tarda esos diez segundos más, y por eso la persiana enseña que está trabajando.
+Si algún día prefieres velocidad a fidelidad, es un solo número —
+`ESPERA_VISITANTE`, arriba del todo de `assets/js/escaparates.js`.
+
+Eso significa dos cosas más:
 
 - **La dirección viaja a ese servicio.** Es información pública, pero conviene
   que lo sepas. Está dicho en la página de escaparates.

@@ -115,6 +115,16 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
 - **thum.io ignora la espera** (devuelve la misma imagen byte a byte). Solo
   Microlink respeta `waitForTimeout`, así que las fichas con `espera` van a
   Microlink y el resto a thum.io, que es más rápido. Tiempo de espera: 22 s.
+- **Microlink son 25 peticiones al día por IP del visitante**, y cada vista del
+  visor gasta una. Por eso no se le pide la imagen (`embed=`) sino su JSON: de
+  ahí sale la dirección definitiva en su CDN, que no cuenta para el cupo y se
+  guarda 30 días en `localStorage`. Y por eso se le piden `type=jpeg&quality=72`
+  con `viewport.deviceScaleFactor=1`: por defecto devuelve 2560×1600 y 2,7 MB;
+  así son 1280×800 y 104 KB. Medido, no estimado.
+- **Con `espera` obligatoria no vale el relevo.** Si Microlink fallaba, la
+  cadena caía en thum.io y la captura salía con el logo del intro — se veía al
+  abrir el visor, que pide una captura por vista. Por eso `captura()` tiene un
+  cuarto argumento, `estricto`: reintenta Microlink y, si no, no hay captura.
 - **Bermellón doble:** `--accion` no llega a 4,5:1 sobre la baldosa. Texto y
   grafismo sobre claro usan `--accion-tinta`; el vivo solo relleno o sobre azul.
 - **Sin bloqueo de scroll al bajar el cierre:** el `overflow:hidden` en el body
