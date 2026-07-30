@@ -157,7 +157,17 @@
     <div class="envoltura">
       <div class="titular-seccion pareja">
         <div>
-          <h2>Tres formatos, ni uno más</h2>
+          <!-- La etiqueta va dentro del titular, justo detrás de la última
+               palabra. El <span> no parte para que tarjeta y palabra nunca se
+               separen de línea; la etiqueta mide en em, así que crece con el
+               titular. Decorativa. -->
+          <h2>Tres formatos, ni uno <span class="junto">más<svg class="colgante" viewBox="158 -12 158 110" aria-hidden="true">
+            <g transform="rotate(-18 180 64)">
+              <polygon class="colgante__tarjeta" points="162,64 190,30 308,30 308,98 190,98"/>
+              <circle class="colgante__ojal" cx="180" cy="64" r="6"/>
+              <text class="colgante__texto" x="251" y="64" text-anchor="middle" dominant-baseline="central">SALE</text>
+            </g>
+          </svg></span></h2>
           <p>Cada encargo entra por uno de estos tres. Si el tuyo no encaja del todo, lo hablamos y te digo cuál se le parece.</p>
         </div>
         <a class="enlace-flecha" href="servicios.html">

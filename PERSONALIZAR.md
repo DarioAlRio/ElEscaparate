@@ -200,7 +200,7 @@ El único peaje es un salto de redirección la primera vez que alguien pincha un
 enlace interno. El navegador se lo guarda y no se repite.
 
 Para publicar: arrastra la carpeta entera a Netlify, o súbela por FTP. No subas
-`_dev-servidor.js`, `PRODUCT.md`, `DESIGN.md` ni este archivo.
+`_dev-servidor.js`, `PRODUCT.md`, `DESIGN.md`, `CLAUDE.md` ni este archivo.
 
 ## Un aviso sobre las capturas
 
