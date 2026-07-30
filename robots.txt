@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://elescaparateweb.com/sitemap.xml

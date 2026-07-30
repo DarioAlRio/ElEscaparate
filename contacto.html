@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="es" class="sin-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pedir presupuesto · El Escaparate</title>
+<meta name="description" content="Cuéntame qué negocio tienes y qué necesitas. Contesto con un precio cerrado y un plazo, o te digo que no soy yo quien lo tiene que hacer.">
+<link rel="canonical" href="https://elescaparateweb.com/contacto.html">
+<meta name="theme-color" content="#0b2350">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Pedir presupuesto · El Escaparate">
+<meta property="og:description" content="Cuatro líneas y te contesto con precio cerrado y plazo.">
+<meta property="og:url" content="https://elescaparateweb.com/contacto.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,700..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/estilos.css">
+<script>document.documentElement.classList.remove("sin-js");</script>
+</head>
+<body>
+
+<a class="salta" href="#contenido">Saltar al contenido</a>
+
+<header class="cabecera">
+  <div class="envoltura cabecera__fila">
+    <a class="marca" href="index.html" aria-label="El Escaparate, inicio">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <rect width="64" height="64" rx="10" fill="#17417f"/>
+        <path d="M8 14h48v20H8z" fill="#ff5c3a"/>
+        <path d="M8 14h12v20H8zm24 0h12v20H32z" fill="#eaeef2"/>
+        <path d="M8 34h48l-4 6-4-6-4 6-4-6-4 6-4-6-4 6-4-6-4 6-4-6-4 6-4-6z" fill="#17417f"/>
+        <rect x="16" y="44" width="32" height="12" rx="2" fill="#eaeef2"/>
+      </svg>
+      <span>El Escaparate<span class="marca__punto">.</span></span>
+    </a>
+
+    <nav class="nav cabecera__nav" id="nav-principal" data-nav data-abierta="no" aria-label="Navegación principal">
+      <a href="index.html">Inicio</a>
+      <a href="servicios.html">Qué monto</a>
+      <a href="portfolio.html">La calle</a>
+      <a href="metodo.html">Cómo trabajo</a>
+      <a href="estudio.html">El estudio</a>
+      <a href="contacto.html" aria-current="page">Contacto</a>
+    </nav>
+
+    <div class="cabecera__acciones">
+      <a class="boton boton--pequeno" href="#formulario">Ir al formulario</a>
+      <button class="abre-nav" type="button" data-abre-nav aria-expanded="false" aria-controls="nav-principal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+        Menú
+      </button>
+    </div>
+  </div>
+  <div class="toldo" aria-hidden="true"></div>
+</header>
+
+<main id="contenido">
+
+  <section class="franja franja--corta franja--azul">
+    <div class="envoltura">
+      <h1 class="titulo-pagina">Cuéntame qué tienes entre manos</h1>
+      <p class="portada__entrada">
+        No hace falta que sepas qué formato quieres ni cómo se llaman las cosas.
+        Con saber a qué te dedicas y qué te gustaría conseguir, me sobra para
+        contestarte con un número.
+      </p>
+    </div>
+  </section>
+
+  <section class="franja" id="formulario">
+    <div class="envoltura bloque-servicio">
+
+      <div>
+        <!-- FORMULARIO: mientras el action ponga PENDIENTE, el envío abre el
+             correo del visitante con el mensaje escrito. Para recibirlo en tu
+             bandeja, sustituye action por tu endpoint. Ver PERSONALIZAR.md -->
+        <form class="forma" data-forma-presupuesto novalidate
+              action="PENDIENTE-pon-aqui-tu-endpoint"
+              method="POST"
+              data-correo="hola@elescaparateweb.com">
+
+          <p class="aviso-forma" data-aviso role="status" aria-live="polite"></p>
+
+          <div class="campo">
+            <label for="nombre">Cómo te llamas</label>
+            <input id="nombre" name="nombre" type="text" autocomplete="name" required
+                   data-falta="Dime al menos tu nombre para saber cómo llamarte.">
+            <p class="campo__error" role="alert"></p>
+          </div>
+
+          <div class="campo">
+            <label for="negocio">Tu negocio y a qué se dedica</label>
+            <input id="negocio" name="negocio" type="text" autocomplete="organization" required
+                   data-falta="Con el nombre y el oficio me hago una idea rápida."
+                   placeholder="Panadería La Espiga · obrador y despacho">
+            <p class="campo__error" role="alert"></p>
+          </div>
+
+          <div class="campo">
+            <label for="correo">Correo</label>
+            <input id="correo" name="correo" type="email" autocomplete="email" required
+                   data-falta="Necesito un correo para poder contestarte.">
+            <p class="campo__ayuda">Es por donde contesto. No lo uso para nada más.</p>
+            <p class="campo__error" role="alert"></p>
+          </div>
+
+          <div class="campo">
+            <label for="telefono">Teléfono <span class="campo__ayuda">(opcional)</span></label>
+            <input id="telefono" name="telefono" type="tel" autocomplete="tel">
+            <p class="campo__ayuda">Solo si prefieres que te llame en vez de escribirte.</p>
+            <p class="campo__error" role="alert"></p>
+          </div>
+
+          <div class="campo">
+            <label for="web">¿Tienes web ahora? <span class="campo__ayuda">(opcional)</span></label>
+            <input id="web" name="web" type="text" inputmode="url" placeholder="tunegocio.es">
+            <p class="campo__ayuda">Si la tienes, le echo un vistazo antes de contestarte.</p>
+            <p class="campo__error" role="alert"></p>
+          </div>
+
+          <fieldset class="campo" style="border:0;padding:0;margin:0">
+            <legend style="font-size:var(--t-s);font-weight:600;margin-bottom:.4rem">Qué crees que necesitas</legend>
+            <div class="opciones">
+              <label><input type="radio" name="formato" value="Una página"> Una página</label>
+              <label><input type="radio" name="formato" value="Multipágina"> Multipágina</label>
+              <label><input type="radio" name="formato" value="Tienda"> Tienda</label>
+              <label><input type="radio" name="formato" value="No lo sé" checked> No lo sé todavía</label>
+            </div>
+          </fieldset>
+
+          <div class="campo">
+            <label for="presupuesto">Presupuesto que tienes en la cabeza</label>
+            <select id="presupuesto" name="presupuesto">
+              <option value="Sin decidir">Prefiero que me lo digas tú</option>
+              <option value="Menos de 400">Menos de 400 €</option>
+              <option value="400 a 700">Entre 400 y 700 €</option>
+              <option value="700 a 1000">Entre 700 y 1.000 €</option>
+              <option value="1000 a 1500">Entre 1.000 y 1.500 €</option>
+              <option value="Más de 1500">Más de 1.500 €</option>
+            </select>
+            <p class="campo__ayuda">No es un compromiso. Sirve para no ofrecerte algo que no encaja.</p>
+          </div>
+
+          <div class="campo">
+            <label for="mensaje">Cuéntame</label>
+            <textarea id="mensaje" name="mensaje" required
+                      data-falta="Escribe aunque sean cuatro líneas: es lo que me permite darte un número."
+                      placeholder="Qué vendes, quién te compra y qué te gustaría que pasara cuando alguien entre en tu web."></textarea>
+            <p class="campo__error" role="alert"></p>
+          </div>
+
+          <!-- Trampa para robots: si se rellena, el mensaje se descarta. -->
+          <div style="position:absolute;left:-9999px" aria-hidden="true">
+            <label for="_apellido">No rellenes esto</label>
+            <input id="_apellido" name="_apellido" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div>
+            <button class="boton" type="submit">Enviar y que me contestes</button>
+            <p class="campo__ayuda" style="margin-top:.75rem">
+              Al enviar aceptas que guarde estos datos para contestarte. Nada más:
+              ni listas de correo ni cesión a terceros.
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <div>
+        <h2>Qué pasa después</h2>
+        <div class="fases">
+          <div class="fase">
+            <p class="fase__marca" aria-hidden="true">1</p>
+            <div>
+              <h3>Te leo y te contesto</h3>
+              <p>En un día laborable como mucho. Si tu caso no es para mí, te lo digo ahí mismo y te ahorro la reunión.</p>
+            </div>
+          </div>
+          <div class="fase">
+            <p class="fase__marca" aria-hidden="true">2</p>
+            <div>
+              <h3>Media hora de conversación</h3>
+              <p>Cuando te venga bien, también fuera de horario comercial si estás con el negocio abierto.</p>
+            </div>
+          </div>
+          <div class="fase">
+            <p class="fase__marca" aria-hidden="true">3</p>
+            <div>
+              <h3>Presupuesto por escrito</h3>
+              <p>Precio cerrado, qué incluye, qué no y fecha de entrega. Sin caducidad artificial ni prisas de vendedor.</p>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="rotulo-menor">Si prefieres el camino corto</h3>
+        <!-- CONTACTO DIRECTO: pon aquí tu correo y tu teléfono reales.
+             Ver PERSONALIZAR.md -->
+        <ul class="lista-marcada">
+          <li><a href="mailto:hola@elescaparateweb.com">hola@elescaparateweb.com</a></li>
+          <li>Por teléfono o WhatsApp, en horario de persona.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="envoltura">
+    <div class="pie__rejilla">
+      <div>
+        <a class="marca" href="index.html">
+          <span>El Escaparate<span class="marca__punto">.</span></span>
+        </a>
+        <p style="margin-top:.75rem;max-width:22rem;color:var(--azul-suave);font-size:var(--t-s)">
+          Webs para negocios que ya funcionan en la calle. Diseño, programación y entrega con la llave en tu mano.
+        </p>
+      </div>
+      <div>
+        <h3>Qué monto</h3>
+        <ul>
+          <li><a href="servicios.html#una-pagina">Web de una página</a></li>
+          <li><a href="servicios.html#multipagina">Web multipágina</a></li>
+          <li><a href="servicios.html#tienda">Tienda online</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>El estudio</h3>
+        <ul>
+          <li><a href="portfolio.html">La calle</a></li>
+          <li><a href="metodo.html">Cómo trabajo</a></li>
+          <li><a href="estudio.html">Quién está detrás</a></li>
+          <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Escríbeme</h3>
+        <ul>
+          <li><a href="mailto:hola@elescaparateweb.com">hola@elescaparateweb.com</a></li>
+          <li><a href="contacto.html">Formulario de presupuesto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="pie__legal">
+      <p>© <span data-anio>2026</span> El Escaparate. Hecho a mano, sin plantillas.</p>
+      <p>Las capturas del portfolio se generan con servicios externos de screenshots.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/sitio.js"></script>
+</body>
+</html>

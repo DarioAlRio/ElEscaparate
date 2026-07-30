@@ -1,0 +1,170 @@
+# Antes de publicar
+
+Ocho cosas. Las dos primeras son obligatorias; sin ellas la web dice cosas que
+no has decidido tú. Nombre y dominio ya están cerrados: **El Escaparate**, en
+`elescaparateweb.com`.
+
+---
+
+## 1. Los precios y los plazos ⚠️ OBLIGATORIO
+
+Los números que hay puestos son **valores por defecto que me he inventado para
+que la maqueta sea real**. No son tu tarifa. Revísalos uno por uno.
+
+| Formato | Precio puesto | Plazo puesto |
+|---|---|---|
+| Una página | 400 € | 1 a 2 semanas |
+| Multipágina | 700 € | 2 a 4 semanas |
+| Tienda | 1.200 € | 4 a 6 semanas |
+
+Dónde aparecen:
+
+- `index.html` → bloque `<!-- PRECIOS -->`, las tres filas de la oferta.
+- `servicios.html` → un `<dl class="datos">` por formato, y la etiqueta
+  `<meta name="description">` de arriba, que también los repite.
+- `index.html` → «Entrega entre 1 y 4 semanas» en el sello de la portada.
+
+Lo mismo con las condiciones que he escrito porque son las habituales, pero que
+son tuyas: **mitad y mitad**, **dos rondas de cambios**, **un mes de ajustes**,
+**contesto en un día laborable**. Están en `metodo.html`, `servicios.html`
+(desplegables) y `contacto.html`.
+
+## 2. El correo ⚠️ OBLIGATORIO
+
+`hola@elescaparateweb.com` aparece en el pie de las siete páginas, en
+`contacto.html` («Si prefieres el camino corto») y en el atributo `data-correo`
+del formulario. **Comprueba que ese buzón existe de verdad** antes de publicar:
+tener un correo en la web que nadie lee es peor que no tenerlo.
+
+Como el dominio está en Cloudflare, lo más rápido es su **Email Routing**: es
+gratis, no necesitas contratar buzón y reenvía `hola@elescaparateweb.com` a tu
+correo de siempre. Si prefieres otro nombre de buzón, cámbialo en los cuatro
+sitios de arriba.
+
+Si quieres WhatsApp, sustituye esa línea del `contacto.html` por
+`<a href="https://wa.me/34XXXXXXXXX">`.
+
+## 3. El nombre y el dominio ✓ ya están puestos
+
+Marca **El Escaparate**, dominio **elescaparateweb.com**, ya escritos en el
+título, la cabecera, el pie, las etiquetas de redes, `robots.txt` y
+`sitemap.xml`. No hay que tocar nada.
+
+Dos cosas para el futuro:
+
+- El portfolio se llama **La calle** en el menú, no «Escaparates». Se cambió al
+  elegir el nombre: «El Escaparate → Escaparates» confundía.
+- Si algún día consigues `elescaparate.com` —ahora mismo lo tiene alguien que
+  lo vende— no hace falta rehacer nada: se compra, se apunta al mismo sitio y
+  se cambia el dominio en `<link rel="canonical">`, en las `og:url`, en
+  `robots.txt` y en `sitemap.xml`. Media hora.
+
+## 4. El logotipo
+
+Es un SVG dibujado a mano en `favicon.svg` y repetido en la cabecera de cada
+página: un toldo a rayas sobre un escaparate. No depende de ninguna tipografía
+ni de ningún programa. Si algún día encargas un logotipo de verdad, lo único
+que hay que sustituir es ese `<svg>`.
+
+---
+
+## 5. El portfolio
+
+Todo vive en `assets/js/proyectos.js`. **Solo hace falta la URL**: la miniatura
+se genera sola desde fuera.
+
+```js
+{
+  url: "https://blacklilitattoos.com",  // ← lo único imprescindible
+  nombre: "Black Lili Tattoos",
+  oficio: "Estudio de tatuaje",
+  tipo: "multipagina",                  // una-pagina · multipagina · tienda
+  anio: "2026",
+  destacado: true,                      // sale en la portada (deja tres)
+  espera: 10,                           // ver abajo
+  nota: "Galería de artista y solicitud de cita sin llamadas."
+}
+```
+
+**El campo `espera`** son los segundos que el servicio aguanta con la web
+abierta antes de disparar. Ponlo solo en las que tienen animación de entrada:
+Black Lili enseña el logo unos segundos y, sin esperar, la miniatura salía con
+el logo en vez de la página. Máximo 20.
+
+Tiene un efecto que conviene saber: **cuando pones `espera`, la captura se pide
+a Microlink**, porque es el único de los tres que la respeta de verdad. Lo
+comprobé midiendo — thum.io acepta el parámetro y devuelve exactamente la misma
+imagen, así que no sirve. Microlink es algo más lento y tiene un límite diario
+de uso gratuito más justo; por eso no se le pasa todo, solo las fichas que lo
+necesitan.
+
+Los otros cuatro proyectos siguen con `url: ""` y salen con el cartel **EN
+OBRA**, que es lo honesto mientras no estén publicados. En cuanto pegues una
+dirección, esa ficha se ilumina sola.
+
+Si una miniatura sale con el logo del intro, súbele la `espera`. Si sale un
+rectángulo gris, es que el servicio todavía la estaba generando: recarga al
+minuto y ya estará (la primera captura de una web nueva puede tardar más de
+medio minuto; a partir de ahí es instantánea).
+
+Revisa también el campo `tipo` de cada uno: los he puesto todos como
+`multipagina` a ojo y tú sabes cuál era cada encargo.
+
+## 6. El formulario
+
+El `action` pone `PENDIENTE-pon-aqui-tu-endpoint`. Mientras siga así, al enviar
+se abre el programa de correo del visitante con el mensaje ya escrito: funciona,
+pero pierdes contactos por el camino.
+
+Para recibirlos en tu bandeja, date de alta en un servicio de formularios
+(Formspree, Basin, Web3Forms; todos tienen plan gratuito) y pega el endpoint que
+te den en el `action` de `contacto.html`. El campo trampa `_apellido` ya está
+puesto para el spam.
+
+## 7. Tu biografía
+
+`estudio.html` habla de cómo trabajas, que es verdad y es lo que vende, pero no
+cuenta nada que solo puedas contar tú: de dónde vienes, desde cuándo, dónde
+vives, por qué acabaste haciendo esto. Está marcado con
+`<!-- BIOGRAFÍA: escríbela tú -->`. Dos párrafos tuyos valen más que toda la
+página.
+
+Falta también una foto tuya. Sin ella, «detrás de esto hay una persona» es una
+frase; con ella, es un hecho.
+
+## 8. Textos legales
+
+Falta aviso legal, política de privacidad y cookies. Esta web **no pone
+cookies** (no hay analítica ni tipografías autoalojadas de terceros con
+seguimiento), así que no necesitas banner, pero sí el aviso legal y la política
+de privacidad si recoges datos por el formulario. Cuando los tengas, enlázalos
+en el `pie__legal`.
+
+---
+
+## Cómo trabajar con esto
+
+```bash
+node _dev-servidor.js
+```
+
+Y abre `http://localhost:5174`. También funciona abriendo `index.html` con doble
+clic: no hay build, no hay npm, no hay nada que compilar.
+
+Para publicar: arrastra la carpeta entera a Netlify, o súbela por FTP a
+cualquier hosting. No subas `_dev-servidor.js`, `PRODUCT.md`, `DESIGN.md` ni
+este archivo.
+
+## Un aviso sobre las capturas
+
+Las miniaturas se piden a servicios públicos de screenshots: thum.io, mShots de
+WordPress y Microlink. Si uno falla se prueba el siguiente, y el orden cambia
+según el caso — con `espera` manda Microlink, sin ella manda thum.io, que es el
+más rápido. Eso significa dos cosas:
+
+- **La dirección viaja a ese servicio.** Es información pública, pero conviene
+  que lo sepas. Está dicho en la página de escaparates.
+- **Son gratuitos con límites.** Para un portfolio de diez proyectos sobra. Si
+  algún día tienes mucho tráfico y empiezan a fallar, la solución es guardar las
+  capturas en `assets/img/` y poner esa ruta; el código ya prevé el fallo con un
+  cartel en vez de un hueco roto.
