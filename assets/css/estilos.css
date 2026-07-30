@@ -161,7 +161,12 @@ button, input, select, textarea {
 /* Toldo: franja a rayas con el borde inferior festoneado. */
 .toldo {
   --franja: 34px;
-  --festón: 13px;
+  /* El festón mide exactamente medio paso, y por eso las lunas salen
+     continuas: cada una es media circunferencia entera de diámetro igual a la
+     raya, así que toca con la de al lado sin dejar tramo recto entre medias.
+     Con un radio menor —antes eran 13 de 34— quedaba una muesca plana a cada
+     lado y el borde parecía una sierra, no una guirnalda. */
+  --festón: calc(var(--franja) / 2);
   height: var(--alto-toldo);
   background: repeating-linear-gradient(
     90deg,
@@ -171,12 +176,16 @@ button, input, select, textarea {
   /* «left bottom», no «bottom»: por defecto la máscara se centra (50%) y las
      rayas empiezan en el borde, así que al no ser el ancho múltiplo del paso
      los festones quedaban desfasados y salían lunas partidas a dos colores.
-     Anclando los dos patrones a la izquierda, cada luna cae en una sola raya. */
+     Anclando los dos patrones a la izquierda, cada luna cae en una sola raya.
+
+     El corte de la máscara se difumina tres cuartos de píxel, en medida
+     absoluta y no en porcentaje: el porcentaje encoge con el radio y en los
+     toldos finos el borde volvía a quedar dentado. */
   -webkit-mask:
-    radial-gradient(circle var(--festón) at 50% 0, #000 98%, transparent) left bottom / var(--franja) var(--festón) repeat-x,
+    radial-gradient(circle var(--festón) at 50% 0, #000 calc(var(--festón) - 0.75px), transparent var(--festón)) left bottom / var(--franja) var(--festón) repeat-x,
     linear-gradient(#000 0 0) left top / 100% calc(100% - var(--festón)) no-repeat;
   mask:
-    radial-gradient(circle var(--festón) at 50% 0, #000 98%, transparent) left bottom / var(--franja) var(--festón) repeat-x,
+    radial-gradient(circle var(--festón) at 50% 0, #000 calc(var(--festón) - 0.75px), transparent var(--festón)) left bottom / var(--franja) var(--festón) repeat-x,
     linear-gradient(#000 0 0) left top / 100% calc(100% - var(--festón)) no-repeat;
 }
 
@@ -188,7 +197,9 @@ button, input, select, textarea {
   );
 }
 
-.toldo--fino { --alto-toldo: 16px; --franja: 22px; --festón: 9px; }
+/* El festón no se toca: sale solo de la raya, que es lo que lo mantiene
+   continuo a cualquier tamaño. */
+.toldo--fino { --alto-toldo: 18px; --franja: 22px; }
 
 /* Persiana: lamas horizontales. */
 .persiana-textura {
