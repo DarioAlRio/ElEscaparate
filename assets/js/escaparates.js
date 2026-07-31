@@ -430,17 +430,12 @@
             '<button type="button" data-vista="escritorio" aria-pressed="true">Escritorio</button>' +
             '<button type="button" data-vista="movil" aria-pressed="false">Móvil</button>' +
           '</div>' +
-          '<div class="conmutador" role="group" aria-label="Modo de vista">' +
-            '<button type="button" data-modo="captura" aria-pressed="true">Captura</button>' +
-            '<button type="button" data-modo="vivo" aria-pressed="false">En vivo</button>' +
-          '</div>' +
           '<a class="visor__cierra" data-abrir target="_blank" rel="noopener noreferrer">Abrir web ↗</a>' +
           '<button type="button" class="visor__cierra" data-cierra>Cerrar ✕</button>' +
         '</div>' +
       '</div>' +
       '<div class="visor__pantalla" data-vista="escritorio">' +
-        '<img alt="" data-captura>' +
-        '<iframe data-vivo title="Vista en vivo de la web" hidden loading="lazy" referrerpolicy="no-referrer" ' +
+        '<iframe data-vivo title="Vista en vivo de la web" loading="lazy" referrerpolicy="no-referrer" ' +
           'sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>' +
         '<p class="visor__nota" data-nota></p>' +
       '</div>';
@@ -453,9 +448,6 @@
 
     visor.querySelectorAll("[data-vista]").forEach(function (boton) {
       boton.addEventListener("click", function () { ponVista(boton.getAttribute("data-vista")); });
-    });
-    visor.querySelectorAll("[data-modo]").forEach(function (boton) {
-      boton.addEventListener("click", function () { ponModo(boton.getAttribute("data-modo")); });
     });
 
     document.addEventListener("keydown", function (ev) {
@@ -473,51 +465,29 @@
     return visor;
   }
 
+  /* El visor solo cambia de ancho: la web va en vivo siempre, así que pasar de
+     escritorio a móvil es estrechar el marco y dejar que la web se recoloque
+     sola, como haría en un teléfono. No se recarga nada. */
   function ponVista(vista) {
-    var movil = vista === "movil";
     visor.querySelector(".visor__pantalla").setAttribute("data-vista", vista);
     visor.querySelectorAll("[data-vista]").forEach(function (boton) {
       boton.setAttribute("aria-pressed", boton.getAttribute("data-vista") === vista ? "true" : "false");
     });
-    if (!actual) return;
-    var img = visor.querySelector("[data-captura]");
-    var nota = visor.querySelector("[data-nota]");
-    nota.textContent = "";
-    img.removeAttribute("src");
-    /* Estricta como en la rejilla: si la ficha pide espera, aquí también manda,
-       y sin ella no se enseña una captura disparada al instante. */
-    captura(actual.url, movil, actual.espera, true).then(function (src) {
-      img.src = src;
-    }).catch(function () {
-      nota.textContent = "No se ha podido generar la captura. Prueba «En vivo» o abre la web en una pestaña.";
-    });
   }
 
-  function ponModo(modo) {
-    var vivo = modo === "vivo";
+  /* Hay webs que prohíben mostrarse dentro de otra. Eso no se puede detectar
+     desde fuera, así que se avisa a los tres segundos y medio: si a esas
+     alturas sigue en blanco, es eso. */
+  function enseñaEnVivo() {
     var marco = visor.querySelector("[data-vivo]");
-    var img = visor.querySelector("[data-captura]");
     var nota = visor.querySelector("[data-nota]");
-    visor.querySelectorAll("[data-modo]").forEach(function (boton) {
-      boton.setAttribute("aria-pressed", boton.getAttribute("data-modo") === modo ? "true" : "false");
-    });
-    if (vivo && actual) {
-      img.hidden = true;
-      marco.hidden = false;
-      marco.src = actual.url;
-      nota.textContent = "";
-      clearTimeout(ponModo.reloj);
-      ponModo.reloj = setTimeout(function () {
-        if (visor.querySelector('[data-modo="vivo"]').getAttribute("aria-pressed") !== "true") return;
-        nota.textContent = "Si el recuadro sigue en blanco, esa web no permite verse dentro de otra. Ábrela en una pestaña.";
-      }, 3500);
-    } else {
-      clearTimeout(ponModo.reloj);
-      marco.hidden = true;
-      marco.removeAttribute("src");
-      img.hidden = false;
-      nota.textContent = "";
-    }
+    nota.textContent = "";
+    marco.src = actual.url;
+    clearTimeout(enseñaEnVivo.reloj);
+    enseñaEnVivo.reloj = setTimeout(function () {
+      if (visor.getAttribute("data-abierto") !== "si") return;
+      nota.textContent = "Si el recuadro sigue en blanco, esa web no permite verse dentro de otra. Ábrela en una pestaña.";
+    }, 3500);
   }
 
   function abreVisor(proyecto) {
@@ -532,10 +502,10 @@
     abrir.href = proyecto.url;
     abrir.setAttribute("aria-label", "Abrir " + proyecto.nombre + " en una pestaña nueva");
 
-    ponModo("captura");
     ponVista("escritorio");
-
     visor.setAttribute("data-abierto", "si");
+    enseñaEnVivo();
+
     document.body.style.overflow = "hidden";
     visor.querySelector("[data-cierra]").focus();
   }
@@ -543,9 +513,11 @@
   function cierraVisor() {
     if (!visor) return;
     visor.setAttribute("data-abierto", "no");
-    var marco = visor.querySelector("[data-vivo]");
-    marco.hidden = true;
-    marco.removeAttribute("src");
+    clearTimeout(enseñaEnVivo.reloj);
+    /* Se le quita la dirección al cerrar: si no, la web sigue viva por detrás
+       sonando, cargando y gastando datos. */
+    visor.querySelector("[data-vivo]").removeAttribute("src");
+    visor.querySelector("[data-nota]").textContent = "";
     document.body.style.overflow = "";
     actual = null;
     if (devuelveFoco && devuelveFoco.focus) devuelveFoco.focus();
