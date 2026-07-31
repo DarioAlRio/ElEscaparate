@@ -608,6 +608,12 @@
 
     var soloDestacados = rejilla.hasAttribute("data-destacados");
     var lista = window.PROYECTOS.filter(function (p) { return soloDestacados ? p.destacado : true; });
+
+    /* Lo publicado, delante. Un escaparate enseña primero lo que se puede
+       mirar; los «EN OBRA» son honestos, pero no son el reclamo. La ordenación
+       es estable, así que dentro de cada grupo manda el orden de proyectos.js
+       y basta con pegar una dirección para que esa ficha suba sola. */
+    lista.sort(function (a, b) { return (a.url ? 0 : 1) - (b.url ? 0 : 1); });
     if (soloDestacados) lista = lista.slice(0, 3);
     pinta(rejilla, lista);
 
