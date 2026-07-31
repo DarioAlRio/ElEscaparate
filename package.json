@@ -1,0 +1,24 @@
+{
+  "name": "el-escaparate",
+  "version": "1.0.0",
+  "description": "El Escaparate - Webs para negocios que ya funcionan en la calle",
+  "private": true,
+  "scripts": {
+    "dev": "node _dev-servidor.js",
+    "start": "node _dev-servidor.js"
+  },
+  "keywords": [
+    "web-design",
+    "static-site"
+  ],
+  "author": "Dario Domínguez",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@vercel/analytics": "^1.3.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DarioAlRio/ElEscaparate.git"
+  }
+}
