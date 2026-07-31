@@ -40,22 +40,24 @@ son tuyas: **mitad y mitad**, **dos rondas de cambios**, **un mes de ajustes**,
 Si algún día cambias de número, búscalo como `684082490` y aparece en los siete
 sitios.
 
-## 3. El correo ✓ puesto, pendiente de comprobar que llega
+## 3. El correo ✓ puesto, provisional
 
-**contacto@elescaparateweb.com**, en el pie de las seis páginas con pie
-completo, en la lista «Si prefieres el camino corto» de `presupuesto.html` y en el
-atributo `data-correo` del formulario.
+**elescaparatewebcontacto@gmail.com**, en el pie de las seis páginas con pie
+completo, en la lista «Si prefieres el camino corto» de `presupuesto.html` y en
+el atributo `data-correo` del formulario.
 
-Lo único que queda es asegurarte de que **ese buzón recibe de verdad**. Mándate
-una prueba desde otro correo antes de publicar: tener una dirección en la web
-que nadie lee es peor que no ponerla.
+Es una dirección **de momento**: un Gmail tuyo, que funciona desde el primer día
+y no depende de configurar nada. Vale de sobra para empezar a recibir encargos.
 
-Si todavía no lo tienes montado, como el dominio está en Cloudflare lo más
-rápido es su **Email Routing**: gratis, sin contratar buzón, reenvía
-`contacto@elescaparateweb.com` a tu correo de siempre.
+Cuando quieras dar el paso al correo del dominio —`hola@elescaparateweb.com` o
+el nombre que elijas—, la vía más rápida es el **Email Routing** de Cloudflare:
+gratis, sin contratar buzón, reenvía al Gmail que ya usas. Un negocio con correo
+del propio dominio da más confianza que uno con Gmail, así que merece la pena
+hacerlo antes de empezar a repartir la dirección. Cuando lo tengas, busca
+`elescaparatewebcontacto@gmail.com` y aparece en los ocho sitios.
 
-Mientras tanto no te quedas incomunicado: el WhatsApp funciona desde el primer
-día y el formulario tiene su propio botón para él.
+Mientras tanto no te quedas incomunicado por ningún lado: el WhatsApp funciona
+desde el primer día y el formulario tiene su propio botón para él.
 
 ## 4. El nombre y el dominio ✓ ya están puestos
 
