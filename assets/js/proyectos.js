@@ -19,6 +19,11 @@
                Máximo 20. Si no lo pones, dispara al cargar.
    ========================================================================= */
 
+/* El orden de aquí es el orden de la calle, con una regla por encima: lo que
+   está publicado va delante. No hace falta que la mantengas a mano —el motor
+   sube las fichas con dirección antes de pintar—, pero el archivo se deja
+   ordenado igual, para que leerlo y ver la web cuenten lo mismo. */
+
 window.PROYECTOS = [
   {
     url: "https://blacklilitattoos.com",
@@ -31,12 +36,33 @@ window.PROYECTOS = [
     nota: "Galería de artista y solicitud de cita sin llamadas."
   },
   {
+    url: "https://reformas-aparejo.vercel.app/",
+    nombre: "Reformas",
+    oficio: "Obra y reforma integral",
+    tipo: "multipagina",
+    anio: "2026",
+    destacado: true,
+    nota: "Antes y después de cada obra, y presupuesto en un formulario."
+  },
+  {
+    url: "https://nova-strike-beta.vercel.app/",
+    nombre: "Nova Strike",
+    oficio: "Videojuego arcade",
+    tipo: "una-pagina",
+    anio: "2026",
+    destacado: true,
+    /* El juego se dibuja en un canvas: sin esperar, la captura sale en negro
+       porque el script todavía no ha pintado nada. */
+    espera: 6,
+    nota: "Naves alienígenas y niveles infinitos, en el navegador y sin instalar nada."
+  },
+  {
     url: "",
     nombre: "Beauty Studio",
     oficio: "Centro de belleza",
     tipo: "multipagina",
     anio: "2026",
-    destacado: true,
+    destacado: false,
     nota: "Carta de tratamientos con precios y reserva directa."
   },
   {
@@ -45,28 +71,7 @@ window.PROYECTOS = [
     oficio: "Centro cultural",
     tipo: "multipagina",
     anio: "2026",
-    destacado: true,
+    destacado: false,
     nota: "Agenda de actividades que se actualiza sin tocar código."
-  },
-  {
-    url: "https://nova-strike-beta.vercel.app/",
-    nombre: "Nova Strike",
-    oficio: "Videojuego arcade",
-    tipo: "una-pagina",
-    anio: "2026",
-    destacado: false,
-    /* El juego se dibuja en un canvas: sin esperar, la captura sale en negro
-       porque el script todavía no ha pintado nada. */
-    espera: 6,
-    nota: "Naves alienígenas y niveles infinitos, en el navegador y sin instalar nada."
-  },
-  {
-    url: "",
-    nombre: "Reformas",
-    oficio: "Obra y reforma integral",
-    tipo: "multipagina",
-    anio: "2026",
-    destacado: false,
-    nota: "Antes y después de cada obra, y presupuesto en un formulario."
   }
 ];

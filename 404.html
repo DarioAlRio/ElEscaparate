@@ -22,11 +22,27 @@
   <div class="envoltura cabecera__fila">
     <a class="marca" href="index.html" aria-label="El Escaparate, inicio">
       <svg viewBox="0 0 64 64" aria-hidden="true">
-        <rect width="64" height="64" rx="10" fill="#17417f"/>
-        <path d="M8 14h48v20H8z" fill="#ff5c3a"/>
-        <path d="M8 14h12v20H8zm24 0h12v20H32z" fill="#eaeef2"/>
-        <path d="M8 34h48l-4 6-4-6-4 6-4-6-4 6-4-6-4 6-4-6-4 6-4-6-4 6-4-6z" fill="#17417f"/>
-        <rect x="16" y="44" width="32" height="12" rx="2" fill="#eaeef2"/>
+        <defs>
+          <clipPath id="marca-marco"><rect x="0.35" y="0.35" width="63.3" height="63.3" rx="6.65"/></clipPath>
+          <clipPath id="marca-cristal"><rect x="7" y="20.5" width="50" height="36" rx="4"/></clipPath>
+        </defs>
+        <g clip-path="url(#marca-marco)">
+          <rect width="64" height="64" fill="#0b2350"/>
+          <rect x="4.5" y="18" width="55" height="41" rx="6" fill="#06152f"/>
+          <rect x="7" y="20.5" width="50" height="36" rx="4" fill="#8ba5cd"/>
+          <g clip-path="url(#marca-cristal)">
+            <polygon points="46,18 60,18 60,60 22,60" fill="#9db4d8"/>
+            <polygon points="34,18 46,18 22,60 10,60" fill="#a9bdd9"/>
+          </g>
+          <path d="M46 29c.6 4.2 1.8 5.4 6 6-4.2.6-5.4 1.8-6 6-.6-4.2-1.8-5.4-6-6 4.2-.6 5.4-1.8 6-6Z" fill="#eaeef2"/>
+          <path d="M0 0h64v21a6.4 6.4 0 0 1-12.8 0 6.4 6.4 0 0 1-12.8 0 6.4 6.4 0 0 1-12.8 0 6.4 6.4 0 0 1-12.8 0 6.4 6.4 0 0 1-12.8 0Z" fill="#06152f"/>
+          <path d="M0 0h64v18.8a6.4 6.4 0 0 1-12.8 0 6.4 6.4 0 0 1-12.8 0 6.4 6.4 0 0 1-12.8 0 6.4 6.4 0 0 1-12.8 0 6.4 6.4 0 0 1-12.8 0Z" fill="#eaeef2"/>
+          <path d="M0 0h12.8v18.8a6.4 6.4 0 0 1-12.8 0Z" fill="#ff5c3a"/>
+          <path d="M25.6 0h12.8v18.8a6.4 6.4 0 0 1-12.8 0Z" fill="#ff5c3a"/>
+          <path d="M51.2 0h12.8v18.8a6.4 6.4 0 0 1-12.8 0Z" fill="#ff5c3a"/>
+        </g>
+        <!-- Filete: el logo va sobre el azul de la cabecera y esta linea le da canto. Va centrado en el corte del recorte, para que el color muera debajo. -->
+        <rect x="0.35" y="0.35" width="63.3" height="63.3" rx="6.65" fill="none" stroke="#0d1726" stroke-width="0.7"/>
       </svg>
       <span>El Escaparate<span class="marca__punto">.</span></span>
     </a>
