@@ -120,8 +120,9 @@ Cubiertos y verificados en navegador:
   rechaza y pasa el turno al siguiente servicio, en vez de colarse como si
   fuera la web.
 - **Filtros:** con resultados y vacío con frase propia.
-- **Visor:** captura / en vivo, escritorio / móvil, y aviso a los 3,5 s cuando
-  una web no permite mostrarse dentro de otra.
+- **Visor:** siempre en vivo —la miniatura ya era la captura, repetirla dentro
+  del visor no añadía nada—, con escritorio / móvil, «Abrir web» y aviso a los
+  3,5 s cuando una web no permite mostrarse dentro de otra.
 
 ## Accesibilidad
 
