@@ -186,13 +186,40 @@ página.
 Falta también una foto tuya. Sin ella, «detrás de esto hay una persona» es una
 frase; con ella, es un hecho.
 
-## 9. Textos legales
+## 9. Textos legales ⚠️ TE FALTAN TRES DATOS
 
-Falta aviso legal, política de privacidad y cookies. Esta web **no pone
-cookies** (no hay analítica ni tipografías autoalojadas de terceros con
-seguimiento), así que no necesitas banner, pero sí el aviso legal y la política
-de privacidad si recoges datos por el formulario. Cuando los tengas, enlázalos
-en el `pie__legal`.
+Ya están escritas las tres páginas y enlazadas en la barra de abajo de todas:
+`aviso-legal.html`, `privacidad.html` y `cookies.html`.
+
+Como titular y responsable figura **Darío Domínguez García**, y nada más: el
+NIF y el domicilio se dejaron fuera por decisión tuya el 07/08/2026.
+
+Conviene que sepas lo que eso implica, sin dramatizarlo: el artículo 10 de la
+LSSI pide que un profesional que ofrece servicios por internet publique también
+su **NIF y su domicilio**. Con solo el nombre, el aviso legal se queda corto
+frente a esa norma. Si algún día quieres completarlo, va en el primer párrafo de
+`aviso-legal.html` y en el mismo sitio de `privacidad.html`; está señalado con
+un comentario en los dos archivos.
+
+Lo demás está escrito según lo que la web hace **de verdad**, comprobado
+funcionalidad por funcionalidad: qué recoge el formulario, qué proveedores
+intervienen (Vercel, Google, WhatsApp y los tres servicios de captura), qué se
+guarda en el navegador y cuánto duran los datos.
+
+**La página de cookies dice que no hay cookies, y hoy es cierto**: no hay
+analítica, ni publicidad, ni botones de redes. Por eso no hay banner, que es
+legal precisamente porque no hay nada que consentir. Si algún día añades Google
+Analytics, un mapa incrustado, un chat o un píxel de publicidad, **esa página
+deja de ser verdad** y pasas a necesitar banner de consentimiento. Está avisado
+en un comentario dentro del propio archivo.
+
+Los plazos de conservación que he puesto (un año las consultas, seis años la
+documentación contable) son los habituales; si tu gestoría te dice otros,
+cámbialos.
+
+Y una cosa que no puedo hacer yo: esto es una base sólida y honesta, no un
+dictamen jurídico. Si mueves mucho dato o algún cliente te lo exige, que un
+abogado le eche un ojo.
 
 ---
 

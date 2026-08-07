@@ -1121,6 +1121,28 @@ button, input, select, textarea {
 .franja--azul .apunte,
 .franja--hondo .apunte { color: var(--azul-suave); }
 
+/* Textos legales. Es el único sitio de la web con prosa larga y seguida, así
+   que necesita sus propios márgenes: el resto del sistema los pone bloque a
+   bloque y aquí los pide el propio texto. */
+.texto-legal {
+  max-width: var(--ancho-lectura);
+  color: var(--tinta);
+}
+.texto-legal h2 {
+  font-size: var(--t-xl);
+  margin-top: var(--e4);
+  margin-bottom: var(--e2);
+}
+.texto-legal h2:first-child { margin-top: 0; }
+.texto-legal p,
+.texto-legal ul { margin-top: var(--e2); }
+.texto-legal a {
+  color: var(--accion-tinta);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.texto-legal .apunte { margin-top: var(--e4); margin-bottom: 0; }
+
 /* --- 12. Método --------------------------------------------------------- */
 
 .fases {
@@ -1466,17 +1488,26 @@ button, input, select, textarea {
   color: var(--accion);
 }
 .pie a:hover { color: var(--accion); text-decoration: underline; text-underline-offset: 3px; }
+/* La barra de abajo del todo: el aviso de copia a la izquierda y los tres
+   textos legales a la derecha. En pantalla estrecha se apilan, en ese orden. */
 .pie__legal {
   margin-top: var(--e4);
   padding-top: var(--e3);
   border-top: 1px solid var(--azul-linea);
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: var(--e2);
   flex-wrap: wrap;
   font-size: var(--t-xs);
   color: var(--azul-suave);
 }
+.pie__legal-enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e1) var(--e3);
+}
+.pie__legal-enlaces a { color: var(--azul-suave); }
 
 /* --- 16. Motivo de entrada (un solo momento) ---------------------------- */
 
