@@ -40,21 +40,15 @@ son tuyas: **mitad y mitad**, **dos rondas de cambios**, **un mes de ajustes**,
 Si algún día cambias de número, búscalo como `684082490` y aparece en los siete
 sitios.
 
-## 3. El correo ✓ puesto, provisional
+## 3. El correo ✓ hecho
 
-**elescaparatewebcontacto@gmail.com**, en el pie de las seis páginas con pie
-completo, en la lista «Si prefieres el camino corto» de `presupuesto.html` y en
-el atributo `data-correo` del formulario.
+**contacto@elescaparateweb.com**, del propio dominio, dado de alta y probado que
+recibe. Está en el pie de las seis páginas con pie completo, en la lista «Si
+prefieres el camino corto» de `presupuesto.html`, en el aviso legal, en la
+política de privacidad y en el atributo `data-correo` del formulario.
 
-Es una dirección **de momento**: un Gmail tuyo, que funciona desde el primer día
-y no depende de configurar nada. Vale de sobra para empezar a recibir encargos.
-
-Cuando quieras dar el paso al correo del dominio —`hola@elescaparateweb.com` o
-el nombre que elijas—, la vía más rápida es el **Email Routing** de Cloudflare:
-gratis, sin contratar buzón, reenvía al Gmail que ya usas. Un negocio con correo
-del propio dominio da más confianza que uno con Gmail, así que merece la pena
-hacerlo antes de empezar a repartir la dirección. Cuando lo tengas, busca
-`elescaparatewebcontacto@gmail.com` y aparece en los ocho sitios.
+Si algún día la cambias, búscala como `contacto@elescaparateweb.com` y aparece
+en los diez sitios.
 
 Mientras tanto no te quedas incomunicado por ningún lado: el WhatsApp funciona
 desde el primer día y el formulario tiene su propio botón para él.
@@ -186,7 +180,7 @@ página.
 Falta también una foto tuya. Sin ella, «detrás de esto hay una persona» es una
 frase; con ella, es un hecho.
 
-## 9. Textos legales ⚠️ TE FALTAN TRES DATOS
+## 9. Textos legales ✓ escritos — falta el NIF y el domicilio, por decisión tuya
 
 Ya están escritas las tres páginas y enlazadas en la barra de abajo de todas:
 `aviso-legal.html`, `privacidad.html` y `cookies.html`.
