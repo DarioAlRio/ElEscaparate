@@ -57,6 +57,44 @@ window.PROYECTOS = [
     nota: "Naves alienígenas y niveles infinitos, en el navegador y sin instalar nada."
   },
   {
+    /* Es multipágina aunque sea un solo archivo: navega por rutas de hash
+       (#/plantas, #/talleres, #/nosotras). El visitante ve seis páginas. */
+    url: "https://clorofila-estudio-botanico.vercel.app/",
+    nombre: "Clorofila",
+    oficio: "Estudio botánico",
+    tipo: "multipagina",
+    anio: "2026",
+    destacado: false,
+    nota: "Catálogo con ficha de herbario por planta, talleres y suscripción mensual."
+  },
+  {
+    url: "https://caboazulbuceo.vercel.app/",
+    nombre: "Cabo Azul",
+    oficio: "Centro de buceo",
+    tipo: "una-pagina",
+    anio: "2026",
+    destacado: false,
+    nota: "Cursos e inmersiones en la reserva marina, con la plaza guardada desde la propia página."
+  },
+  {
+    url: "https://casilla03asesoria.vercel.app/",
+    nombre: "Casilla 03",
+    oficio: "Asesoría para autónomos",
+    tipo: "una-pagina",
+    anio: "2026",
+    destacado: false,
+    nota: "Qué modelos te tocan y cuándo, con el año entero a la vista y las tarifas por delante."
+  },
+  {
+    url: "https://regletaescalada.vercel.app/",
+    nombre: "Regleta",
+    oficio: "Rocódromo de escalada",
+    tipo: "una-pagina",
+    anio: "2026",
+    destacado: false,
+    nota: "Las vías de la semana y las tarifas, sin matrícula ni permanencia."
+  },
+  {
     url: "",
     nombre: "Beauty Studio",
     oficio: "Centro de belleza",
