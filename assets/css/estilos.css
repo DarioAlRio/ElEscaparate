@@ -1480,6 +1480,12 @@ button, input, select, textarea {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
+  /* Una dirección de correo no tiene espacios, así que su ancho mínimo es la
+     dirección entera: en la rejilla del pie no cabía y se salía de la pantalla
+     entre 500 y 600 px de ancho. Con «anywhere» el ancho mínimo pasa a ser una
+     letra y parte donde haga falta. Ojo: «break-word» aquí no sirve, porque no
+     cambia el ancho mínimo y el desborde seguiría igual. */
+  overflow-wrap: anywhere;
 }
 .pie__icono {
   width: 18px;
