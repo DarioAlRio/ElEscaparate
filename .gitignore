@@ -1,0 +1,7 @@
+# Basura del sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Carpeta que crea la herramienta de Vercel si algún día la usas
+.vercel

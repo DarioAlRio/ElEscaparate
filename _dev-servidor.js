@@ -19,6 +19,7 @@ const TIPOS = {
   ".webp": "image/webp",
   ".jpg": "image/jpeg",
   ".png": "image/png",
+  ".ico": "image/x-icon",
   ".woff2": "font/woff2"
 };
 

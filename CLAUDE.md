@@ -60,6 +60,9 @@ que toques antes de darla por buena.
 | `como-trabajo.html` | `/como-trabajo` | Los cuatro pasos del método |
 | `sobre-mi.html` | `/sobre-mi` | Quién está detrás |
 | `presupuesto.html` | `/presupuesto` | Formulario, WhatsApp y correo |
+| `aviso-legal.html` | `/aviso-legal` | Titular, uso, propiedad intelectual |
+| `privacidad.html` | `/privacidad` | Datos, finalidades, proveedores, derechos |
+| `cookies.html` | `/cookies` | No hay cookies; sí `localStorage` de capturas |
 | `404.html` | — | Lo sirve Vercel solo |
 
 ```
@@ -69,7 +72,10 @@ assets/js/escaparates.js  Motor de capturas, fichas y visor
 assets/js/sitio.js        Menú, año, .entra, formulario, varilla y cierre
 vercel.json               cleanUrls + los 301 de las direcciones antiguas
 .htaccess                 Lo mismo para Apache, por si se muda
-robots.txt · sitemap.xml · favicon.svg
+robots.txt · sitemap.xml
+favicon-conborde.svg      El que enlazan las diez páginas: logo con filete
+favicon.svg               El mismo sin filete, para fondos oscuros
+favicon.ico               16/32/48 en DIB, generado desde el SVG con filete
 _dev-servidor.js          No se sube al hosting
 ```
 
@@ -110,6 +116,10 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   entre festón y festón.
 - **Especificidad en los numerales:** `.fase p` gana a `.fase__marca`; hay que
   escribir `.fase .fase__marca`.
+- **`.lista-marcada li` es una rejilla de dos columnas**: el rombo y el texto.
+  Si dentro del `<li>` hay un `<a>` o un `<strong>`, eso ya son dos elementos y
+  el segundo se cae a otra fila, con el texto desalineado y el enlace debajo.
+  El contenido de cada punto va **siempre envuelto en un `<span>`**.
 - **mShots contesta con un gris de 400×300** mientras genera. Se rechaza por
   tamaño exacto; si no, se cuela como si fuera la web del cliente.
 - **thum.io ignora la espera** (devuelve la misma imagen byte a byte). Solo
@@ -127,6 +137,12 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   cuarto argumento, `estricto`: reintenta Microlink y, si no, no hay captura.
 - **Bermellón doble:** `--accion` no llega a 4,5:1 sobre la baldosa. Texto y
   grafismo sobre claro usan `--accion-tinta`; el vivo solo relleno o sobre azul.
+- **El favicon de Google va por libre.** Google guarda el icono en un caché
+  aparte del índice y lo refresca a su ritmo, semanas después: puede enseñar el
+  favicon viejo con la página ya reindexada. Antes de tocar nada, mira qué tiene
+  guardado en `google.com/s2/favicons?domain=elescaparateweb.com&sz=64` y
+  compáralo con el que sirve el dominio. Si el dominio sirve el bueno, no hay
+  nada que arreglar: solo esperar, o pedir reindexación en Search Console.
 - **Sin bloqueo de scroll al bajar el cierre:** el `overflow:hidden` en el body
   dejaba una franja clara a la derecha. El cierre es `fixed` y ya tapa todo.
 
