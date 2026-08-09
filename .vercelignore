@@ -1,0 +1,15 @@
+# Lo que se queda en GitHub pero no se publica en elescaparateweb.com.
+#
+# No va en .gitignore a propósito: estos archivos SÍ interesa tenerlos
+# versionados —PERSONALIZAR.md es la lista de lo que falta por rellenar—, lo
+# que no interesa es servirlos. Antes de esto, cualquiera podía leer las cuatro
+# notas internas tecleando la dirección.
+
+# Documentación del proyecto
+*.md
+
+# El servidor de desarrollo, que solo se usa en local
+_dev-servidor.js
+
+# Reglas de Apache, por si algún día se muda; aquí manda vercel.json
+.htaccess
