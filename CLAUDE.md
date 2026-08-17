@@ -170,6 +170,16 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   Si algún día hay que repetirlo: archivo con nombre nuevo, no editar el que
   está. Y luego, reindexación en Search Console, que es lo único que dispara
   la actualización de verdad.
+- **Nada de caché larga en `assets/`.** Los archivos no llevan versión en el
+  nombre, así que guardarlos horas significa servir lo viejo después de
+  publicar. Y como Vercel sirve el HTML con `max-age=0` por defecto, una caché
+  larga solo en el CSS produce lo peor: HTML nuevo con estilos viejos, que no
+  se ve como «lo de antes» sino como un diseño roto. Pasó dos veces —el manchón
+  negro de la etiqueta SALE y las columnas descolocadas de «El estudio»—. Desde
+  el 17/08/2026 `vercel.json` y `.htaccess` ponen `max-age=0, must-revalidate`
+  en todo: el navegador conserva la copia y el servidor contesta 304, que son
+  200 bytes. Si algún día se quiere caché larga de verdad, primero hay que
+  poner versión en las direcciones (`estilos.css?v=8`), no antes.
 - **Sin bloqueo de scroll al bajar el cierre:** el `overflow:hidden` en el body
   dejaba una franja clara a la derecha. El cierre es `fixed` y ya tapa todo.
 
