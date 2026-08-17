@@ -136,11 +136,15 @@
            velocidad se lee como movimiento. El orden en que están escritas ES
            el del giro; si se reordenan, el modelo pega saltos.
 
-           Solo la primera trae su imagen. Las otras tres pesan 1,1 MB entre
-           las tres y no hacen falta para pintar la portada, así que la
-           dirección va en data-src y las pide sitio.js cuando la página ya ha
-           terminado de cargar. Sin JavaScript se queda la primera fija, que es
-           una imagen perfectamente válida.
+           Cada vista va en WebP con el PNG de respaldo: 36 KB frente a 400,
+           con la misma medida y la misma transparencia. El PNG solo lo baja
+           quien no entienda WebP, que a estas alturas es casi nadie.
+
+           Solo la primera trae su imagen. Las otras tres no hacen falta para
+           pintar la portada, así que sus direcciones van en data-webp y
+           data-png y las pide sitio.js cuando la página ya ha terminado de
+           cargar. Sin JavaScript se queda la primera fija, que es una imagen
+           perfectamente válida.
 
            Mientras tanto llevan un píxel transparente por src, no el atributo
            vacío: sin src son imágenes rotas para el navegador, aunque aquí
@@ -148,18 +152,26 @@
       <div class="giro" data-giro data-cara="0">
         <div class="giro__caras" role="img"
              aria-label="Maqueta de la caseta de El Escaparate: rótulo en las dos fachadas, toldo de rayas sobre los escaparates acristalados y, por detrás, la puerta de servicio sobre una acera de adoquín.">
-          <img class="giro__cara" data-visible="si" src="assets/img/modelo-frente.png"
-               alt="" width="654" height="480" fetchpriority="high" decoding="async">
-          <img class="giro__cara" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-               data-src="assets/img/modelo-derecha.png" alt="" width="654" height="480" decoding="async">
-          <img class="giro__cara" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-               data-src="assets/img/modelo-detras.png" alt="" width="654" height="480" decoding="async">
-          <img class="giro__cara" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-               data-src="assets/img/modelo-izquierda.png" alt="" width="654" height="480" decoding="async">
+          <picture class="giro__cara" data-visible="si">
+            <source srcset="assets/img/modelo-frente.webp" type="image/webp">
+            <img src="assets/img/modelo-frente.png" alt="" width="654" height="480" fetchpriority="high" decoding="async">
+          </picture>
+          <picture class="giro__cara" data-webp="assets/img/modelo-derecha.webp" data-png="assets/img/modelo-derecha.png">
+            <source type="image/webp">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" width="654" height="480" decoding="async">
+          </picture>
+          <picture class="giro__cara" data-webp="assets/img/modelo-detras.webp" data-png="assets/img/modelo-detras.png">
+            <source type="image/webp">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" width="654" height="480" decoding="async">
+          </picture>
+          <picture class="giro__cara" data-webp="assets/img/modelo-izquierda.webp" data-png="assets/img/modelo-izquierda.png">
+            <source type="image/webp">
+            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" width="654" height="480" decoding="async">
+          </picture>
         </div>
 
         <div class="giro__pie">
-          <span>El estudio por sus cuatro caras. Arrástralo para girarlo.</span>
+          <span>Arrástralo para girarlo.</span>
           <div class="conmutador" role="group" aria-label="Giro del modelo">
             <button type="button" data-gira="-1" aria-label="Vista anterior">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>

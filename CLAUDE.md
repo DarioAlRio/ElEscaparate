@@ -85,8 +85,9 @@ assets/css/estilos.css    Sistema entero, 18 secciones numeradas en comentarios
 assets/js/proyectos.js    Datos del portfolio — lo único que se toca a menudo
 assets/js/escaparates.js  Motor de capturas, fichas y visor
 assets/js/sitio.js        Menú, año, .entra, formulario, varilla, cierre y giro
-assets/img/modelo-*.png   Las cuatro vistas de la maqueta. Ver §5
-_recorta-modelo.ps1       Las produce desde los imagen3d-* de la raíz
+assets/img/modelo-*.webp  Las cuatro vistas de la maqueta. Ver §5
+assets/img/modelo-*.png   Las mismas, de respaldo para quien no lea WebP
+_recorta-modelo.ps1       Produce los PNG desde los imagen3d-* de la raíz
 vercel.json               cleanUrls + los 301 de las direcciones antiguas
 .htaccess                 Lo mismo para Apache, por si se muda
 robots.txt · sitemap.xml
@@ -198,6 +199,13 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   contacto. Con un solo umbral no salen las dos cosas. Y el alfa se mete medio
   píxel hacia dentro: sin eso queda un reborde de píxeles mezclados con el
   tostado que sobre el azul de la portada se ve como un halo claro.
+- **Los WebP no los hace este equipo: los hace el navegador.** No hay
+  ImageMagick, ni Python, ni ffmpeg, y GDI+ no sabe escribirlos. La vía que
+  funciona es cargar el PNG en un `canvas` y pedirle `toBlob(…, "image/webp")`,
+  con un receptor de Node de usar y tirar que los guarde en disco. Pesan la
+  décima parte del PNG con la misma medida y la misma transparencia: 142 KB
+  las cuatro vistas frente a 1.536 KB. Si se regeneran los PNG, **hay que
+  rehacer los WebP**: nada lo hace solo.
 - **El detector de antipatrones lee dentro de los comentarios HTML.** Escribir
   `<` seguido de `img>` en un comentario le hace contar una imagen rota. Si
   `detect.mjs` señala una línea que es prosa, es esto: cambia la redacción.
