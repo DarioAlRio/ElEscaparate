@@ -180,13 +180,21 @@ button, input, select, textarea {
 
      El corte de la máscara se difumina tres cuartos de píxel, en medida
      absoluta y no en porcentaje: el porcentaje encoge con el radio y en los
-     toldos finos el borde volvía a quedar dentado. */
+     toldos finos el borde volvía a quedar dentado.
+
+     La banda recta se alarga 1px y pisa el arranque de los festones. Son dos
+     capas de máscara distintas y donde se tocaban quedaba una junta: en
+     pantallas de densidad fraccionaria —cualquier móvil— esa junta cae entre
+     píxeles físicos, cada capa se suaviza por su lado, las dos opacidades no
+     suman 1 y se transparentaba el azul de detrás. Se veía como una raya
+     oscura cruzando las lunas de lado a lado. Ese píxel de solape solo tapa el
+     vértice donde dos lunas ya se tocan, así que la silueta no cambia. */
   -webkit-mask:
     radial-gradient(circle var(--festón) at 50% 0, #000 calc(var(--festón) - 0.75px), transparent var(--festón)) left bottom / var(--franja) var(--festón) repeat-x,
-    linear-gradient(#000 0 0) left top / 100% calc(100% - var(--festón)) no-repeat;
+    linear-gradient(#000 0 0) left top / 100% calc(100% - var(--festón) + 1px) no-repeat;
   mask:
     radial-gradient(circle var(--festón) at 50% 0, #000 calc(var(--festón) - 0.75px), transparent var(--festón)) left bottom / var(--franja) var(--festón) repeat-x,
-    linear-gradient(#000 0 0) left top / 100% calc(100% - var(--festón)) no-repeat;
+    linear-gradient(#000 0 0) left top / 100% calc(100% - var(--festón) + 1px) no-repeat;
 }
 
 .toldo--azul {
