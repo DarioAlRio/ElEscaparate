@@ -97,20 +97,34 @@ Tres, y los tres son CSS, sin imágenes:
 ## La maqueta de la portada
 
 Desde el 17/08/2026 la portada enseña la caseta del estudio dando la vuelta
-(`.giro`). Son **cuatro renders del mismo modelo a 90°** con el fondo recortado,
-superpuestos y encadenados con un fundido de 0,22 s. No hay giro continuo
-posible con cuatro fotos: el fundido es lo que más se le parece, y es corto a
-propósito, porque a mitad de camino se ven las dos vistas a la vez y salen tres
-rótulos superpuestos.
+(`.giro`). Son **cuatro renders del mismo modelo a 90°** con el fondo recortado
+y superpuestos.
+
+**El paso de una vista a la siguiente es un giro en 3D, no un fundido.** Con
+`perspective: 1500px` en el lienzo, la vista que entra llega torcida 38° y se
+endereza mientras aparece, y la que sale sigue de largo otros 38° hacia el
+mismo lado mientras se va. Las dos giran a la vez y en el mismo sentido, y eso
+es lo que el ojo lee como una vuelta en lugar de como un cambio de diapositiva.
+Dura 0,34 s.
+
+El signo importa: un `rotateY` positivo aleja el canto derecho, o sea que la
+fachada delantera se va hacia la izquierda del que mira, que es justo el
+sentido en el que gira la caseta de una foto a la siguiente. Al revés, el
+volumen gira hacia un lado y las fotos cuentan que va hacia el otro.
+
+Sigue sin ser un giro natural, y no puede serlo: **cuatro fotogramas son saltos
+de 90°**. Lo natural pide uno cada 10–15°, o sea 24–36 vistas.
 
 - Gira sola cada 2,6 s **hasta que el visitante toca algo**. En cuanto arrastra
   o pulsa, manda él y no vuelve a arrancar sola.
 - Se puede arrastrar (64 px de dedo = un cuarto de vuelta) y hay tres botones,
-  con el mismo `.conmutador` que el resto del sitio.
+  con el mismo `.conmutador` que el resto del sitio. Con el modelo agarrado no
+  hay ni giro ni fundido: la vista va pegada al dedo.
 - Detrás lleva un halo turquesa muy tenue: la caseta es azul marino sobre el
   azul de azulejo del fondo y sin él se pierde el canto de las fachadas.
-- Solo la primera vista se carga con la página; las otras tres (1,1 MB) se
-  piden al terminar de cargar.
+- **WebP con el PNG de respaldo**, en `<picture>`: 142 KB las cuatro, frente a
+  1.536 KB en PNG. Solo la primera vista se carga con la página; las otras tres
+  se piden al terminar de cargar.
 
 ## Movimiento
 

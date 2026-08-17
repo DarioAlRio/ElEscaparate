@@ -339,29 +339,51 @@
   var PAUSA = 2600;       /* lo que se queda quieta cada vista */
   var PASO = 64;          /* píxeles de arrastre que valen un cuarto de vuelta */
   var quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var actual = 0;
   var reloj = null;
   var boton = caja.querySelector("[data-anda]");
 
-  function pinta(indice) {
+  /* Se lleva la cuenta sin doblar (0, 1, 2, 3, 4, 5…) además de la vista que
+     toca. Hace falta para saber el sentido de cada paso: de la 3 a la 0 se va
+     hacia delante, y con los índices ya doblados eso parece un salto atrás de
+     tres, que giraría el modelo al revés. */
+  var crudo = 0;
+  var actual = 0;
+
+  function pinta(destino) {
     var total = caras.length;
-    actual = ((indice % total) + total) % total;
+    var sentido = destino === crudo ? 0 : (destino > crudo ? 1 : -1);
+    var previo = actual;
+
+    crudo = destino;
+    actual = ((destino % total) + total) % total;
+    if (actual === previo) return;
+
+    if (sentido) caja.setAttribute("data-sentido", sentido);
+
     for (var i = 0; i < total; i++) {
+      caras[i].removeAttribute("data-saliendo");
       if (i === actual) caras[i].setAttribute("data-visible", "si");
       else caras[i].removeAttribute("data-visible");
     }
+    /* La que se va sigue girando hacia el mismo lado que la que llega. */
+    caras[previo].setAttribute("data-saliendo", "si");
     caja.setAttribute("data-cara", actual);
   }
 
-  /* Las otras tres imágenes pesan medio mega entre las tres y la portada se
-     pinta perfectamente sin ellas. Se piden cuando la página ya ha terminado
-     de cargar, para no competir con la hoja de estilos ni con la primera. */
+  /* Las otras tres imágenes no hacen falta para pintar la portada. Se piden
+     cuando la página ya ha terminado de cargar, para no competir con la hoja
+     de estilos ni con la primera vista. */
   function trae() {
     for (var i = 0; i < caras.length; i++) {
-      var pendiente = caras[i].getAttribute("data-src");
-      if (!pendiente) continue;
-      caras[i].src = pendiente;
-      caras[i].removeAttribute("data-src");
+      var webp = caras[i].getAttribute("data-webp");
+      var png = caras[i].getAttribute("data-png");
+      if (!png) continue;
+      var fuente = caras[i].querySelector("source");
+      if (fuente && webp) fuente.srcset = webp;
+      var imagen = caras[i].querySelector("img");
+      if (imagen) imagen.src = png;
+      caras[i].removeAttribute("data-webp");
+      caras[i].removeAttribute("data-png");
     }
   }
 
@@ -377,7 +399,7 @@
     reloj = setInterval(function () {
       /* Con la pestaña de fondo no hay nada que enseñar. */
       if (document.hidden) return;
-      pinta(actual + 1);
+      pinta(crudo + 1);
     }, PAUSA);
     if (boton) boton.textContent = "Parar";
   }
@@ -402,7 +424,7 @@
   caja.querySelectorAll("[data-gira]").forEach(function (mando) {
     mando.addEventListener("click", function () {
       para();
-      pinta(actual + (parseInt(mando.getAttribute("data-gira"), 10) || 1));
+      pinta(crudo + (parseInt(mando.getAttribute("data-gira"), 10) || 1));
     });
   });
 
@@ -415,7 +437,7 @@
     if (ev.button !== undefined && ev.button !== 0) return;
     para();
     origen = ev.clientX;
-    partida = actual;
+    partida = crudo;
     lienzo.setAttribute("data-agarrado", "si");
     if (lienzo.setPointerCapture) lienzo.setPointerCapture(ev.pointerId);
   });
