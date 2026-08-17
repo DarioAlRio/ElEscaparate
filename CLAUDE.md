@@ -73,9 +73,11 @@ assets/js/sitio.js        Menú, año, .entra, formulario, varilla y cierre
 vercel.json               cleanUrls + los 301 de las direcciones antiguas
 .htaccess                 Lo mismo para Apache, por si se muda
 robots.txt · sitemap.xml
-favicon-conborde.svg      El que enlazan las diez páginas: logo con filete
+icono-buscador-192.png    El ÚNICO que enlazan las diez páginas. Ver §5
+favicon.ico               16/32/48 en DIB. En la raíz, sin enlazar: solo
+                          para quien lo busque por costumbre
+favicon-conborde.svg      Logo con filete. Ya no se enlaza; es el original
 favicon.svg               El mismo sin filete, para fondos oscuros
-favicon.ico               16/32/48 en DIB, generado desde el SVG con filete
 _dev-servidor.js          No se sube al hosting
 ```
 
@@ -137,12 +139,21 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   cuarto argumento, `estricto`: reintenta Microlink y, si no, no hay captura.
 - **Bermellón doble:** `--accion` no llega a 4,5:1 sobre la baldosa. Texto y
   grafismo sobre claro usan `--accion-tinta`; el vivo solo relleno o sobre azul.
-- **El favicon de Google va por libre.** Google guarda el icono en un caché
-  aparte del índice y lo refresca a su ritmo, semanas después: puede enseñar el
-  favicon viejo con la página ya reindexada. Antes de tocar nada, mira qué tiene
-  guardado en `google.com/s2/favicons?domain=elescaparateweb.com&sz=64` y
-  compáralo con el que sirve el dominio. Si el dominio sirve el bueno, no hay
-  nada que arreglar: solo esperar, o pedir reindexación en Search Console.
+- **El favicon de Google va por libre, y su caché es por dirección.** Google
+  guarda el icono aparte del índice y lo refresca a su ritmo. Peor: cachea la
+  **URL**, así que cambiarle el contenido a un archivo que ya conoce no le hace
+  efecto ninguno. Aquí se cambió `favicon.svg` por dentro y siguió sirviendo el
+  logo viejo semanas después; a `sz=256` lo devolvía nítido, prueba de que
+  tenía cacheado el SVG antiguo entero y de que pedirle tamaños sin cachear
+  —el truco que se lee por ahí— no arregla nada en ese caso.
+  Por eso las diez páginas enlazan **un solo** `rel="icon"`, y es
+  `icono-buscador-192.png`: dirección nueva que Google no había visto, PNG
+  (su documentación no menciona el SVG entre los formatos) y 192 px, porque
+  pide **mayor de 48×48**. Una sola declaración a propósito: Google se apoya en
+  la etiqueta `<link>` de la portada y no documenta qué hace con varias.
+  Si algún día hay que repetirlo: archivo con nombre nuevo, no editar el que
+  está. Y luego, reindexación en Search Console, que es lo único que dispara
+  la actualización de verdad.
 - **Sin bloqueo de scroll al bajar el cierre:** el `overflow:hidden` en el body
   dejaba una franja clara a la derecha. El cierre es `fixed` y ya tapa todo.
 
