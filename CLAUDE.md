@@ -19,13 +19,19 @@ Este archivo es lo demás: cómo se trabaja aquí y qué trampas ya se han pagad
 
 1. **Sin build, sin npm, sin dependencias.** HTML + CSS + JS a pelo.
 2. **Sin módulos ES.** Los `<script>` son clásicos, en IIFE con `"use strict"`.
-   Motivo: `type="module"` no funciona bajo `file://`, y la web tiene que abrirse
-   con **doble clic** en `index.html`. Esa condición no se negocia.
-3. **Enlaces internos relativos y con `.html`** (`diseno-web.html`). El `.html` lo
-   quita el servidor, nunca el código: la web está en **Vercel** y lo hace
-   `vercel.json` con `cleanUrls`. `canonical`, `og:url` y `sitemap.xml` sí
-   llevan la dirección limpia. Ya se intentó quitar la extensión del HTML:
-   rompió el doble clic.
+   Nació de que `type="module"` no funciona bajo `file://`; esa condición se
+   levantó el 17/08/2026 (ver la regla 3), pero la forma se queda: no hay build
+   que empaquete módulos y así el orden de carga es el del HTML, sin sorpresas.
+3. **Enlaces internos absolutos de raíz y sin extensión** (`/diseno-web`, y `/`
+   para la portada). Igual que `canonical`, `og:url` y `sitemap.xml`, que ya iban
+   así. Lo sirve **Vercel** con `cleanUrls` en `vercel.json`, y el servidor de
+   desarrollo hace lo mismo.
+   **Contrapartida, decidida el 17/08/2026: la web ya no se abre con doble
+   clic.** Bajo `file://` nadie resuelve `/diseno-web`, así que para verla en
+   local hay que arrancar `node _dev-servidor.js`. Antes los enlaces llevaban
+   `.html` justo para conservar el doble clic; se cambió para ahorrar el salto
+   308 que costaba cada clic del menú. Si algún día vuelve a hacer falta abrirla
+   sin servidor, hay que devolver la extensión a los `href` de las diez páginas.
 4. **Sin backend.** Capturas a servicios públicos, formulario a endpoint externo.
 5. **Español de España, tuteo, registro formal, sin jerga.** Se tutea, pero el
    tono es sobrio: nada de coloquialismos («vale cualquier web», «sale barato»,
@@ -48,6 +54,8 @@ node _dev-servidor.js
 
 Sirve la carpeta en `http://localhost:5174` y resuelve rutas sin extensión igual
 que el hosting. `node` del sistema es 16.10 y basta: el servidor es CommonJS.
+**Es obligatorio para ver la web**: desde el 17/08/2026 los enlaces no llevan
+extensión y abrir `index.html` a pelo deja la navegación muerta.
 
 ```bash
 node "C:\Users\Dario\.claude\skills\impeccable\scripts\detect.mjs" index.html
@@ -88,9 +96,10 @@ favicon.svg               El mismo sin filete, para fondos oscuros
 _dev-servidor.js          No se sube al hosting
 ```
 
-Los nombres de archivo **son** las direcciones. Renombrar una página obliga a
-tocar los enlaces de las siete, su `canonical` y su `og:url`, `sitemap.xml`, y a
-dejar el 301 de la vieja en `vercel.json` y en `.htaccess`.
+Los nombres de archivo **son** las direcciones, aunque ya no se escriban con
+extensión en los enlaces. Renombrar una página obliga a tocar los enlaces de las
+diez, su `canonical` y su `og:url`, `sitemap.xml`, y a dejar el 301 de la vieja
+en `vercel.json` y en `.htaccess`.
 
 Para localizar CSS, busca la cabecera numerada (`/* --- 9. Oferta`). Añade
 reglas **dentro de su sección**, no al final del archivo.
@@ -181,7 +190,7 @@ afirmar que se ha comprobado.
 1. `detect.mjs` en exit 0 en cada página tocada.
 2. Contraste medido si has tocado color, a 390 px y a 1440 px.
 3. Sin desbordes horizontales a 390 px.
-4. Sigue abriendo con doble clic (sin servidor).
+4. Navegación comprobada con `node _dev-servidor.js`, no abriendo el archivo.
 5. Si has cambiado precios, plazos, contacto o condiciones, actualiza también
    `PERSONALIZAR.md`; si has cambiado el sistema visual, `DESIGN.md`.
 
