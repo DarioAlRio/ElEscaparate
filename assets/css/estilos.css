@@ -167,6 +167,15 @@ button, input, select, textarea {
      Con un radio menor —antes eran 13 de 34— quedaba una muesca plana a cada
      lado y el borde parecía una sierra, no una guirnalda. */
   --festón: calc(var(--franja) / 2);
+  /* La luna es una elipse, no un círculo: se ensancha sin ahondarse. Con el
+     radio horizontal justo en media raya —el círculo— dos lunas vecinas solo
+     se rozan en un punto y debajo se abre un pico de la altura entera del
+     festón. Pasándolo a 0,56 de la raya, la elipse desborda su casilla, el
+     patrón la recorta contra la de al lado y las dos quedan pegadas a lo largo
+     de un tramo. El radio vertical no se toca, así que el toldo cuelga lo
+     mismo de siempre. Va en proporción a la raya para que el toldo fino salga
+     igual sin tocar nada. */
+  --radio: calc(var(--franja) * 0.56);
   height: var(--alto-toldo);
   background: repeating-linear-gradient(
     90deg,
@@ -190,10 +199,10 @@ button, input, select, textarea {
      oscura cruzando las lunas de lado a lado. Ese píxel de solape solo tapa el
      vértice donde dos lunas ya se tocan, así que la silueta no cambia. */
   -webkit-mask:
-    radial-gradient(circle var(--festón) at 50% 0, #000 calc(var(--festón) - 0.75px), transparent var(--festón)) left bottom / var(--franja) var(--festón) repeat-x,
+    radial-gradient(ellipse var(--radio) var(--festón) at 50% 0, #000 calc(var(--radio) - 0.75px), transparent var(--radio)) left bottom / var(--franja) var(--festón) repeat-x,
     linear-gradient(#000 0 0) left top / 100% calc(100% - var(--festón) + 1px) no-repeat;
   mask:
-    radial-gradient(circle var(--festón) at 50% 0, #000 calc(var(--festón) - 0.75px), transparent var(--festón)) left bottom / var(--franja) var(--festón) repeat-x,
+    radial-gradient(ellipse var(--radio) var(--festón) at 50% 0, #000 calc(var(--radio) - 0.75px), transparent var(--radio)) left bottom / var(--franja) var(--festón) repeat-x,
     linear-gradient(#000 0 0) left top / 100% calc(100% - var(--festón) + 1px) no-repeat;
 }
 
