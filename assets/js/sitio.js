@@ -76,11 +76,11 @@
   function revisa(campo) {
     var valor = (campo.value || "").trim();
     if (campo.hasAttribute("required") && !valor) {
-      marca(campo, campo.getAttribute("data-falta") || "Rellena este campo.");
+      marca(campo, campo.getAttribute("data-falta") || "Este campo es obligatorio.");
       return false;
     }
     if (campo.type === "email" && valor && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(valor)) {
-      marca(campo, "Repasa el correo: falta algo para poder contestarte.");
+      marca(campo, "Revisa el correo: la dirección no parece completa.");
       return false;
     }
     if (campo.type === "url" && valor && !/^([a-z]+:\/\/)?[^\s.]+\.[^\s]{2,}$/i.test(valor)) {
@@ -112,7 +112,7 @@
 
     if (fallo) {
       aviso.setAttribute("data-visible", "si");
-      aviso.textContent = "Falta algo por revisar. Te lo he marcado más abajo.";
+      aviso.textContent = "Faltan datos por revisar. Los he señalado más abajo.";
       fallo.focus();
       return false;
     }
@@ -160,7 +160,7 @@
     var numero = forma.getAttribute("data-whatsapp");
     if (!numero) return;
     var url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje());
-    avisa("Abriendo WhatsApp con el mensaje escrito. Solo te queda darle a enviar.");
+    avisa("Abriendo WhatsApp con el mensaje redactado. Solo queda enviarlo.");
     var ventana = window.open(url, "_blank", "noopener");
     if (!ventana) window.location.href = url;
   }
@@ -173,7 +173,7 @@
       forma.submit();
       return;
     }
-    avisa("Abriendo tu programa de correo con el mensaje escrito.");
+    avisa("Abriendo tu programa de correo con el mensaje redactado.");
     var carta = "mailto:" + forma.getAttribute("data-correo") +
       "?subject=" + encodeURIComponent("Presupuesto desde la web") +
       "&body=" + encodeURIComponent(mensaje());
@@ -357,7 +357,7 @@
     cartel.className = "salvavidas";
     cartel.setAttribute("role", "status");
     cartel.innerHTML =
-      '<p>¿No se te ha abierto el correo? Tu equipo no tiene ninguno configurado.</p>' +
+      '<p>¿No se ha abierto el correo? Tu equipo no tiene ningún programa configurado.</p>' +
       '<a data-gmail href="#" target="_blank" rel="noopener">Escribir desde el navegador</a>' +
       '<button type="button" data-copia>Copiar la dirección</button>' +
       '<button type="button" class="salvavidas__cierra" data-cierra>Cerrar</button>';

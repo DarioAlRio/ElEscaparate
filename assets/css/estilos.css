@@ -1456,10 +1456,23 @@ button, input, select, textarea {
   color: var(--cal);
   padding-block: var(--e5) var(--e3);
 }
+/* Las columnas van fijadas a mano y no con auto-fit. Motivo medido: la última
+   columna lleva la dirección de correo, que en una sola línea ocupa 277 px, y
+   el reparto automático le daba entre 209 y 276 px en casi toda la escala de
+   escritorio. El correo se partía en dos líneas prácticamente siempre.
+   Los dos cortes están puestos donde la columna de contacto pasa de 277 px:
+   a 46rem cada mitad mide 332 px, y a 68rem la última, que va a 1,4fr, mide
+   300 px. Si algún día se alarga la dirección, vuelve a medir estos números. */
 .pie__rejilla {
   display: grid;
   gap: var(--e4);
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+  grid-template-columns: 1fr;
+}
+@media (min-width: 46rem) {
+  .pie__rejilla { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 68rem) {
+  .pie__rejilla { grid-template-columns: 1fr 1fr 1fr 1.4fr; }
 }
 .pie h3 {
   font-size: var(--t-xs);
@@ -1480,11 +1493,11 @@ button, input, select, textarea {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  /* Una dirección de correo no tiene espacios, así que su ancho mínimo es la
-     dirección entera: en la rejilla del pie no cabía y se salía de la pantalla
-     entre 500 y 600 px de ancho. Con «anywhere» el ancho mínimo pasa a ser una
-     letra y parte donde haga falta. Ojo: «break-word» aquí no sirve, porque no
-     cambia el ancho mínimo y el desborde seguiría igual. */
+  /* Red de seguridad, no el reparto normal: las columnas del pie ya están
+     medidas para que la dirección quepa en una línea a partir de 320 px de
+     pantalla. Por debajo de eso —ningún móvil real— parte en vez de salirse.
+     Tiene que ser «anywhere»: una dirección de correo no tiene espacios, y
+     «break-word» no reduce el ancho mínimo, así que desbordaría igual. */
   overflow-wrap: anywhere;
 }
 .pie__icono {
