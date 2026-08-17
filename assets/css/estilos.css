@@ -751,6 +751,73 @@ button, input, select, textarea {
   border-radius: 6px;
 }
 
+/* --- 8 bis. El modelo del estudio, girando ------------------------------ */
+
+/* Cuatro renders del mismo modelo a 90 grados, uno encima de otro, y un
+   fundido para pasar de uno al siguiente. Con cuatro fotos y sin vídeo no hay
+   giro continuo posible; el fundido corto es lo que más se le parece. */
+
+.giro {
+  display: grid;
+  gap: var(--e2);
+}
+
+.giro__caras {
+  position: relative;
+  /* Fijo desde el HTML: reserva el hueco antes de que baje la primera imagen
+     y la portada no da el tirón al cargar. */
+  aspect-ratio: 654 / 480;
+  cursor: grab;
+  /* El arrastre horizontal es del modelo; el vertical se lo queda la página.
+     Sin esto, en móvil el dedo se queda enganchado y no se puede pasar de la
+     portada. */
+  touch-action: pan-y;
+  /* La caseta es azul marino sobre el azul de azulejo del fondo: sin este
+     halo por detrás, el canto de las fachadas en sombra se pierde. */
+  background: radial-gradient(58% 54% at 50% 56%, rgba(59, 179, 201, 0.15), transparent 72%);
+}
+.giro__caras[data-agarrado="si"] { cursor: grabbing; }
+
+.giro__cara {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  /* Corto a propósito. A mitad del fundido se ven las dos vistas a la vez y
+     salen tres rótulos y dos toldos superpuestos; cuanto menos dure ese
+     momento, mejor. Por debajo de esto ya no disimula el salto de 90°. */
+  transition: opacity 0.22s linear;
+}
+.giro__cara[data-visible="si"] { opacity: 1; }
+
+/* Con el modelo agarrado no hay fundido: la vista tiene que ir pegada al
+   dedo, y un fundido de por medio se siente como retraso. */
+.giro__caras[data-agarrado="si"] .giro__cara { transition: none; }
+
+.giro__pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--e2);
+  font-size: var(--t-xs);
+  color: var(--azul-suave);
+}
+
+.giro__pie .conmutador button {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 0.55rem;
+}
+.giro__pie .conmutador svg { width: 14px; height: 14px; }
+.giro__pie .conmutador button[data-anda] { padding-inline: 0.75rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .giro__cara { transition: none; }
+}
+
 /* --- 9. Oferta: filas de toldo, no tarjetas ----------------------------- */
 
 .oferta { border-top: 1px solid var(--cal-linea); }

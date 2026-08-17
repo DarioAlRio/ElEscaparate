@@ -23,9 +23,13 @@ móvil, sin instalar nada. El estudio usa eso para dos cosas:
 1. **El portfolio se mantiene solo.** Cada trabajo es una URL; la miniatura se
    genera desde fuera. Dario añade un cliente escribiendo una línea en
    `assets/js/proyectos.js`, no exportando imágenes.
-2. **La captación empieza por el espejo.** El visitante pega la dirección de su
-   web actual en la portada y la ve como la ve un desconocido. Nadie discute su
-   propia captura.
+2. **El espejo.** El visitante pega la dirección de su web actual y la ve como
+   la ve un desconocido. Nadie discute su propia captura.
+
+   **Dónde está, desde el 17/08/2026: en `/trabajos`, ya no en la portada.**
+   Dario pidió que el hueco de la portada lo ocupase la maqueta del estudio
+   girando —cuatro renders de la caseta a 90°—, y que el espejo se quitase de
+   ahí. Sigue entero en `/trabajos`, que es la otra página donde ya estaba.
 
 ## A quién le habla
 
