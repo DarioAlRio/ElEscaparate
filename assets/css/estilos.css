@@ -760,10 +760,28 @@ button, input, select, textarea {
 .giro {
   display: grid;
   gap: var(--e2);
+  /* Cuánto se tuerce cada vista al entrar y al salir. El signo lo pone el
+     sentido del giro, que marca sitio.js en data-sentido.
+
+     Es NEGATIVO para el sentido de avance, y no es un capricho: en CSS un
+     rotateY positivo aleja el canto derecho, o sea que la fachada de delante
+     se va hacia la izquierda del que mira. Ese es justo el sentido en el que
+     gira la caseta de una foto a la siguiente (frente → derecha → detrás),
+     así que la que entra tiene que venir del lado contrario, en negativo, y
+     enderezarse. Con el signo al revés, el volumen gira hacia un lado y las
+     fotos cuentan que va hacia el otro. Comprobado leyendo la matriz. */
+  --vuelta: -38deg;
 }
+.giro[data-sentido="-1"] { --vuelta: 38deg; }
 
 .giro__caras {
   position: relative;
+  /* Sin perspectiva, rotateY solo aplasta la imagen y parece una persiana.
+     Con ella, el canto que se acerca crece y el que se aleja mengua, que es
+     lo que el ojo lee como una vuelta. El punto de fuga se baja al centro de
+     la caseta, que no es el centro del lienzo. */
+  perspective: 1500px;
+  perspective-origin: 50% 56%;
   /* Fijo desde el HTML: reserva el hueco antes de que baje la primera imagen
      y la portada no da el tirón al cargar. */
   aspect-ratio: 654 / 480;
@@ -778,22 +796,41 @@ button, input, select, textarea {
 }
 .giro__caras[data-agarrado="si"] { cursor: grabbing; }
 
+/* Cada vista es un <picture>: WebP con el PNG de respaldo dentro. */
 .giro__cara {
   position: absolute;
   inset: 0;
+  opacity: 0;
+  transform: rotateY(var(--vuelta));
+  /* Las que esperan turno no animan nada: saltan a su posición de salida sin
+     que se note, porque están a opacidad cero. Solo animan las dos que se
+     ven, la que entra y la que sale. */
+  transition: none;
+}
+.giro__cara > img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  opacity: 0;
-  /* Corto a propósito. A mitad del fundido se ven las dos vistas a la vez y
-     salen tres rótulos y dos toldos superpuestos; cuanto menos dure ese
-     momento, mejor. Por debajo de esto ya no disimula el salto de 90°. */
-  transition: opacity 0.22s linear;
 }
-.giro__cara[data-visible="si"] { opacity: 1; }
 
-/* Con el modelo agarrado no hay fundido: la vista tiene que ir pegada al
-   dedo, y un fundido de por medio se siente como retraso. */
+/* La que entra viene torcida y se endereza; la que sale sigue de largo hacia
+   el otro lado. Las dos giran en el mismo sentido a la vez, y eso es lo que
+   se lee como una vuelta en lugar de como un cambio de diapositiva. */
+.giro__cara[data-visible="si"],
+.giro__cara[data-saliendo="si"] {
+  transition: opacity 0.34s linear, transform 0.34s cubic-bezier(0.33, 0.7, 0.3, 1);
+}
+.giro__cara[data-visible="si"] {
+  opacity: 1;
+  transform: rotateY(0deg);
+}
+.giro__cara[data-saliendo="si"] {
+  transform: rotateY(calc(-1 * var(--vuelta)));
+}
+
+/* Con el modelo agarrado no hay ni giro ni fundido: la vista tiene que ir
+   pegada al dedo, y cualquier transición de por medio se siente como retraso. */
 .giro__caras[data-agarrado="si"] .giro__cara { transition: none; }
 
 .giro__pie {
@@ -815,7 +852,9 @@ button, input, select, textarea {
 .giro__pie .conmutador button[data-anda] { padding-inline: 0.75rem; }
 
 @media (prefers-reduced-motion: reduce) {
-  .giro__cara { transition: none; }
+  .giro__cara,
+  .giro__cara[data-visible="si"],
+  .giro__cara[data-saliendo="si"] { transition: none; transform: none; }
 }
 
 /* --- 9. Oferta: filas de toldo, no tarjetas ----------------------------- */
