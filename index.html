@@ -129,38 +129,45 @@
         </p>
       </div>
 
-      <!-- El mecanismo: pega una dirección y sube la persiana -->
-      <div class="escaparate-vivo" data-escaparate-vivo data-estado="cerrado">
-        <div class="toldo toldo--fino escaparate-vivo__toldo" aria-hidden="true"></div>
+      <!-- El estudio en maqueta, dando la vuelta.
 
-        <form class="escaparate-vivo__forma" novalidate>
-          <label for="url-espejo">Comprueba cómo se ve tu web desde fuera</label>
-          <input id="url-espejo" type="text" inputmode="url" autocomplete="url"
-                 placeholder="tunegocio.es" aria-describedby="pie-espejo">
-          <button class="boton boton--pequeno" type="submit">Subir la persiana</button>
-        </form>
+           Son cuatro renders del mismo modelo a 90 grados, no un giro
+           continuo: entre vista y vista hay un fundido corto, que a esa
+           velocidad se lee como movimiento. El orden en que están escritas ES
+           el del giro; si se reordenan, el modelo pega saltos.
 
-        <div class="marco" data-vista="escritorio">
-          <div class="persiana">
-            <span class="cartel">CERRADO</span>
-            <p>Escribe una dirección y la persiana se levanta. La captura se hace en ese momento, desde fuera.</p>
-          </div>
-          <div class="marco__cargando" role="status" aria-live="polite">
-            <span class="oculto-visual">Generando la captura…</span>
-          </div>
-          <div class="marco__aviso" role="alert">
-            <span>
-              <strong>No ha salido</strong>
-              <span data-mensaje></span>
-            </span>
-          </div>
+           Solo la primera trae su imagen. Las otras tres pesan 1,1 MB entre
+           las tres y no hacen falta para pintar la portada, así que la
+           dirección va en data-src y las pide sitio.js cuando la página ya ha
+           terminado de cargar. Sin JavaScript se queda la primera fija, que es
+           una imagen perfectamente válida.
+
+           Mientras tanto llevan un píxel transparente por src, no el atributo
+           vacío: sin src son imágenes rotas para el navegador, aunque aquí
+           estén a opacidad cero. -->
+      <div class="giro" data-giro data-cara="0">
+        <div class="giro__caras" role="img"
+             aria-label="Maqueta de la caseta de El Escaparate: rótulo en las dos fachadas, toldo de rayas sobre los escaparates acristalados y, por detrás, la puerta de servicio sobre una acera de adoquín.">
+          <img class="giro__cara" data-visible="si" src="assets/img/modelo-frente.png"
+               alt="" width="654" height="480" fetchpriority="high" decoding="async">
+          <img class="giro__cara" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+               data-src="assets/img/modelo-derecha.png" alt="" width="654" height="480" decoding="async">
+          <img class="giro__cara" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+               data-src="assets/img/modelo-detras.png" alt="" width="654" height="480" decoding="async">
+          <img class="giro__cara" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+               data-src="assets/img/modelo-izquierda.png" alt="" width="654" height="480" decoding="async">
         </div>
 
-        <div class="escaparate-vivo__pie" id="pie-espejo">
-          <span>Funciona con cualquier web pública, incluida la de tu competencia.</span>
-          <div class="conmutador" role="group" aria-label="Ancho de pantalla">
-            <button type="button" data-vista="escritorio" aria-pressed="true">Escritorio</button>
-            <button type="button" data-vista="movil" aria-pressed="false">Móvil</button>
+        <div class="giro__pie">
+          <span>El estudio por sus cuatro caras. Arrástralo para girarlo.</span>
+          <div class="conmutador" role="group" aria-label="Giro del modelo">
+            <button type="button" data-gira="-1" aria-label="Vista anterior">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
+            </button>
+            <button type="button" data-anda>Parar</button>
+            <button type="button" data-gira="1" aria-label="Vista siguiente">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+            </button>
           </div>
         </div>
       </div>
