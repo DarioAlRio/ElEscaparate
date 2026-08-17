@@ -94,18 +94,37 @@ Tres, y los tres son CSS, sin imágenes:
 3. **Reflejo** (`.escaparate__lienzo::after`): una diagonal clara que barre el
    cristal al pasar el ratón.
 
+## La maqueta de la portada
+
+Desde el 17/08/2026 la portada enseña la caseta del estudio dando la vuelta
+(`.giro`). Son **cuatro renders del mismo modelo a 90°** con el fondo recortado,
+superpuestos y encadenados con un fundido de 0,22 s. No hay giro continuo
+posible con cuatro fotos: el fundido es lo que más se le parece, y es corto a
+propósito, porque a mitad de camino se ven las dos vistas a la vez y salen tres
+rótulos superpuestos.
+
+- Gira sola cada 2,6 s **hasta que el visitante toca algo**. En cuanto arrastra
+  o pulsa, manda él y no vuelve a arrancar sola.
+- Se puede arrastrar (64 px de dedo = un cuarto de vuelta) y hay tres botones,
+  con el mismo `.conmutador` que el resto del sitio.
+- Detrás lleva un halo turquesa muy tenue: la caseta es azul marino sobre el
+  azul de azulejo del fondo y sin él se pierde el canto de las fachadas.
+- Solo la primera vista se carga con la página; las otras tres (1,1 MB) se
+  piden al terminar de cargar.
+
 ## Movimiento
 
 **Un solo momento autorizado: la persiana sube.** `translateY(-101%)` con
 `cubic-bezier(0.16, 1, 0.3, 1)` en 0.85 s, más el desvanecido encadenado.
-Es la respuesta a la única acción que importa en la portada.
+Es la respuesta a la única acción que importa en el espejo.
 
 Lo demás son transiciones de estado cortas (0.16–0.25 s) en botones, filas y
-fichas. No hay animación de entrada por sección: solo la rejilla del portfolio
-usa `.entra`, una vez.
+fichas, más el fundido del giro de la portada. No hay animación de entrada por
+sección: solo la rejilla del portfolio usa `.entra`, una vez.
 
 `prefers-reduced-motion: reduce` anula transiciones, animaciones y el
-desplazamiento suave.
+desplazamiento suave. La maqueta **no arranca sola** bajo esa preferencia, pero
+si se pulsa «Girar» se le da: la preferencia es sobre lo que pasa sin pedirlo.
 
 ## Estados
 

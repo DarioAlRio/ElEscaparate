@@ -69,7 +69,7 @@ que toques antes de darla por buena.
 
 | Archivo | Dirección publicada | Qué es |
 |---|---|---|
-| `index.html` | `/` | Portada: contrato de dirección, escaparate vivo, oferta |
+| `index.html` | `/` | Portada: contrato de dirección, modelo girando, oferta |
 | `diseno-web.html` | `/diseno-web` | Los tres formatos, precios y desplegables |
 | `trabajos.html` | `/trabajos` | Rejilla del portfolio + filtros (menú: «Trabajos») |
 | `como-trabajo.html` | `/como-trabajo` | Los cuatro pasos del método |
@@ -84,7 +84,9 @@ que toques antes de darla por buena.
 assets/css/estilos.css    Sistema entero, 18 secciones numeradas en comentarios
 assets/js/proyectos.js    Datos del portfolio — lo único que se toca a menudo
 assets/js/escaparates.js  Motor de capturas, fichas y visor
-assets/js/sitio.js        Menú, año, .entra, formulario, varilla y cierre
+assets/js/sitio.js        Menú, año, .entra, formulario, varilla, cierre y giro
+assets/img/modelo-*.png   Las cuatro vistas de la maqueta. Ver §5
+_recorta-modelo.ps1       Las produce desde los imagen3d-* de la raíz
 vercel.json               cleanUrls + los 301 de las direcciones antiguas
 .htaccess                 Lo mismo para Apache, por si se muda
 robots.txt · sitemap.xml
@@ -180,6 +182,25 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   en todo: el navegador conserva la copia y el servidor contesta 304, que son
   200 bytes. Si algún día se quiere caché larga de verdad, primero hay que
   poner versión en las direcciones (`estilos.css?v=8`), no antes.
+- **La maqueta que gira son cuatro fotos, no un modelo 3D.** El orden en que
+  están escritas en `index.html` **es** el del giro (frente → derecha → detrás
+  → izquierda, que es la caseta girando hacia la izquierda vista desde arriba);
+  reordenarlas hace que pegue saltos. Los cuatro renders vienen con encuadres
+  distintos, así que `_recorta-modelo.ps1` los iguala por el **ancho de la
+  caseta**, no por el de la acera: la acera se salió del cuadro en el primer
+  render de la izquierda, y el ancho de un cuerpo vertical no cambia con la
+  altura de la cámara. Ese ancho se mide **solo en la mitad alta** de la
+  imagen: a pantalla completa, el adoquín en sombra tira a azulado y se cuela
+  en la cuenta —daba 629 px de caseta donde hay 494—.
+- **El fondo de los renders se quita por inundación desde el marco**, con dos
+  tolerancias: una corta contra el píxel vecino, que impide saltar el canto de
+  la acera, y una larga contra el color del fondo, que sí se traga la sombra de
+  contacto. Con un solo umbral no salen las dos cosas. Y el alfa se mete medio
+  píxel hacia dentro: sin eso queda un reborde de píxeles mezclados con el
+  tostado que sobre el azul de la portada se ve como un halo claro.
+- **El detector de antipatrones lee dentro de los comentarios HTML.** Escribir
+  `<` seguido de `img>` en un comentario le hace contar una imagen rota. Si
+  `detect.mjs` señala una línea que es prosa, es esto: cambia la redacción.
 - **Sin bloqueo de scroll al bajar el cierre:** el `overflow:hidden` en el body
   dejaba una franja clara a la derecha. El cierre es `fixed` y ya tapa todo.
 

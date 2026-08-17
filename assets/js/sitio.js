@@ -314,6 +314,137 @@
 })();
 
 /* =========================================================================
+   El modelo del estudio, girando.
+
+   Cuatro renders del mismo modelo a 90 grados. No hay giro continuo: se pasa
+   de una vista a la siguiente con un fundido corto, que a esta velocidad se
+   lee como movimiento. El orden de los <img> en el HTML es el del giro.
+
+   Gira solo hasta que el visitante toca algo. En cuanto arrastra o pulsa un
+   botón, manda él y no se vuelve a arrancar por su cuenta: una imagen que
+   sigue moviéndose después de que la hayas parado con la mano es de las cosas
+   que más molestan de una web.
+   ========================================================================= */
+
+(function () {
+  "use strict";
+
+  var caja = document.querySelector("[data-giro]");
+  if (!caja) return;
+
+  var lienzo = caja.querySelector(".giro__caras");
+  var caras = caja.querySelectorAll(".giro__cara");
+  if (!lienzo || caras.length < 2) return;
+
+  var PAUSA = 2600;       /* lo que se queda quieta cada vista */
+  var PASO = 64;          /* píxeles de arrastre que valen un cuarto de vuelta */
+  var quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var actual = 0;
+  var reloj = null;
+  var boton = caja.querySelector("[data-anda]");
+
+  function pinta(indice) {
+    var total = caras.length;
+    actual = ((indice % total) + total) % total;
+    for (var i = 0; i < total; i++) {
+      if (i === actual) caras[i].setAttribute("data-visible", "si");
+      else caras[i].removeAttribute("data-visible");
+    }
+    caja.setAttribute("data-cara", actual);
+  }
+
+  /* Las otras tres imágenes pesan medio mega entre las tres y la portada se
+     pinta perfectamente sin ellas. Se piden cuando la página ya ha terminado
+     de cargar, para no competir con la hoja de estilos ni con la primera. */
+  function trae() {
+    for (var i = 0; i < caras.length; i++) {
+      var pendiente = caras[i].getAttribute("data-src");
+      if (!pendiente) continue;
+      caras[i].src = pendiente;
+      caras[i].removeAttribute("data-src");
+    }
+  }
+
+  if (document.readyState === "complete") trae();
+  else window.addEventListener("load", trae);
+
+  function anda() {
+    return !!reloj;
+  }
+
+  function arranca() {
+    if (quieto || reloj) return;
+    reloj = setInterval(function () {
+      /* Con la pestaña de fondo no hay nada que enseñar. */
+      if (document.hidden) return;
+      pinta(actual + 1);
+    }, PAUSA);
+    if (boton) boton.textContent = "Parar";
+  }
+
+  function para() {
+    clearInterval(reloj);
+    reloj = null;
+    if (boton) boton.textContent = "Girar";
+  }
+
+  if (boton) {
+    if (quieto) boton.textContent = "Girar";
+    boton.addEventListener("click", function () {
+      if (anda()) { para(); return; }
+      /* Bajo «prefers-reduced-motion» no arranca solo, pero si lo pide a
+         mano se le da: la preferencia es sobre lo que pasa sin pedirlo. */
+      quieto = false;
+      arranca();
+    });
+  }
+
+  caja.querySelectorAll("[data-gira]").forEach(function (mando) {
+    mando.addEventListener("click", function () {
+      para();
+      pinta(actual + (parseInt(mando.getAttribute("data-gira"), 10) || 1));
+    });
+  });
+
+  /* Arrastre. Hacia la izquierda avanza el giro, que es el sentido en el que
+     el modelo se mueve solo: así tirar del modelo lo lleva a donde iba. */
+  var origen = null;
+  var partida = 0;
+
+  lienzo.addEventListener("pointerdown", function (ev) {
+    if (ev.button !== undefined && ev.button !== 0) return;
+    para();
+    origen = ev.clientX;
+    partida = actual;
+    lienzo.setAttribute("data-agarrado", "si");
+    if (lienzo.setPointerCapture) lienzo.setPointerCapture(ev.pointerId);
+  });
+
+  lienzo.addEventListener("pointermove", function (ev) {
+    if (origen === null) return;
+    pinta(partida - Math.round((ev.clientX - origen) / PASO));
+  });
+
+  function suelta(ev) {
+    if (origen === null) return;
+    origen = null;
+    lienzo.removeAttribute("data-agarrado");
+    if (lienzo.releasePointerCapture && ev.pointerId !== undefined) {
+      lienzo.releasePointerCapture(ev.pointerId);
+    }
+  }
+
+  lienzo.addEventListener("pointerup", suelta);
+  lienzo.addEventListener("pointercancel", suelta);
+
+  /* Arrastrar una imagen es lo que hace el navegador por su cuenta con
+     cualquier <img>, y se come el gesto entero. */
+  lienzo.addEventListener("dragstart", function (ev) { ev.preventDefault(); });
+
+  arranca();
+})();
+
+/* =========================================================================
    Salvavidas del correo.
 
    Un enlace «mailto:» solo abre algo si el visitante tiene un programa de
