@@ -1073,6 +1073,24 @@ button, input, select, textarea {
     align-self: start;
   }
 }
+/* El titular sale de la columna izquierda y ocupa su propia fila, de modo que
+   las dos columnas arrancan a la misma altura: el párrafo de la izquierda y el
+   epígrafe de la derecha, en la misma línea. Sin esto la derecha empieza
+   arriba del todo, a la altura del titular, y el desajuste canta en cuanto el
+   titular parte en dos líneas. En móvil no hay dos columnas: por eso el
+   row-gap se anula ahí y manda el margen de cada elemento, que es lo que
+   reproduce el espaciado de siempre. */
+.bloque-servicio--titular-fuera { row-gap: 0; }
+.bloque-servicio--titular-fuera > div + div { margin-top: var(--e4); }
+@media (min-width: 58rem) {
+  .bloque-servicio--titular-fuera { row-gap: var(--e2); }
+  .bloque-servicio--titular-fuera .bloque-servicio__intro { margin-top: 0; }
+  .bloque-servicio--titular-fuera > div + div { margin-top: 0; }
+  .bloque-servicio--titular-fuera > h2 { grid-column: 1; grid-row: 1; }
+  .bloque-servicio--titular-fuera > div:nth-of-type(1) { grid-column: 1; grid-row: 2; }
+  .bloque-servicio--titular-fuera > div:nth-of-type(2) { grid-column: 2; grid-row: 2; }
+}
+
 .bloque-servicio h2 { font-size: var(--t-3xl); }
 .bloque-servicio__intro {
   margin-top: var(--e2);
