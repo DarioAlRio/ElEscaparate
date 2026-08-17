@@ -345,8 +345,8 @@
           /* Decir por qué: «sin captura» a secas parece una web rota, y casi
              siempre es el cupo diario del servicio, que se repone solo. */
           var motivo = fallo && /cupo/.test(fallo.message)
-            ? "Se ha agotado el cupo diario del servicio de capturas. Vuelve dentro de un rato."
-            : "Ábrela en una pestaña para verla.";
+            ? "Se ha agotado el cupo diario del servicio de capturas. Inténtalo de nuevo más tarde."
+            : "Ábrela en una pestaña nueva para verla.";
           cortina.innerHTML = '<span class="cartel">SIN CAPTURA</span><span></span>';
           cortina.lastChild.textContent = motivo;
         });
@@ -398,7 +398,7 @@
     if (!lista.length) {
       var vacio = document.createElement("p");
       vacio.className = "escaparate__nota";
-      vacio.textContent = "Todavía no hay trabajos de este tipo publicados.";
+      vacio.textContent = "Todavía no hay trabajos publicados de este tipo.";
       nodo.appendChild(vacio);
       return;
     }
@@ -486,7 +486,7 @@
     clearTimeout(enseñaEnVivo.reloj);
     enseñaEnVivo.reloj = setTimeout(function () {
       if (visor.getAttribute("data-abierto") !== "si") return;
-      nota.textContent = "Si el recuadro sigue en blanco, esa web no permite verse dentro de otra. Ábrela en una pestaña.";
+      nota.textContent = "Si el recuadro sigue en blanco, esa web no permite mostrarse dentro de otra. Ábrela en una pestaña nueva.";
     }, 3500);
   }
 
@@ -571,7 +571,7 @@
       if (!limpia) {
         campo.setAttribute("aria-invalid", "true");
         aviso.querySelector("[data-mensaje]").textContent =
-          "Eso no parece una dirección web. Prueba con algo como tunegocio.es";
+          "Eso no parece una dirección web. Escríbela como tunegocio.es";
         caja.setAttribute("data-estado", "error");
         campo.focus();
         return;
