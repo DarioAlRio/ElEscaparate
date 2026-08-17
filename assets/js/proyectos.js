@@ -41,7 +41,7 @@ window.PROYECTOS = [
     oficio: "Obra y reforma integral",
     tipo: "multipagina",
     anio: "2026",
-    destacado: true,
+    destacado: false,
     nota: "Antes y después de cada obra, y presupuesto en un formulario."
   },
   {
@@ -50,7 +50,7 @@ window.PROYECTOS = [
     oficio: "Videojuego arcade",
     tipo: "una-pagina",
     anio: "2026",
-    destacado: true,
+    destacado: false,
     /* El juego se dibuja en un canvas: sin esperar, la captura sale en negro
        porque el script todavía no ha pintado nada. */
     espera: 6,
@@ -64,7 +64,7 @@ window.PROYECTOS = [
     oficio: "Estudio botánico",
     tipo: "multipagina",
     anio: "2026",
-    destacado: false,
+    destacado: true,
     nota: "Catálogo con ficha de herbario por planta, talleres y suscripción mensual."
   },
   {
@@ -73,7 +73,7 @@ window.PROYECTOS = [
     oficio: "Centro de buceo",
     tipo: "una-pagina",
     anio: "2026",
-    destacado: false,
+    destacado: true,
     nota: "Cursos e inmersiones en la reserva marina, con la plaza guardada desde la propia página."
   },
   {
