@@ -33,10 +33,20 @@ ErrorDocument 404 /404.html
   AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript image/svg+xml
 </IfModule>
 
+# Nada se guarda sin preguntar: el navegador conserva la copia, pero revalida
+# siempre y el servidor contesta 304 si no ha cambiado. Los archivos de este
+# sitio no llevan versión en el nombre, así que una caché larga significa servir
+# lo viejo tras publicar. Ya pasó dos veces con estilos.css. Mismo criterio que
+# en vercel.json, que es lo que manda hoy.
 <IfModule mod_expires.c>
   ExpiresActive On
-  ExpiresByType text/css "access plus 1 year"
-  ExpiresByType application/javascript "access plus 1 year"
-  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 0 seconds"
+  ExpiresByType application/javascript "access plus 0 seconds"
+  ExpiresByType image/svg+xml "access plus 0 seconds"
   ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|svg|png|ico)$">
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
 </IfModule>
