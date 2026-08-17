@@ -27,8 +27,15 @@ Este archivo es lo demás: cómo se trabaja aquí y qué trampas ya se han pagad
    llevan la dirección limpia. Ya se intentó quitar la extensión del HTML:
    rompió el doble clic.
 4. **Sin backend.** Capturas a servicios públicos, formulario a endpoint externo.
-5. **Español de España, tuteo, sin jerga.** El código también va en español
-   (`envoltura`, `franja`, `toldo`, `cierra`, `pinta`). No mezclar idiomas.
+5. **Español de España, tuteo, registro formal, sin jerga.** Se tutea, pero el
+   tono es sobrio: nada de coloquialismos («vale cualquier web», «sale barato»,
+   «no hay por dónde») ni de guiños. Decidido el 17/08/2026, cambiando el
+   registro informal con el que nació la web. Lo que **sí** se conserva es la
+   metáfora del escaparate, la persiana y el toldo: es el nombre del estudio y
+   el logo, y sin ella los titulares se quedan sin apoyo. «La calle» sí se
+   retiró como nombre del portfolio, por poco clara; ahora es «Trabajos».
+   El código también va en español (`envoltura`, `franja`, `toldo`, `cierra`,
+   `pinta`). No mezclar idiomas.
 6. **Un solo CSS y tres JS.** No se añaden archivos sin motivo fuerte.
 7. **Nada de inventar** precios, plazos, URLs de clientes ni testimonios. Si
    falta un dato, se marca en `PERSONALIZAR.md` y se deja el hueco visible.
@@ -56,7 +63,7 @@ que toques antes de darla por buena.
 |---|---|---|
 | `index.html` | `/` | Portada: contrato de dirección, escaparate vivo, oferta |
 | `diseno-web.html` | `/diseno-web` | Los tres formatos, precios y desplegables |
-| `trabajos.html` | `/trabajos` | Rejilla del portfolio + filtros (menú: «La calle») |
+| `trabajos.html` | `/trabajos` | Rejilla del portfolio + filtros (menú: «Trabajos») |
 | `como-trabajo.html` | `/como-trabajo` | Los cuatro pasos del método |
 | `sobre-mi.html` | `/sobre-mi` | Quién está detrás |
 | `presupuesto.html` | `/presupuesto` | Formulario, WhatsApp y correo |

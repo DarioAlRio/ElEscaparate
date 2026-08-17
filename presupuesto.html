@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pedir presupuesto · El Escaparate</title>
-<meta name="description" content="Cuéntame qué negocio tienes y qué necesitas. Contesto con un precio cerrado y un plazo, o te digo que no soy yo quien lo tiene que hacer.">
+<meta name="description" content="Cuéntame qué negocio tienes y qué necesitas. Contesto con un precio cerrado y un plazo, o te digo con franqueza que no soy yo quien debe hacerlo.">
 <link rel="canonical" href="https://elescaparateweb.com/presupuesto">
 <meta name="theme-color" content="#0b2350">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_ES">
 <meta property="og:title" content="Pedir presupuesto · El Escaparate">
-<meta property="og:description" content="Cuatro líneas y te contesto con precio cerrado y plazo.">
+<meta property="og:description" content="Cuatro líneas y te contesto con un precio cerrado y un plazo.">
 <meta property="og:url" content="https://elescaparateweb.com/presupuesto">
 <link rel="icon" href="icono-buscador-192.png" type="image/png" sizes="192x192">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,8 +54,8 @@
 
     <nav class="nav cabecera__nav" id="nav-principal" data-nav data-abierta="no" aria-label="Navegación principal">
       <a href="index.html">Inicio</a>
-      <a href="diseno-web.html">Qué monto</a>
-      <a href="trabajos.html">La calle</a>
+      <a href="diseno-web.html">Servicios</a>
+      <a href="trabajos.html">Trabajos</a>
       <a href="como-trabajo.html">Cómo trabajo</a>
       <a href="sobre-mi.html">El estudio</a>
       <a href="presupuesto.html" aria-current="page">Contacto</a>
@@ -78,10 +78,10 @@
 
   <section class="franja franja--corta franja--azul">
     <div class="envoltura">
-      <h1 class="titulo-pagina">Cuéntame qué tienes entre manos</h1>
+      <h1 class="titulo-pagina">Cuéntame tu proyecto</h1>
       <p class="portada__entrada">
-        No hace falta que sepas qué formato quieres ni cómo se llaman las cosas.
-        Con saber a qué te dedicas y qué te gustaría conseguir, me sobra para
+        No hace falta que sepas qué formato quieres ni cómo se llama cada cosa.
+        Con saber a qué te dedicas y qué quieres conseguir, me basta para
         contestarte con un número.
       </p>
     </div>
@@ -108,16 +108,16 @@
           <p class="aviso-forma" data-aviso role="status" aria-live="polite"></p>
 
           <div class="campo">
-            <label for="nombre">Cómo te llamas</label>
+            <label for="nombre">Nombre</label>
             <input id="nombre" name="nombre" type="text" autocomplete="name" required
-                   data-falta="Dime al menos tu nombre para saber cómo llamarte.">
+                   data-falta="Indícame al menos tu nombre para saber cómo dirigirme a ti.">
             <p class="campo__error" role="alert"></p>
           </div>
 
           <div class="campo">
             <label for="negocio">Tu negocio y a qué se dedica</label>
             <input id="negocio" name="negocio" type="text" autocomplete="organization" required
-                   data-falta="Con el nombre y el oficio me hago una idea rápida."
+                   data-falta="Con el nombre y la actividad me hago una idea rápida."
                    placeholder="Panadería La Espiga · obrador y despacho">
             <p class="campo__error" role="alert"></p>
           </div>
@@ -126,26 +126,26 @@
             <label for="correo">Correo</label>
             <input id="correo" name="correo" type="email" autocomplete="email" required
                    data-falta="Necesito un correo para poder contestarte.">
-            <p class="campo__ayuda">Es por donde contesto. No lo uso para nada más.</p>
+            <p class="campo__ayuda">Es la vía por la que contesto. No se utiliza para nada más.</p>
             <p class="campo__error" role="alert"></p>
           </div>
 
           <div class="campo">
             <label for="telefono">Teléfono <span class="campo__ayuda">(opcional)</span></label>
             <input id="telefono" name="telefono" type="tel" autocomplete="tel">
-            <p class="campo__ayuda">Solo si prefieres que te llame en vez de escribirte.</p>
+            <p class="campo__ayuda">Solo si prefieres que te llame en lugar de escribirte.</p>
             <p class="campo__error" role="alert"></p>
           </div>
 
           <div class="campo">
             <label for="web">¿Tienes web ahora? <span class="campo__ayuda">(opcional)</span></label>
             <input id="web" name="web" type="text" inputmode="url" placeholder="tunegocio.es">
-            <p class="campo__ayuda">Si la tienes, le echo un vistazo antes de contestarte.</p>
+            <p class="campo__ayuda">Si la tienes, la reviso antes de contestarte.</p>
             <p class="campo__error" role="alert"></p>
           </div>
 
           <fieldset class="campo" style="border:0;padding:0;margin:0">
-            <legend style="font-size:var(--t-s);font-weight:600;margin-bottom:.4rem">Qué crees que necesitas</legend>
+            <legend style="font-size:var(--t-s);font-weight:600;margin-bottom:.4rem">Qué formato crees que necesitas</legend>
             <div class="opciones">
               <label><input type="radio" name="formato" value="Una página"> Una página</label>
               <label><input type="radio" name="formato" value="Multipágina"> Multipágina</label>
@@ -155,23 +155,23 @@
           </fieldset>
 
           <div class="campo">
-            <label for="presupuesto">Presupuesto que tienes en la cabeza</label>
+            <label for="presupuesto">Presupuesto orientativo</label>
             <select id="presupuesto" name="presupuesto">
-              <option value="Sin decidir">Prefiero que me lo digas tú</option>
+              <option value="Sin decidir">Prefiero que me lo indiques tú</option>
               <option value="Menos de 400">Menos de 400 €</option>
               <option value="400 a 700">Entre 400 y 700 €</option>
               <option value="700 a 1000">Entre 700 y 1.000 €</option>
               <option value="1000 a 1500">Entre 1.000 y 1.500 €</option>
               <option value="Más de 1500">Más de 1.500 €</option>
             </select>
-            <p class="campo__ayuda">No es un compromiso. Sirve para no ofrecerte algo que no encaja.</p>
+            <p class="campo__ayuda">No es un compromiso. Sirve para no proponerte algo que no encaje.</p>
           </div>
 
           <div class="campo">
-            <label for="mensaje">Cuéntame</label>
+            <label for="mensaje">Tu mensaje</label>
             <textarea id="mensaje" name="mensaje" required
-                      data-falta="Escribe aunque sean cuatro líneas: es lo que me permite darte un número."
-                      placeholder="Qué vendes, quién te compra y qué te gustaría que pasara cuando alguien entre en tu web."></textarea>
+                      data-falta="Escribe aunque sean cuatro líneas: es lo que me permite darte una cifra."
+                      placeholder="Qué vendes, quién te compra y qué esperas que ocurra cuando alguien entre en tu web."></textarea>
             <p class="campo__error" role="alert"></p>
           </div>
 
@@ -198,41 +198,41 @@
               </button>
             </div>
             <p class="campo__ayuda" style="margin-top:.75rem">
-              Los dos envían lo mismo: eliges por dónde prefieres que sigamos
-              hablando. Al enviar aceptas que guarde estos datos para
-              contestarte. Nada más: ni listas de correo ni cesión a terceros.
+              Ambos envían lo mismo: eliges por dónde prefieres que continuemos
+              la conversación. Al enviar aceptas que guarde estos datos para
+              contestarte. Nada más: sin listas de correo ni cesión a terceros.
             </p>
           </div>
         </form>
       </div>
 
       <div>
-        <h2>Qué pasa después</h2>
+        <h2>Qué ocurre después</h2>
         <div class="fases">
           <div class="fase">
             <p class="fase__marca" aria-hidden="true">1</p>
             <div>
-              <h3>Te leo y te contesto</h3>
-              <p>En un día laborable como mucho. Si tu caso no es para mí, te lo digo ahí mismo y te ahorro la reunión.</p>
+              <h3>Leo tu mensaje y contesto</h3>
+              <p>En un día laborable como máximo. Si tu caso no es para mí, te lo digo en ese momento y te ahorro la reunión.</p>
             </div>
           </div>
           <div class="fase">
             <p class="fase__marca" aria-hidden="true">2</p>
             <div>
               <h3>Media hora de conversación</h3>
-              <p>Cuando te venga bien, también fuera de horario comercial si estás con el negocio abierto.</p>
+              <p>Cuando mejor te convenga, también fuera del horario comercial si tienes el negocio abierto.</p>
             </div>
           </div>
           <div class="fase">
             <p class="fase__marca" aria-hidden="true">3</p>
             <div>
               <h3>Presupuesto por escrito</h3>
-              <p>Precio cerrado, qué incluye, qué no y fecha de entrega. Sin caducidad artificial ni prisas de vendedor.</p>
+              <p>Precio cerrado, qué incluye, qué no y fecha de entrega. Sin caducidades artificiales ni presión comercial.</p>
             </div>
           </div>
         </div>
 
-        <h3 class="titular-menor">Si prefieres el camino corto</h3>
+        <h3 class="titular-menor">Si prefieres la vía directa</h3>
         <!-- CORREO: contacto@elescaparateweb.com, del dominio, comprobado que
              recibe. Ver PERSONALIZAR.md -->
         <ul class="atajos">
@@ -241,14 +241,14 @@
               <path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.3.1-.5.2-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.8c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4a3 3 0 0 0-1 2.3 5.4 5.4 0 0 0 1.1 2.8 12 12 0 0 0 4.7 4.1c1.7.7 2.3.7 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3Z"/>
             </svg>
             <a href="https://wa.me/34684082490">WhatsApp al 684 08 24 90</a>
-            <span class="atajos__nota">Lo que más rápido contesto.</span>
+            <span class="atajos__nota">La vía por la que antes contesto.</span>
           </li>
           <li>
             <svg class="atajos__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2Z"/>
             </svg>
             <a href="tel:+34684082490">Llamar al 684 08 24 90</a>
-            <span class="atajos__nota">En horario de persona.</span>
+            <span class="atajos__nota">En horario laboral.</span>
           </li>
           <li>
             <svg class="atajos__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -278,7 +278,7 @@
         </p>
       </div>
       <div>
-        <h3>Qué monto</h3>
+        <h3>Servicios</h3>
         <ul>
           <li><a href="diseno-web.html#una-pagina">Web de una página</a></li>
           <li><a href="diseno-web.html#multipagina">Web multipágina</a></li>
@@ -288,14 +288,14 @@
       <div>
         <h3>El estudio</h3>
         <ul>
-          <li><a href="trabajos.html">La calle</a></li>
+          <li><a href="trabajos.html">Trabajos</a></li>
           <li><a href="como-trabajo.html">Cómo trabajo</a></li>
           <li><a href="sobre-mi.html">Quién está detrás</a></li>
           <li><a href="presupuesto.html">Contacto</a></li>
         </ul>
       </div>
       <div>
-        <h3>Escríbeme</h3>
+        <h3>Contacto</h3>
         <ul>
           <li><a class="pie__con-icono" href="https://wa.me/34684082490"><svg class="pie__icono" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.6-6.1c-.3-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.3.1-.5.2-.7l.4-.5c.1-.2.1-.3 0-.5l-.8-1.8c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4a3 3 0 0 0-1 2.3 5.4 5.4 0 0 0 1.1 2.8 12 12 0 0 0 4.7 4.1c1.7.7 2.3.7 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3Z"/></svg>WhatsApp · 684 08 24 90</a></li>
           <li><a class="pie__con-icono" href="tel:+34684082490"><svg class="pie__icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.8 2.2Z"/></svg>Llamar · 684 08 24 90</a></li>
