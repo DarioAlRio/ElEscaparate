@@ -54,7 +54,12 @@ página, ni en los filtros del portfolio, ni en el formulario.
   publica arrastrando la carpeta. El Node del equipo es el 16.10.
 - **Sin backend.** Las capturas se piden a servicios públicos de screenshots y
   el formulario sale por un servicio externo de formularios.
-- **Español (es-ES), tuteo.** Sin jerga técnica en la parte visible.
+- **Español (es-ES), tuteo, registro formal.** Sin jerga técnica y sin
+  coloquialismos en la parte visible. Decisión del 17/08/2026: se mantiene el
+  tuteo, que acerca, pero se sube el tono, que antes era demasiado campechano
+  para un servicio que se cobra. La metáfora del escaparate se conserva —es la
+  marca—; «La calle» se retiró como nombre del portfolio por poco clara y pasa
+  a «Trabajos».
 - **Multipágina de verdad**, no una sola página con anclas.
 
 ## Prueba real disponible

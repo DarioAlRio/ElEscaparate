@@ -61,8 +61,10 @@ título, la cabecera, el pie, las etiquetas de redes, `robots.txt` y
 
 Dos cosas para el futuro:
 
-- El portfolio se llama **La calle** en el menú, no «Escaparates». Se cambió al
-  elegir el nombre: «El Escaparate → Escaparates» confundía.
+- El portfolio se llama **Trabajos** en el menú. Ha tenido tres nombres: era
+  «Escaparates» —confundía con el nombre del estudio—, pasó a «La calle» y el
+  17/08/2026 a «Trabajos», porque «La calle» no se entendía a la primera. La
+  dirección `/trabajos` no ha cambiado en ningún momento.
 - Si algún día consigues `elescaparate.com` —ahora mismo lo tiene alguien que
   lo vende— no hace falta rehacer nada: se compra, se apunta al mismo sitio y
   se cambia el dominio en `<link rel="canonical">`, en las `og:url`, en
@@ -231,8 +233,8 @@ clic: no hay build, no hay npm, no hay nada que compilar.
 | Página | Dirección | Por qué |
 |---|---|---|
 | Portada | `/` | — |
-| Qué monto | `/diseno-web` | Es lo que la gente escribe en Google |
-| La calle | `/trabajos` | Corto y en español; «portfolio» no lo busca nadie |
+| Servicios | `/diseno-web` | Es lo que la gente escribe en Google |
+| Trabajos | `/trabajos` | Corto y en español; «portfolio» no lo busca nadie |
 | Cómo trabajo | `/como-trabajo` | Igual que el título de la página |
 | El estudio | `/sobre-mi` | La dirección que todo el mundo espera de un «quién soy» |
 | Contacto | `/presupuesto` | Es lo que se busca con intención de contratar |
