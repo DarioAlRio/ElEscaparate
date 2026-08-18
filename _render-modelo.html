@@ -3,7 +3,7 @@
 <title>Taller de render de la maqueta</title>
 <style>body{margin:0;background:#0b2350;color:#eaeef2;font:14px system-ui}</style>
 
-<!-- El taller que saca los 24 fotogramas de assets/img/modelo-NN.webp a partir
+<!-- El taller que saca los 48 fotogramas de assets/img/modelo-NN.webp a partir
      de _modelo-caseta.glb. NO se publica: lo excluye .vercelignore.
 
      Para usarlo hace falta three.js, que no se versiona aquí porque son 1,4 MB
@@ -21,8 +21,8 @@
 
        mide(1800, 1200);            // lienzo de trabajo, con aire de sobra
        colocaCamara(18, 45, 1.14);  // elevación, azimut, holgura
-       barre(24);                   // recorte común de la vuelta entera
-       tanda(24, 640, 0.78);        // los 24 WebP a _fotogramas/
+       barre(48);                   // recorte común de la vuelta entera
+       tanda(48, 640, 0.78);        // los 48 WebP a _fotogramas/
        exporta("modelo-00.png", 640, 1, "image/png");   // el respaldo del primero
 
      Y a mano: _fotogramas/giro-NN.webp → assets/img/modelo-NN.webp. -->
