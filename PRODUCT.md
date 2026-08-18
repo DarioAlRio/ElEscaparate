@@ -56,9 +56,10 @@ tres formatos con un bloque de llamada a presupuesto y el sello pasa a ser
 «presupuesto cerrado por escrito». Es un cambio de posicionamiento, no de
 maquetación: si la conversión cae, esto es lo primero que hay que mirar.
 
-**Mantenimiento voluntario, 8 € al mes** (18/08/2026, decisión de Dario): copias,
+**Mantenimiento voluntario, sin cifra publicada** (18/08/2026, decisión de Dario;
+la cuota se retira de la web el 19/08/2026, también decisión suya): copias,
 revisión y cambios menores, sin permanencia. No entra en ningún formato y tiene
-sección propia en /diseno-web.
+sección propia en /diseno-web. El importe se da en el presupuesto, no antes.
 
 **Lo que no se ofrece** (2026-07-29, decisión de Dario): aplicaciones web a
 medida y rescate de webs ajenas. No los hace, así que no aparecen en ninguna

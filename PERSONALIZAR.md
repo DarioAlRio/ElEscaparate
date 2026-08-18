@@ -27,11 +27,17 @@ son los plazos. Revísalos uno por uno.
 Dónde aparecen: un `<dl class="datos">` por formato en `diseno-web.html`, y
 «Entrega entre 1 y 4 semanas» en el sello de la portada.
 
-### El mantenimiento de 8 € al mes
+### El mantenimiento, sin cifra
 
-**La cuota la pusiste tú; lo que entra y lo que no lo escribí yo**, a partir de
-lo que ya decía tu pregunta frecuente «¿Hay cuota mensual?». Léelo y confirma
-que te comprometes a eso, porque está publicado como una lista cerrada:
+**La web ya no dice cuánto cuesta** (19/08/2026, decisión tuya). Dice que existe,
+qué cubre y que no tiene permanencia; el importe se da en el presupuesto, con lo
+demás. Si algún día quieres publicarlo, los sitios son cuatro: el titular de
+`#mantenimiento`, la fila «Cuota» de su lista de datos, el desplegable «¿Hay
+cuota mensual?» y el sello de la portada.
+
+**Lo que entra y lo que no lo escribí yo**, a partir de lo que ya decía tu
+pregunta frecuente «¿Hay cuota mensual?». Léelo y confirma que te comprometes a
+eso, porque está publicado como una lista cerrada:
 
 - Cambios menores: horarios, teléfonos, fotos, un texto que ha dejado de ser cierto.
 - Copia de seguridad guardada aparte.
@@ -40,9 +46,8 @@ que te comprometes a eso, porque está publicado como una lista cerrada:
 - Se pausa cualquier mes, sin permanencia.
 
 Está en `diseno-web.html`, sección `#mantenimiento`, más el sello de la portada
-(«Mantenimiento opcional, 8 € al mes»), el desplegable «¿Hay cuota mensual?» y
-la etiqueta `<meta name="description">` de `diseno-web.html`. Si cambias la
-cifra, búscala como `8 €` y sale en los cuatro sitios.
+(«Mantenimiento opcional después de publicar»), el desplegable «¿Hay cuota
+mensual?» y la etiqueta `<meta name="description">` de `diseno-web.html`.
 
 Lo mismo con las condiciones que escribí porque son las habituales, pero que
 son tuyas: **mitad y mitad**, **dos rondas de cambios**, **un mes de ajustes**,
