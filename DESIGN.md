@@ -96,35 +96,36 @@ Tres, y los tres son CSS, sin imágenes:
 
 ## La maqueta de la portada
 
-Desde el 17/08/2026 la portada enseña la caseta del estudio dando la vuelta
-(`.giro`). Son **cuatro renders del mismo modelo a 90°** con el fondo recortado
-y superpuestos.
+Desde el 18/08/2026 la portada enseña la caseta del estudio dando la vuelta
+(`.giro`). Son **24 fotogramas de un modelo 3D, uno cada 15°**, con el fondo
+transparente y apilados uno encima de otro. Antes eran cuatro renders a 90°
+con un `rotateY` en CSS que fingía el volumen entre foto y foto; con la vuelta
+entera fotograma a fotograma ese truco sobra, y de hecho estorba.
 
-**El paso de una vista a la siguiente es un giro en 3D, no un fundido.** Con
-`perspective: 1500px` en el lienzo, la vista que entra llega torcida 38° y se
-endereza mientras aparece, y la que sale sigue de largo otros 38° hacia el
-mismo lado mientras se va. Las dos giran a la vez y en el mismo sentido, y eso
-es lo que el ojo lee como una vuelta en lugar de como un cambio de diapositiva.
-Dura 0,34 s.
+**No hay transición ninguna entre fotogramas.** El giro está dentro de las
+imágenes: se enseña el que toca y se esconde el anterior. Cualquier fundido o
+transformación de por medio mezcla dos posiciones distintas del volumen y
+emborrona el movimiento en vez de suavizarlo.
 
-El signo importa: un `rotateY` positivo aleja el canto derecho, o sea que la
-fachada delantera se va hacia la izquierda del que mira, que es justo el
-sentido en el que gira la caseta de una foto a la siguiente. Al revés, el
-volumen gira hacia un lado y las fotos cuentan que va hacia el otro.
+**El recorte de los 24 es el mismo**, calculado sobre la unión de las siluetas
+de la vuelta entera (640 × 348). Si cada fotograma se ajustase al suyo, la
+caseta bailaría dentro del cuadro. Como la peana es cuadrada, de esquina llena
+el ancho y de frente ocupa dos tercios: eso es lo que hace un plato giratorio.
 
-Sigue sin ser un giro natural, y no puede serlo: **cuatro fotogramas son saltos
-de 90°**. Lo natural pide uno cada 10–15°, o sea 24–36 vistas.
-
-- Gira sola cada 2,6 s **hasta que el visitante toca algo**. En cuanto arrastra
-  o pulsa, manda él y no vuelve a arrancar sola.
-- Se puede arrastrar (64 px de dedo = un cuarto de vuelta) y hay tres botones,
-  con el mismo `.conmutador` que el resto del sitio. Con el modelo agarrado no
-  hay ni giro ni fundido: la vista va pegada al dedo.
+- Gira sola a **90 ms por fotograma —2,2 s la vuelta— hasta que el visitante
+  toca algo**. En cuanto arrastra o pulsa, manda él y no vuelve a arrancar sola.
+- Se puede arrastrar: 20 px de dedo = un fotograma = 15°, unos 480 px la vuelta
+  entera. **Hacia la derecha sube el índice**, porque al avanzar un fotograma la
+  esquina de delante se va hacia la derecha; así la caseta va con el dedo.
+- Tres botones con el mismo `.conmutador` que el resto del sitio. El pie solo
+  aparece cuando los 24 están cargados: si no hay giro, no hay nada que parar.
 - Detrás lleva un halo turquesa muy tenue: la caseta es azul marino sobre el
   azul de azulejo del fondo y sin él se pierde el canto de las fachadas.
-- **WebP con el PNG de respaldo**, en `<picture>`: 142 KB las cuatro, frente a
-  1.536 KB en PNG. Solo la primera vista se carga con la página; las otras tres
-  se piden al terminar de cargar.
+- **311 KB los 24 en WebP.** Con la página solo baja el primero (19 KB, con su
+  PNG de respaldo en un `<picture>`); los otros 23 los pide `sitio.js` al
+  terminar la carga, y **no los pide** si el navegador dice `saveData` o red de
+  2G. Si alguno falla, la maqueta se queda quieta en el primero en vez de girar
+  con agujeros.
 
 ## Movimiento
 
@@ -133,7 +134,7 @@ de 90°**. Lo natural pide uno cada 10–15°, o sea 24–36 vistas.
 Es la respuesta a la única acción que importa en el espejo.
 
 Lo demás son transiciones de estado cortas (0.16–0.25 s) en botones, filas y
-fichas, más el fundido del giro de la portada. No hay animación de entrada por
+fichas. El giro de la portada no lleva transición: la lleva dentro. No hay animación de entrada por
 sección: solo la rejilla del portfolio usa `.entra`, una vez.
 
 `prefers-reduced-motion: reduce` anula transiciones, animaciones y el

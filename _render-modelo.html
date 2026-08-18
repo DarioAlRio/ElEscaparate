@@ -1,0 +1,249 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Taller de render de la maqueta</title>
+<style>body{margin:0;background:#0b2350;color:#eaeef2;font:14px system-ui}</style>
+
+<!-- El taller que saca los 24 fotogramas de assets/img/modelo-NN.webp a partir
+     de _modelo-caseta.glb. NO se publica: lo excluye .vercelignore.
+
+     Para usarlo hace falta three.js, que no se versiona aquí porque son 1,4 MB
+     de dependencia para un guion que se ejecuta una vez al año. Se baja a mano
+     en una carpeta tres/ junto a este archivo:
+
+       curl -L -o tres/three.module.js         https://unpkg.com/three@0.170.0/build/three.module.js
+       curl -L -o tres/GLTFLoader.js           https://unpkg.com/three@0.170.0/examples/jsm/loaders/GLTFLoader.js
+       curl -L -o utils/BufferGeometryUtils.js https://unpkg.com/three@0.170.0/examples/jsm/utils/BufferGeometryUtils.js
+
+     Ese último no es un capricho: GLTFLoader lo importa como ../utils/, y sin
+     él el módulo no arranca y la consola solo dice 404 sin decir de qué.
+
+     Luego «node _render-servidor.js», se abre localhost:5199 y desde la consola:
+
+       mide(1800, 1200);            // lienzo de trabajo, con aire de sobra
+       colocaCamara(18, 45, 1.14);  // elevación, azimut, holgura
+       barre(24);                   // recorte común de la vuelta entera
+       tanda(24, 640, 0.78);        // los 24 WebP a _fotogramas/
+       exporta("modelo-00.png", 640, 1, "image/png");   // el respaldo del primero
+
+     Y a mano: _fotogramas/giro-NN.webp → assets/img/modelo-NN.webp. -->
+
+<script type="importmap">
+{ "imports": { "three": "/tres/three.module.js" } }
+</script>
+
+<script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "/tres/GLTFLoader.js";
+
+/* Todo se expone en window para poder dispararlo desde fuera, paso a paso. */
+
+let ANCHO = 1200;
+let ALTO = 900;
+window.mide = (a, b) => {
+  ANCHO = a; ALTO = b;
+  renderer.setSize(ANCHO, ALTO, false);
+  renderer.domElement.style.width = Math.round(a / 2) + "px";
+  return [ANCHO, ALTO];
+};
+
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  alpha: true,
+  /* Sin esto, leer el lienzo después de pintar puede devolver un cuadro en
+     blanco: el navegador tiene libertad para descartar el búfer tras dibujar. */
+  preserveDrawingBuffer: true
+});
+renderer.setSize(ANCHO, ALTO, false);
+renderer.setPixelRatio(1);
+renderer.setClearAlpha(0);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+renderer.domElement.style.width = "600px";
+
+const escena = new THREE.Scene();
+
+/* El modelo cuelga de un pivote, y lo que gira es el pivote: la cámara y las
+   luces no se enteran. Es el mismo montaje que un turntable de Blender. */
+const pivote = new THREE.Object3D();
+escena.add(pivote);
+
+const camara = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 200);
+
+/* Luz: un sol de frente-izquierda y arriba, más relleno de cielo. Se busca el
+   ambiente de los renders que ya tiene el sitio, no un estudio de producto. */
+const sol = new THREE.DirectionalLight(0xfff4e6, 2.6);
+sol.position.set(-6, 9, 7);
+sol.castShadow = true;
+sol.shadow.mapSize.set(2048, 2048);
+escena.add(sol);
+
+const cielo = new THREE.HemisphereLight(0xbcd4f0, 0x6b7280, 1.15);
+escena.add(cielo);
+
+const relleno = new THREE.DirectionalLight(0xc9dcf5, 0.55);
+relleno.position.set(7, 4, -5);
+escena.add(relleno);
+
+let info = { estado: "cargando" };
+window.info = () => info;
+
+new GLTFLoader().load("/_modelo-caseta.glb", (gltf) => {
+  const modelo = gltf.scene;
+
+  /* Centrar en el origen: si no, al girar describe un círculo en vez de girar
+     sobre sí mismo. Se centra en X y Z, y se apoya en Y=0. */
+  const caja = new THREE.Box3().setFromObject(modelo);
+  const centro = caja.getCenter(new THREE.Vector3());
+  const medida = caja.getSize(new THREE.Vector3());
+  modelo.position.set(-centro.x, -caja.min.y, -centro.z);
+
+  modelo.traverse((n) => {
+    if (!n.isMesh) return;
+    n.castShadow = true;
+    n.receiveShadow = true;
+  });
+
+  pivote.add(modelo);
+
+  /* El radio que hay que encuadrar: la diagonal horizontal, que es lo más ancho
+     que llega a estar durante la vuelta. Así ninguna vista se sale del cuadro. */
+  const radio = Math.hypot(medida.x, medida.z) / 2;
+  const alto = medida.y;
+
+  window.__radio = radio;
+  window.__medida = medida;
+
+  colocaCamara(35, 45, 1.06);
+
+  info = {
+    estado: "listo",
+    medida: [medida.x.toFixed(2), medida.y.toFixed(2), medida.z.toFixed(2)],
+    radio: radio.toFixed(2),
+    alto: alto.toFixed(2),
+    mallas: gltf.scene.children.length
+  };
+  pinta();
+}, undefined, (e) => { info = { estado: "error", mensaje: String(e) }; });
+
+/* elevacion y azimut en grados; holgura, cuánto aire dejar alrededor. */
+function colocaCamara(elevacion, azimut, holgura) {
+  const r = window.__radio, m = window.__medida;
+  const e = elevacion * Math.PI / 180, a = azimut * Math.PI / 180;
+  const dist = r * 8;
+
+  camara.position.set(
+    dist * Math.cos(e) * Math.sin(a),
+    dist * Math.sin(e),
+    dist * Math.cos(e) * Math.cos(a)
+  );
+  camara.lookAt(0, m.y * 0.42, 0);
+
+  /* La caja ortográfica: ancho por la diagonal, alto por lo que ocupa el
+     volumen proyectado a esa elevación. */
+  const semiAncho = r * holgura;
+  const semiAlto = (r * Math.sin(e) + m.y * Math.cos(e)) * 0.5 * holgura * 1.12;
+  const rel = ANCHO / ALTO;
+  let sa = semiAncho, sv = semiAlto;
+  if (sa / sv < rel) sa = sv * rel; else sv = sa / rel;
+
+  camara.left = -sa; camara.right = sa;
+  camara.top = sv; camara.bottom = -sv;
+  camara.near = 0.1; camara.far = dist * 3;
+  camara.updateProjectionMatrix();
+
+  sol.target.position.set(0, m.y * 0.4, 0);
+  escena.add(sol.target);
+  sol.shadow.camera.left = -r * 1.6;
+  sol.shadow.camera.right = r * 1.6;
+  sol.shadow.camera.top = r * 1.6;
+  sol.shadow.camera.bottom = -r * 1.6;
+  sol.shadow.camera.near = 0.5;
+  sol.shadow.camera.far = dist * 2;
+  sol.shadow.camera.updateProjectionMatrix();
+}
+window.colocaCamara = colocaCamara;
+
+function pinta() { renderer.render(escena, camara); }
+window.pinta = pinta;
+
+window.giraA = (grados) => { pivote.rotation.y = grados * Math.PI / 180; pinta(); };
+
+/* --- Recorte común ------------------------------------------------------
+   El encuadre de trabajo deja aire de sobra para que ninguna vuelta se salga.
+   Luego se recorta, pero el recorte tiene que ser EL MISMO para las 36: si
+   cada fotograma se ajusta a su propia silueta, la caseta baila dentro del
+   cuadro en vez de girar. Así que se barren las 36 y se queda la unión. */
+
+const plano = document.createElement("canvas");
+const px2d = plano.getContext("2d", { willReadFrequently: true });
+
+function alfaCaja() {
+  plano.width = ANCHO; plano.height = ALTO;
+  px2d.clearRect(0, 0, ANCHO, ALTO);
+  px2d.drawImage(renderer.domElement, 0, 0);
+  const d = px2d.getImageData(0, 0, ANCHO, ALTO).data;
+  let x0 = ANCHO, y0 = ALTO, x1 = -1, y1 = -1;
+  for (let y = 0; y < ALTO; y++) {
+    for (let x = 0; x < ANCHO; x++) {
+      if (d[(y * ANCHO + x) * 4 + 3] < 8) continue;
+      if (x < x0) x0 = x; if (x > x1) x1 = x;
+      if (y < y0) y0 = y; if (y > y1) y1 = y;
+    }
+  }
+  return [x0, y0, x1, y1];
+}
+
+window.barre = (n) => {
+  let X0 = ANCHO, Y0 = ALTO, X1 = -1, Y1 = -1;
+  for (let i = 0; i < n; i++) {
+    window.giraA(i * 360 / n);
+    const c = alfaCaja();
+    if (c[0] < X0) X0 = c[0]; if (c[1] < Y0) Y0 = c[1];
+    if (c[2] > X1) X1 = c[2]; if (c[3] > Y1) Y1 = c[3];
+  }
+  window.__caja = [X0, Y0, X1 - X0 + 1, Y1 - Y0 + 1];
+  return window.__caja;
+};
+
+/* Exporta el fotograma actual recortado por la caja común y escalado. */
+const salida = document.createElement("canvas");
+const sal2d = salida.getContext("2d");
+
+window.exporta = (nombre, anchoFinal, calidad, tipo) => {
+  const c = window.__caja;
+  const escala = anchoFinal / c[2];
+  salida.width = anchoFinal;
+  salida.height = Math.round(c[3] * escala);
+  sal2d.clearRect(0, 0, salida.width, salida.height);
+  sal2d.imageSmoothingQuality = "high";
+  sal2d.drawImage(renderer.domElement, c[0], c[1], c[2], c[3], 0, 0, salida.width, salida.height);
+  return new Promise((res, rej) => {
+    salida.toBlob((b) => {
+      if (!b) return rej("sin blob");
+      fetch("http://localhost:5199/" + nombre, { method: "POST", body: b })
+        .then((r) => r.text()).then(() => res(b.size)).catch(rej);
+    }, tipo || "image/webp", calidad);
+  });
+};
+
+window.tanda = async (n, anchoFinal, calidad, ext) => {
+  const pesos = [];
+  for (let i = 0; i < n; i++) {
+    window.giraA(i * 360 / n);
+    const nom = "giro-" + String(i).padStart(2, "0") + "." + (ext || "webp");
+    pesos.push(await window.exporta(nom, anchoFinal, calidad));
+  }
+  return { total: Math.round(pesos.reduce((a, b) => a + b, 0) / 1024) + " KB", medida: [salida.width, salida.height] };
+};
+
+/* Manda el lienzo tal cual al taller, que lo escribe en disco. */
+window.guarda = (nombre, tipo, calidad) => new Promise((res, rej) => {
+  renderer.domElement.toBlob((blob) => {
+    if (!blob) return rej("sin blob");
+    fetch("http://localhost:5199/" + nombre, { method: "POST", body: blob })
+      .then((r) => r.text()).then((n) => res(nombre + " " + Math.round(n / 1024) + " KB")).catch(rej);
+  }, tipo || "image/png", calidad === undefined ? 0.92 : calidad);
+});
+</script>
