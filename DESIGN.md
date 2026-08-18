@@ -88,11 +88,34 @@ Tres, y los tres son CSS, sin imágenes:
    luna es media circunferencia entera del ancho de su raya y toca con la de al
    lado, sin muescas planas entre medias. El corte se difumina 0,75 px en
    medida absoluta, para que el borde no dentee también en el toldo fino.
-   Va bajo la cabecera de todas las páginas y sobre cada escaparate en vivo.
+   Va bajo la cabecera de todas las páginas, sobre cada escaparate en vivo y —
+   desde el 18/08/2026— dentro del bloque de llamada de la portada. Ahí es el
+   único que va **dentro** y no colgando: entre festón y festón se ve el propio
+   azul del bloque, que es lo que se busca. Colgando, se vería la baldosa de la
+   sección y parecería roto.
 2. **Persiana** (`.persiana`): lamas en `repeating-linear-gradient`. Cubre el
    marco hasta que hay algo que enseñar.
 3. **Reflejo** (`.escaparate__lienzo::after`): una diagonal clara que barre el
    cristal al pasar el ratón.
+
+## La llamada de la portada
+
+Desde el 18/08/2026 la web **no publica precios**. Las tres filas de la oferta
+tenían el precio de entrada en la tercera columna; ahora esa columna es la
+flecha, que es lo único que quedaba por decir —la fila entera es un enlace y
+necesita enseñar que se puede pulsar—, y se desplaza 5 px al pasar por encima,
+igual que el filete de color del borde superior.
+
+Debajo va `.llamada`, que ocupa el hueco que dejaron los tres precios y **tiene
+que pesar más que las filas de arriba**: sin cifra en la fachada, el visitante
+necesita una razón grande para dar el paso siguiente. De ahí el suelo azul
+dentro de una sección clara, el toldo encima, el gancho a cuerpo de titular y
+un solo botón, sin segunda acción que le reste. Debajo del botón, la única
+letra pequeña que hay: gratis, sin compromiso y sin llamada comercial detrás.
+
+A 390 px el botón se aprieta (cuerpo y relleno menores) porque «Solicitar
+presupuesto» a cuerpo grande se parte en dos líneas, y un botón principal de
+dos líneas parece un párrafo con borde.
 
 ## La maqueta de la portada
 
@@ -112,7 +135,7 @@ de la vuelta entera (640 × 348). Si cada fotograma se ajustase al suyo, la
 caseta bailaría dentro del cuadro. Como la peana es cuadrada, de esquina llena
 el ancho y de frente ocupa dos tercios: eso es lo que hace un plato giratorio.
 
-- Gira sola a **90 ms por fotograma —2,2 s la vuelta— hasta que el visitante
+- Gira sola a **300 ms por fotograma —7,2 s la vuelta— hasta que el visitante
   toca algo**. En cuanto arrastra o pulsa, manda él y no vuelve a arrancar sola.
 - Se puede arrastrar: 20 px de dedo = un fotograma = 15°, unos 480 px la vuelta
   entera. **Hacia la derecha sube el índice**, porque al avanzar un fotograma la

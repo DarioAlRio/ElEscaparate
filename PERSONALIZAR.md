@@ -6,25 +6,45 @@ no has decidido tú. Nombre y dominio ya están cerrados: **El Escaparate**, en
 
 ---
 
-## 1. Los precios y los plazos ⚠️ OBLIGATORIO
+## 1. Los plazos y el mantenimiento ⚠️ OBLIGATORIO
 
-Los números que hay puestos son **valores por defecto que me he inventado para
-que la maqueta sea real**. No son tu tarifa. Revísalos uno por uno.
+**Los precios de entrada se retiraron el 18/08/2026**, a petición tuya. La web
+ya no publica ninguna tarifa: los tres formatos llevan a `/presupuesto` y el
+argumento pasa a ser «precio cerrado por escrito antes de empezar». Si algún día
+quieres volver a enseñarlos, el sitio donde estaban es la tercera columna de
+`.oferta__fila` en `index.html` —hoy la flecha— y un `<div><dt>Desde</dt>` en
+cada `<dl class="datos">` de `diseno-web.html`.
 
-| Formato | Precio puesto | Plazo puesto |
-|---|---|---|
-| Una página | 400 € | 1 a 2 semanas |
-| Multipágina | 700 € | 2 a 4 semanas |
-| Tienda | 1.200 € | 4 a 6 semanas |
+Lo que sigue publicado y **sigue siendo un valor por defecto que me inventé yo**
+son los plazos. Revísalos uno por uno.
 
-Dónde aparecen:
+| Formato | Plazo puesto |
+|---|---|
+| Una página | 1 a 2 semanas |
+| Multipágina | 2 a 4 semanas |
+| Tienda | 4 a 6 semanas |
 
-- `index.html` → bloque `<!-- PRECIOS -->`, las tres filas de la oferta.
-- `diseno-web.html` → un `<dl class="datos">` por formato, y la etiqueta
-  `<meta name="description">` de arriba, que también los repite.
-- `index.html` → «Entrega entre 1 y 4 semanas» en el sello de la portada.
+Dónde aparecen: un `<dl class="datos">` por formato en `diseno-web.html`, y
+«Entrega entre 1 y 4 semanas» en el sello de la portada.
 
-Lo mismo con las condiciones que he escrito porque son las habituales, pero que
+### El mantenimiento de 8 € al mes
+
+**La cuota la pusiste tú; lo que entra y lo que no lo escribí yo**, a partir de
+lo que ya decía tu pregunta frecuente «¿Hay cuota mensual?». Léelo y confirma
+que te comprometes a eso, porque está publicado como una lista cerrada:
+
+- Cambios menores: horarios, teléfonos, fotos, un texto que ha dejado de ser cierto.
+- Copia de seguridad guardada aparte.
+- Revisión de que la web sigue en pie y de que el certificado no ha caducado.
+- Aviso con tiempo para renovar el dominio.
+- Se pausa cualquier mes, sin permanencia.
+
+Está en `diseno-web.html`, sección `#mantenimiento`, más el sello de la portada
+(«Mantenimiento opcional, 8 € al mes»), el desplegable «¿Hay cuota mensual?» y
+la etiqueta `<meta name="description">` de `diseno-web.html`. Si cambias la
+cifra, búscala como `8 €` y sale en los cuatro sitios.
+
+Lo mismo con las condiciones que escribí porque son las habituales, pero que
 son tuyas: **mitad y mitad**, **dos rondas de cambios**, **un mes de ajustes**,
 **contesto en un día laborable**. Están en `como-trabajo.html`, `diseno-web.html`
 (desplegables) y `presupuesto.html`.

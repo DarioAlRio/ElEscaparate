@@ -42,12 +42,23 @@ detrás.
 
 ## Qué vende
 
-Tres tipos de encargo, con precio de entrada visible («desde X €») y
-presupuesto cerrado tras hablar:
+Tres tipos de encargo, sin tarifa publicada y con presupuesto cerrado por
+escrito tras hablar:
 
 - Web de una página (tarjeta de presentación con reserva o contacto)
 - Web multipágina (catálogo, servicios, historia, contacto)
 - Tienda online
+
+**Los precios de entrada dejaron de publicarse el 18/08/2026**, por decisión de
+Dario. Hasta entonces el argumento principal era «desde 400 / 700 / 1.200 €», y
+era lo que separaba esta web de una agencia. En su lugar, la portada remata los
+tres formatos con un bloque de llamada a presupuesto y el sello pasa a ser
+«presupuesto cerrado por escrito». Es un cambio de posicionamiento, no de
+maquetación: si la conversión cae, esto es lo primero que hay que mirar.
+
+**Mantenimiento voluntario, 8 € al mes** (18/08/2026, decisión de Dario): copias,
+revisión y cambios menores, sin permanencia. No entra en ningún formato y tiene
+sección propia en /diseno-web.
 
 **Lo que no se ofrece** (2026-07-29, decisión de Dario): aplicaciones web a
 medida y rescate de webs ajenas. No los hace, así que no aparecen en ninguna

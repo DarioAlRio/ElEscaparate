@@ -205,7 +205,7 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
 - **El taller de render no arranca sin `utils/BufferGeometryUtils.js`.**
   `GLTFLoader` lo importa como `../utils/`, fuera de la carpeta donde se pone
   three.js, y la consola solo dice «404» sin decir de qué. Media hora perdida.
-- **Cadencia y peso van juntos.** 24 fotogramas a 90 ms son 2,2 s la vuelta y
+- **Cadencia y peso van juntos.** 24 fotogramas a 300 ms son 7,2 s la vuelta y
   311 KB; por debajo de unos 12 por vuelta se ven los saltos y por encima de 30
   el peso se dispara. A 640 px de ancho cada uno pesa 13 KB; bajar la calidad
   del WebP de 0,78 a 0,62 solo ahorra un 10 %, porque lo que pesa es el canal
