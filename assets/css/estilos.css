@@ -803,7 +803,7 @@ button, input, select, textarea {
 .giro__caras {
   position: relative;
   /* Fijo desde el HTML: reserva el hueco antes de que baje la primera imagen
-     y la portada no da el tirón al cargar. Es la caja común de los 24, la
+     y la portada no da el tirón al cargar. Es la caja común de los 48, la
      unión de las siluetas de la vuelta entera. */
   aspect-ratio: 640 / 348;
   cursor: grab;
@@ -818,8 +818,8 @@ button, input, select, textarea {
 .giro__caras[data-agarrado="si"] { cursor: grabbing; }
 
 /* El primer fotograma es un <picture> escrito en el HTML, con su PNG de
-   respaldo dentro; los otros 23 son <img> que crea sitio.js. De ahí que la
-   regla tenga que valer para los dos casos. */
+   respaldo dentro; los otros 47 los crea sitio.js. De ahí que la regla tenga
+   que valer para los dos casos. */
 .giro__cara {
   position: absolute;
   inset: 0;
