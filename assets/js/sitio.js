@@ -346,7 +346,7 @@
   var primera = lienzo.querySelector(".giro__cara");
   if (total < 2 || !ruta || !primera) return;
 
-  var PAUSA = 90;   /* milisegundos por fotograma: 24 × 90 ms = 2,2 s la vuelta */
+  var PAUSA = 300;  /* milisegundos por fotograma: 24 × 300 ms = 7,2 s la vuelta */
   var PASO = 20;    /* píxeles de arrastre que valen un fotograma, o sea 15° */
 
   var caras = [primera];
