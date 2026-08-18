@@ -94,6 +94,7 @@ assets/css/estilos.css    Sistema entero, 18 secciones numeradas en comentarios
 assets/js/proyectos.js    Datos del portfolio — lo único que se toca a menudo
 assets/js/escaparates.js  Motor de capturas, fichas y visor
 assets/js/sitio.js        Menú, año, .entra, formulario, varilla, cierre y giro
+assets/fuentes/*.woff2   Archivo y Bricolage, subconjunto latin. Ver §5
 assets/img/modelo-NN.webp Los 48 fotogramas de la maqueta, 00 a 47. Ver §5
 assets/img/modelo-00.png  Solo el primero, de respaldo para quien no lea WebP
 _modelo-caseta.glb        El modelo 3D del que salen. No se publica
@@ -196,6 +197,39 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   en todo: el navegador conserva la copia y el servidor contesta 304, que son
   200 bytes. Si algún día se quiere caché larga de verdad, primero hay que
   poner versión en las direcciones (`estilos.css?v=8`), no antes.
+  **Las fuentes son la única excepción**, y precisamente porque sí llevan la
+  versión dentro del nombre (`archivo-v25-latin.woff2`): actualizar una es subir
+  un archivo nuevo, así que van con `max-age=31536000, immutable`. Por eso
+  `vercel.json` nombra las carpetas una a una (`css`, `js`, `img`, `fuentes`) en
+  vez de un `/assets/(.*)` con excepción: así ninguna regla se pisa con otra y
+  no hay que fiarse del orden. **Si algún día se añade una carpeta a `assets/`,
+  hay que darle su regla**; mientras no la tenga, Vercel le pone su valor por
+  defecto, que es justo el `max-age=0` que queremos.
+- **Las fuentes se sirven desde aquí, no desde Google.** La etiqueta de
+  `fonts.googleapis.com` bloqueaba la pintura **780 ms** en móvil y encadenaba
+  tres saltos antes de tener una letra: HTML → su CSS → su CDN, con dos
+  conexiones a dominios ajenos por medio. Ahora las diez páginas precargan los
+  dos `.woff2` (`rel="preload"`, `crossorigin` obligatorio aunque sean del mismo
+  origen) y el `@font-face` vive en la sección 0 del CSS. Los archivos son los
+  mismos bytes que servía Google, subconjunto latin, que cubre el español
+  entero. Comprobado que el dibujo no cambia: mismo ancho al píxel a 18, 34 y
+  73,6 px, y en la negrita del texto. **No volver a enlazar Google**: no ahorra
+  nada y devuelve los tres saltos.
+- **A Bricolage no se le quita el eje óptico.** Pedirla sin `opsz` deja el
+  archivo en 41 KB en vez de 77, pero el navegador aplica ese eje solo
+  (`font-optical-sizing: auto`) y es lo que aprieta los titulares: sin él el
+  titular de portada mide 1967 px en vez de 1803, un 9 % más ancho, y se
+  descompone la portada. Los 36 KB no compensan.
+- **Lighthouse pide minificar el CSS y el JS: no se hace.** Son unos 13 KB ya
+  comprimidos, y la única forma de conseguirlos es un paso de compilación
+  (regla 1) o borrar los comentarios, que son la documentación del sistema.
+  El coste no está ahí, está en la red.
+- **Los tres `<script>` van en la cabecera con `defer`**, no al final del body.
+  Así el navegador los descubre con los primeros bytes en vez de al terminar de
+  leer la página, y `defer` los ejecuta igual que estando al final, con el DOM
+  hecho. `escaparates.js` ya contempla los dos casos (`readyState`), y
+  `sitio.js` mide el DOM al vuelo, que con `defer` está completo. Si se mueven
+  al final otra vez, se pierde el adelanto y no se gana nada.
 - **La maqueta que gira son 48 fotogramas de un modelo 3D**, uno cada 7,5
   grados, sacados con `_render-modelo.html` desde `_modelo-caseta.glb`. El HTML
   solo trae el primero; los otros 47 los crea `sitio.js` al terminar la carga.

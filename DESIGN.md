@@ -62,6 +62,14 @@ lectura, claro.
 - Titulares: **Bricolage Grotesque** 700–800, `letter-spacing: -0.035em`.
 - Texto: **Archivo** 400/500/600.
 
+Las dos van **servidas desde el propio sitio** (`assets/fuentes/`, subconjunto
+latin, `.woff2`), no desde Google. El dibujo es el mismo archivo que servía
+Google —comprobado midiendo: mismo ancho al píxel a 18, 34 y 73,6 px, y también
+en la negrita del texto—, pero sin la hoja de estilos ajena que bloqueaba la
+pintura. Bricolage conserva su eje óptico (`opsz`), que es lo que mantiene los
+titulares anchos y apretados; sin él pesaría 36 KB menos y saldrían un 9 % más
+anchos.
+
 Escala fija en `rem`, de `--t-xs` (0.8125) a `--t-4xl`
 (`clamp(2.9rem, 7.2vw, 5.4rem)`). El display nunca pasa de 5.4rem. Medida de
 lectura acotada a 34–44rem según el bloque.
