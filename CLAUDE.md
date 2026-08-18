@@ -10,6 +10,7 @@ Antes de tocar nada, mira si la respuesta ya está escrita:
 | Qué es, a quién habla, qué se ofrece y qué no | `PRODUCT.md` |
 | Paleta, tipografía, motivos, movimiento, accesibilidad | `DESIGN.md` |
 | Qué le queda por rellenar a Dario antes de publicar | `PERSONALIZAR.md` |
+| Qué decisiones están abiertas y cuáles ya se descartaron | `PENDIENTE.md` |
 
 Este archivo es lo demás: cómo se trabaja aquí y qué trampas ya se han pagado.
 
