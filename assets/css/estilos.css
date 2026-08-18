@@ -5,6 +5,42 @@
    turquesa para lo secundario y blanco de baldosa para leer.
    ========================================================================= */
 
+/* --- 0. Las letras ------------------------------------------------------
+   Las dos fuentes se sirven desde aquí, no desde Google. Antes eran una hoja
+   de estilos suya que bloqueaba la pintura y encadenaba tres saltos —el HTML,
+   su CSS y su CDN— antes de tener una letra en pantalla: 780 ms medidos en
+   móvil, más dos conexiones a dominios ajenos. Ahora el navegador pide el
+   .woff2 directamente y de un solo origen, el nuestro.
+   Solo está el subconjunto «latin», que es el que bajaba el navegador: cubre
+   el español entero —ñ, tildes, diéresis, «», · y €—. Lo que caiga fuera lo
+   pinta la letra del sistema, igual que antes.
+   El nombre lleva dentro la versión de Google (v25, v9) a propósito: si algún
+   día hay que actualizar la fuente se sube con nombre nuevo, y por eso estas
+   sí pueden ir con caché larga (ver vercel.json) sin repetir el problema de
+   servir lo viejo tras publicar.
+   Bricolage trae el eje óptico (opsz) y el navegador lo aplica solo: es lo que
+   mantiene los titulares anchos y apretados. Pedir la fuente sin ese eje baja
+   el archivo de 77 KB a 41, pero el titular sale un 9 % más ancho —1803 px
+   contra 1967 a tamaño de portada—. Medido, no estimado: no se toca. */
+
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/assets/fuentes/archivo-v25-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 700 800;
+  font-display: swap;
+  src: url("/assets/fuentes/bricolage-v9-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* --- 1. Fichas ---------------------------------------------------------- */
 
 :root {

@@ -11,7 +11,7 @@
 # El servidor de desarrollo, que solo se usa en local
 _dev-servidor.js
 
-# El modelo 3D de la caseta y el taller que saca de el los 24 fotogramas de
+# El modelo 3D de la caseta y el taller que saca de el los 48 fotogramas de
 # assets/img. Se versionan porque son el original del que sale la maqueta de la
 # portada, pero son 0,5 MB que no pide ninguna pagina.
 _modelo-caseta.glb
