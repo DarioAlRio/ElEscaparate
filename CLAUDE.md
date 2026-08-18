@@ -222,8 +222,15 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   descompone la portada. Los 36 KB no compensan.
 - **Lighthouse pide minificar el CSS y el JS: no se hace.** Son unos 13 KB ya
   comprimidos, y la única forma de conseguirlos es un paso de compilación
-  (regla 1) o borrar los comentarios, que son la documentación del sistema.
-  El coste no está ahí, está en la red.
+  (regla 1) o borrar los comentarios, que son la documentación del sistema
+  —13.657 de los 53.738 bytes del CSS, una cuarta parte—. El coste no está ahí,
+  está en la red.
+- **Tampoco se parte el CSS por anchura.** El truco de sacar lo de escritorio a
+  otra hoja con `media="(min-width: …)"`, que el navegador baja sin bloquear la
+  pintura, aquí no da nada: contado, **todos los `@media (min-width)` juntos son
+  1.739 bytes** de 53.738, un 3 %. Y costaría una hoja más (regla 6) y mover
+  reglas de sección, que cambia el orden de la cascada. La hoja seguirá siendo
+  la única petición que bloquea la pintura; ese es el techo aceptado.
 - **Los tres `<script>` van en la cabecera con `defer`**, no al final del body.
   Así el navegador los descubre con los primeros bytes en vez de al terminar de
   leer la página, y `defer` los ejecuta igual que estando al final, con el DOM
@@ -277,6 +284,19 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   8 % y bajar la calidad del WebP de 0,78 a 0,62 solo un 10 %, porque lo que
   pesa es el canal alfa, que va sin pérdida. Medido, no estimado: no se gana
   nada apretando, se gana quitando fotogramas.
+- **Leer geometría después de escribir en el DOM para la página entera.** Es el
+  «forced reflow» que señalaba Lighthouse en móvil, y salían tres focos en
+  `sitio.js`, todos por lo mismo: preguntar por una medida cuando el navegador
+  aún tenía el dibujo sucio, y obligarle a recalcularlo ahí mismo. Cómo se
+  arreglaron, que sirve de receta:
+  - `crea()` pedía `modelo.width` —el ancho **pintado**— para copiarlo en cada
+    cara: hasta 48 recálculos seguidos para un número que no cambia. Ahora se
+    lee una vez, y del atributo (`getAttribute("width")`), que no mide nada.
+  - Las caras entraban al documento de una en una. Ahora la tanda se monta en un
+    `DocumentFragment` y se inserta de golpe.
+  - `alinea()` medía la cabecera justo después de insertar la varilla: 26 ms, el
+    más caro de los tres. Ahora se llama **antes** de insertarla. Y ya no mide
+    la varilla para restarle la mitad, la ancla con `translateX(-50%)`.
 - **El detector de antipatrones lee dentro de los comentarios HTML.** Escribir
   `<` seguido de `img>` en un comentario le hace contar una imagen rota. Si
   `detect.mjs` señala una línea que es prosa, es esto: cambia la redacción.

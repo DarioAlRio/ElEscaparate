@@ -222,12 +222,7 @@
     '<span class="varilla__tirador" aria-hidden="true"></span>' +
     '<span class="oculto-visual" data-etiqueta>Echar el cierre</span>';
 
-  /* Antes del toldo, no después: los dos van posicionados sin z-index, así que
-     manda el orden del documento y el toldo tiene que pintarse encima para que
-     la varilla cuelgue por detrás de la lona. */
   var lona = cabecera.querySelector(".toldo");
-  if (lona) cabecera.insertBefore(varilla, lona);
-  else cabecera.appendChild(varilla);
 
   /* La varilla tiene que colgar del centro de un festón, no de un margen fijo.
      Los festones se repiten cada --franja píxeles desde el borde izquierdo, así
@@ -246,11 +241,25 @@
     if (centro > ancho - franja / 2) centro -= franja;
     if (centro < franja / 2) centro = franja / 2;
 
+    /* Se ancla por el centro con transform en vez de restarle media varilla:
+       así no hay que medirla, que era otra lectura de geometría. */
     varilla.style.right = "auto";
-    varilla.style.left = (centro - varilla.getBoundingClientRect().width / 2) + "px";
+    varilla.style.left = centro + "px";
+    varilla.style.transform = "translateX(-50%)";
   }
 
+  /* Se mide y se coloca ANTES de meterla en el documento, y ese orden importa:
+     leer geometría justo después de insertar un elemento obliga al navegador a
+     recalcular la página entera en ese mismo instante. Eran 26 ms en móvil por
+     preguntar el ancho de una cabecera que ya estaba calculada. */
   alinea();
+
+  /* Antes del toldo, no después: los dos van posicionados sin z-index, así que
+     manda el orden del documento y el toldo tiene que pintarse encima para que
+     la varilla cuelgue por detrás de la lona. */
+  if (lona) cabecera.insertBefore(varilla, lona);
+  else cabecera.appendChild(varilla);
+
   var relojAncho = null;
   window.addEventListener("resize", function () {
     clearTimeout(relojAncho);
@@ -415,15 +424,23 @@
 
   var modelo = primera.querySelector("img");
 
-  function crea(i) {
+  /* El tamaño se lee del atributo y una sola vez. Preguntarle a la imagen por
+     su .width devuelve el ancho pintado, y eso obliga al navegador a recalcular
+     la página entera ahí mismo: dentro del bucle eran hasta 48 recálculos
+     seguidos para un número que no cambia. El atributo no toca el dibujo —las
+     caras van a inset:0 con width:100%—, solo declara la proporción. */
+  var anchoCara = modelo.getAttribute("width");
+  var altoCara = modelo.getAttribute("height");
+
+  function crea(i, bandeja) {
     var cara = document.createElement("img");
     cara.className = "giro__cara";
     cara.alt = "";
     cara.decoding = "async";
-    cara.width = modelo.width;
-    cara.height = modelo.height;
+    cara.width = anchoCara;
+    cara.height = altoCara;
     cara.src = ruta + ("0" + i).slice(-2) + ".webp";
-    lienzo.appendChild(cara);
+    bandeja.appendChild(cara);
     return cara;
   }
 
@@ -451,8 +468,12 @@
     var pendientes = lista.length;
     var entero = true;
 
+    /* Las de la tanda entran de una vez, no una a una: cada inserción suelta
+       ensucia la página y el navegador tiene que volver sobre ella. */
+    var bandeja = document.createDocumentFragment();
+
     lista.forEach(function (i) {
-      var cara = crea(i);
+      var cara = crea(i, bandeja);
       listo(cara, function (ok) {
         /* Solo entra en el juego la que ha llegado bien: una imagen rota
            metida en el array haría un hueco negro a mitad de vuelta. */
@@ -461,6 +482,8 @@
         if (--pendientes === 0) cuandoTermine(entero);
       });
     });
+
+    lienzo.appendChild(bandeja);
   }
 
   function trae() {
