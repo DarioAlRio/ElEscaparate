@@ -871,21 +871,88 @@ img.giro__cara,
 .oferta__que { color: var(--tinta-suave); max-width: 34rem; }
 .oferta__que strong { color: var(--tinta); font-weight: 600; }
 
-.oferta__precio {
-  font-family: var(--letra-titular);
-  font-weight: 700;
-  font-size: var(--t-l);
-  white-space: nowrap;
+/* La tercera columna era el precio de entrada. Ahora es la flecha, que es lo
+   único que queda por decir: la fila entera es un enlace. Se desplaza al pasar
+   por encima, igual que el filete de color de arriba. */
+.oferta__ir {
   align-self: center;
-}
-.oferta__precio small {
-  display: block;
-  font-family: var(--letra-texto);
-  font-weight: 500;
-  font-size: var(--t-xs);
   color: var(--tinta-suave);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  transition: transform 0.25s var(--salida), color 0.18s ease;
+}
+.oferta__ir svg { width: 26px; height: 26px; }
+.oferta__fila:hover .oferta__ir,
+.oferta__fila:focus-visible .oferta__ir {
+  transform: translateX(5px);
+  color: var(--accion-tinta);
+}
+
+/* --- 9 bis. La llamada a presupuesto ------------------------------------ */
+
+/* Ocupa el sitio que dejaron los tres precios de entrada, y tiene que pesar
+   más que las filas de arriba: si la fachada no enseña la cifra, el visitante
+   necesita una razón grande para dar el paso siguiente. De ahí el suelo azul
+   dentro de una sección clara, y el toldo encima. */
+.llamada {
+  position: relative;
+  margin-top: var(--e5);
+  padding: calc(var(--e5) + var(--alto-toldo)) var(--e4) var(--e5);
+  background: var(--azul);
+  color: var(--cal);
+  border-radius: var(--radio-g);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* El toldo va DENTRO y no colgando, al revés que el de la cabecera: aquí lo
+   que se ve entre festón y festón es el propio azul del bloque, que es lo que
+   se busca. El relleno de arriba le reserva su altura. */
+.llamada__toldo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.llamada__gancho {
+  font-family: var(--letra-titular);
+  font-weight: 800;
+  font-size: var(--t-2xl);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  margin-bottom: var(--e2);
+}
+.llamada__texto {
+  max-width: 40rem;
+  margin: 0 auto var(--e4);
+  color: var(--azul-suave);
+}
+.llamada__texto strong { color: var(--cal); font-weight: 600; }
+
+.llamada__boton { font-size: var(--t-l); padding: 1.1rem 2rem; }
+.llamada__boton svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.25s var(--salida);
+}
+.llamada__boton:hover svg { transform: translateX(4px); }
+
+.llamada__apunte {
+  margin-top: var(--e2);
+  font-size: var(--t-xs);
+  color: var(--azul-suave);
+}
+
+/* En 390 px, «Solicitar presupuesto» a cuerpo grande y con el relleno ancho no
+   cabe en una línea y el botón se parte en dos. Un botón principal de dos
+   líneas parece un párrafo con borde, así que aquí se aprieta el bloque. */
+@media (max-width: 26rem) {
+  .llamada { padding-inline: var(--e3); }
+  .llamada__boton { font-size: var(--t-m); padding: 1rem 1.3rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oferta__ir,
+  .llamada__boton svg { transition: none; }
 }
 
 /* --- 10. Escaparates (portfolio) ---------------------------------------- */
