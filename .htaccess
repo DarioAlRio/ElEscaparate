@@ -32,6 +32,7 @@ ErrorDocument 404 /404.html
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript image/svg+xml
 </IfModule>
+# Los .woff2 no: ya vienen comprimidos y volver a apretarlos solo gasta CPU.
 
 # Nada se guarda sin preguntar: el navegador conserva la copia, pero revalida
 # siempre y el servidor contesta 304 si no ha cambiado. Los archivos de este
@@ -48,5 +49,11 @@ ErrorDocument 404 /404.html
 <IfModule mod_headers.c>
   <FilesMatch "\.(css|js|svg|png|ico)$">
     Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+  # Las fuentes son la excepción, y por eso llevan la versión en el nombre
+  # (archivo-v25, bricolage-v9): actualizar una es subir un archivo nuevo, así
+  # que guardarlas un año no puede servir nada viejo.
+  <FilesMatch "\.woff2$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
 </IfModule>
