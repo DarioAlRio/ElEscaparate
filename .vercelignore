@@ -11,13 +11,15 @@
 # El servidor de desarrollo, que solo se usa en local
 _dev-servidor.js
 
-# El guion que recorta los renders del modelo, y los renders originales con su
-# fondo tostado. Se versionan porque son el original del que sale assets/img,
-# pero pesan 1,3 MB y no los pide ninguna pagina.
-_recorta-modelo.ps1
-imagen3d-*.png
-imagen3d-*.jpg
-imagen3d-*.jfif
+# El modelo 3D de la caseta y el taller que saca de el los 24 fotogramas de
+# assets/img. Se versionan porque son el original del que sale la maqueta de la
+# portada, pero son 0,5 MB que no pide ninguna pagina.
+_modelo-caseta.glb
+_render-modelo.html
+_render-servidor.js
+tres/
+utils/
+_fotogramas/
 
 # Reglas de Apache, por si algún día se muda; aquí manda vercel.json
 .htaccess

@@ -316,9 +316,15 @@
 /* =========================================================================
    El modelo del estudio, girando.
 
-   Cuatro renders del mismo modelo a 90 grados. No hay giro continuo: se pasa
-   de una vista a la siguiente con un fundido corto, que a esta velocidad se
-   lee como movimiento. El orden de los <img> en el HTML es el del giro.
+   24 fotogramas del modelo 3D de la caseta, uno cada 15 grados. El giro está
+   dentro de las imágenes: aquí no se anima nada, solo se enseña la que toca.
+   Por eso el CSS de las caras no lleva ninguna transición — mezclar dos
+   posiciones distintas del volumen emborrona el movimiento en vez de suavizarlo.
+
+   En el HTML solo está escrito el primer fotograma. Los otros 23 los crea esta
+   función cuando la página ha terminado de cargar, y hasta que no están todos
+   descargados y descodificados no arranca: si empieza a girar con la mitad, se
+   ven huecos donde debería haber caseta.
 
    Gira solo hasta que el visitante toca algo. En cuanto arrastra o pulsa un
    botón, manda él y no se vuelve a arrancar por su cuenta: una imagen que
@@ -333,69 +339,104 @@
   if (!caja) return;
 
   var lienzo = caja.querySelector(".giro__caras");
-  var caras = caja.querySelectorAll(".giro__cara");
-  if (!lienzo || caras.length < 2) return;
+  if (!lienzo) return;
 
-  var PAUSA = 2600;       /* lo que se queda quieta cada vista */
-  var PASO = 64;          /* píxeles de arrastre que valen un cuarto de vuelta */
+  var total = parseInt(caja.getAttribute("data-fotogramas"), 10) || 0;
+  var ruta = caja.getAttribute("data-ruta") || "";
+  var primera = lienzo.querySelector(".giro__cara");
+  if (total < 2 || !ruta || !primera) return;
+
+  var PAUSA = 90;   /* milisegundos por fotograma: 24 × 90 ms = 2,2 s la vuelta */
+  var PASO = 20;    /* píxeles de arrastre que valen un fotograma, o sea 15° */
+
+  var caras = [primera];
   var quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var reloj = null;
   var boton = caja.querySelector("[data-anda]");
 
-  /* Se lleva la cuenta sin doblar (0, 1, 2, 3, 4, 5…) además de la vista que
-     toca. Hace falta para saber el sentido de cada paso: de la 3 a la 0 se va
+  /* Se lleva la cuenta sin doblar (0, 1, 2, 3, 4, 5…) además del fotograma que
+     toca. Hace falta para saber el sentido de cada paso: del 23 al 0 se va
      hacia delante, y con los índices ya doblados eso parece un salto atrás de
-     tres, que giraría el modelo al revés. */
+     veintitrés. */
   var crudo = 0;
   var actual = 0;
 
   function pinta(destino) {
-    var total = caras.length;
-    var sentido = destino === crudo ? 0 : (destino > crudo ? 1 : -1);
     var previo = actual;
-
     crudo = destino;
-    actual = ((destino % total) + total) % total;
+    actual = ((destino % caras.length) + caras.length) % caras.length;
     if (actual === previo) return;
 
-    if (sentido) caja.setAttribute("data-sentido", sentido);
-
-    for (var i = 0; i < total; i++) {
-      caras[i].removeAttribute("data-saliendo");
-      if (i === actual) caras[i].setAttribute("data-visible", "si");
-      else caras[i].removeAttribute("data-visible");
-    }
-    /* La que se va sigue girando hacia el mismo lado que la que llega. */
-    caras[previo].setAttribute("data-saliendo", "si");
+    caras[previo].removeAttribute("data-visible");
+    caras[actual].setAttribute("data-visible", "si");
     caja.setAttribute("data-cara", actual);
   }
 
-  /* Las otras tres imágenes no hacen falta para pintar la portada. Se piden
-     cuando la página ya ha terminado de cargar, para no competir con la hoja
-     de estilos ni con la primera vista. */
+  /* --- La descarga de los 23 que faltan --------------------------------- */
+
+  /* Son 311 KB. No se le piden a quien ha dicho que quiere ahorrar datos ni a
+     quien navega por una red lenta: con el primer fotograma la portada ya está
+     completa, y una maqueta quieta es una imagen perfectamente válida. */
+  function vale() {
+    var red = navigator.connection;
+    if (!red) return true;
+    if (red.saveData) return false;
+    return red.effectiveType !== "slow-2g" && red.effectiveType !== "2g";
+  }
+
+  function suma(imagen, cuandoTermine) {
+    function bien() { cuandoTermine(true); }
+    function mal() { cuandoTermine(false); }
+    /* decode() espera a que la imagen esté descodificada, no solo descargada.
+       Con onload a secas el primer paso por cada fotograma llega con el trabajo
+       de descodificar por hacer y el giro da tirones. */
+    if (imagen.decode) imagen.decode().then(bien, mal);
+    else { imagen.onload = bien; imagen.onerror = mal; }
+  }
+
   function trae() {
-    for (var i = 0; i < caras.length; i++) {
-      var webp = caras[i].getAttribute("data-webp");
-      var png = caras[i].getAttribute("data-png");
-      if (!png) continue;
-      var fuente = caras[i].querySelector("source");
-      if (fuente && webp) fuente.srcset = webp;
-      var imagen = caras[i].querySelector("img");
-      if (imagen) imagen.src = png;
-      caras[i].removeAttribute("data-webp");
-      caras[i].removeAttribute("data-png");
+    if (!vale()) return;
+
+    var modelo = primera.querySelector("img");
+    var pendientes = total - 1;
+    var roto = false;
+
+    function apunta(bien) {
+      if (!bien) roto = true;
+      if (--pendientes > 0) return;
+      /* Si alguna se ha quedado por el camino —red caída, o un navegador que
+         no entiende WebP— se deja la maqueta quieta en el primer fotograma en
+         vez de enseñar un giro con agujeros. */
+      if (roto) return;
+      caja.setAttribute("data-vivo", "si");
+      arranca();
+    }
+
+    for (var i = 1; i < total; i++) {
+      var cara = document.createElement("img");
+      cara.className = "giro__cara";
+      cara.alt = "";
+      cara.decoding = "async";
+      cara.width = modelo.width;
+      cara.height = modelo.height;
+      cara.src = ruta + ("0" + i).slice(-2) + ".webp";
+      lienzo.appendChild(cara);
+      caras.push(cara);
+      suma(cara, apunta);
     }
   }
 
   if (document.readyState === "complete") trae();
   else window.addEventListener("load", trae);
 
+  /* --- Mandos ------------------------------------------------------------ */
+
   function anda() {
     return !!reloj;
   }
 
   function arranca() {
-    if (quieto || reloj) return;
+    if (quieto || reloj || caras.length < total) return;
     reloj = setInterval(function () {
       /* Con la pestaña de fondo no hay nada que enseñar. */
       if (document.hidden) return;
@@ -428,12 +469,15 @@
     });
   });
 
-  /* Arrastre. Hacia la izquierda avanza el giro, que es el sentido en el que
-     el modelo se mueve solo: así tirar del modelo lo lleva a donde iba. */
+  /* Arrastre. Hacia la derecha sube el índice, y no al revés: al pasar de un
+     fotograma al siguiente la esquina que tenemos delante se mueve hacia la
+     derecha, así que tirar hacia la derecha es empujar la caseta a donde ya
+     iba. Con el signo cambiado el modelo gira en contra del dedo. */
   var origen = null;
   var partida = 0;
 
   lienzo.addEventListener("pointerdown", function (ev) {
+    if (caras.length < total) return;
     if (ev.button !== undefined && ev.button !== 0) return;
     para();
     origen = ev.clientX;
@@ -444,7 +488,7 @@
 
   lienzo.addEventListener("pointermove", function (ev) {
     if (origen === null) return;
-    pinta(partida - Math.round((ev.clientX - origen) / PASO));
+    pinta(partida + Math.round((ev.clientX - origen) / PASO));
   });
 
   function suelta(ev) {
@@ -462,8 +506,6 @@
   /* Arrastrar una imagen es lo que hace el navegador por su cuenta con
      cualquier <img>, y se come el gesto entero. */
   lienzo.addEventListener("dragstart", function (ev) { ev.preventDefault(); });
-
-  arranca();
 })();
 
 /* =========================================================================

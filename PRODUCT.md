@@ -28,8 +28,9 @@ móvil, sin instalar nada. El estudio usa eso para dos cosas:
 
    **Dónde está, desde el 17/08/2026: en `/trabajos`, ya no en la portada.**
    Dario pidió que el hueco de la portada lo ocupase la maqueta del estudio
-   girando —cuatro renders de la caseta a 90°—, y que el espejo se quitase de
-   ahí. Sigue entero en `/trabajos`, que es la otra página donde ya estaba.
+   girando, y que el espejo se quitase de ahí. Sigue entero en `/trabajos`, que
+   es la otra página donde ya estaba. Desde el 18/08/2026 la maqueta es la
+   vuelta completa de un modelo 3D de la caseta, no cuatro renders sueltos.
 
 ## A quién le habla
 

@@ -85,9 +85,11 @@ assets/css/estilos.css    Sistema entero, 18 secciones numeradas en comentarios
 assets/js/proyectos.js    Datos del portfolio — lo único que se toca a menudo
 assets/js/escaparates.js  Motor de capturas, fichas y visor
 assets/js/sitio.js        Menú, año, .entra, formulario, varilla, cierre y giro
-assets/img/modelo-*.webp  Las cuatro vistas de la maqueta. Ver §5
-assets/img/modelo-*.png   Las mismas, de respaldo para quien no lea WebP
-_recorta-modelo.ps1       Produce los PNG desde los imagen3d-* de la raíz
+assets/img/modelo-NN.webp Los 24 fotogramas de la maqueta, 00 a 23. Ver §5
+assets/img/modelo-00.png  Solo el primero, de respaldo para quien no lea WebP
+_modelo-caseta.glb        El modelo 3D del que salen. No se publica
+_render-modelo.html       El taller que saca los fotogramas. Instrucciones dentro
+_render-servidor.js       Lo sirve y recoge lo que manda el navegador
 vercel.json               cleanUrls + los 301 de las direcciones antiguas
 .htaccess                 Lo mismo para Apache, por si se muda
 robots.txt · sitemap.xml
@@ -183,29 +185,31 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   en todo: el navegador conserva la copia y el servidor contesta 304, que son
   200 bytes. Si algún día se quiere caché larga de verdad, primero hay que
   poner versión en las direcciones (`estilos.css?v=8`), no antes.
-- **La maqueta que gira son cuatro fotos, no un modelo 3D.** El orden en que
-  están escritas en `index.html` **es** el del giro (frente → derecha → detrás
-  → izquierda, que es la caseta girando hacia la izquierda vista desde arriba);
-  reordenarlas hace que pegue saltos. Los cuatro renders vienen con encuadres
-  distintos, así que `_recorta-modelo.ps1` los iguala por el **ancho de la
-  caseta**, no por el de la acera: la acera se salió del cuadro en el primer
-  render de la izquierda, y el ancho de un cuerpo vertical no cambia con la
-  altura de la cámara. Ese ancho se mide **solo en la mitad alta** de la
-  imagen: a pantalla completa, el adoquín en sombra tira a azulado y se cuela
-  en la cuenta —daba 629 px de caseta donde hay 494—.
-- **El fondo de los renders se quita por inundación desde el marco**, con dos
-  tolerancias: una corta contra el píxel vecino, que impide saltar el canto de
-  la acera, y una larga contra el color del fondo, que sí se traga la sombra de
-  contacto. Con un solo umbral no salen las dos cosas. Y el alfa se mete medio
-  píxel hacia dentro: sin eso queda un reborde de píxeles mezclados con el
-  tostado que sobre el azul de la portada se ve como un halo claro.
-- **Los WebP no los hace este equipo: los hace el navegador.** No hay
-  ImageMagick, ni Python, ni ffmpeg, y GDI+ no sabe escribirlos. La vía que
-  funciona es cargar el PNG en un `canvas` y pedirle `toBlob(…, "image/webp")`,
-  con un receptor de Node de usar y tirar que los guarde en disco. Pesan la
-  décima parte del PNG con la misma medida y la misma transparencia: 142 KB
-  las cuatro vistas frente a 1.536 KB. Si se regeneran los PNG, **hay que
-  rehacer los WebP**: nada lo hace solo.
+- **La maqueta que gira son 24 fotogramas de un modelo 3D**, uno cada 15
+  grados, sacados con `_render-modelo.html` desde `_modelo-caseta.glb`. El HTML
+  solo trae el primero; los otros 23 los crea `sitio.js` al terminar la carga.
+  El giro está **dentro** de las imágenes: en el CSS de `.giro__cara` no puede
+  haber ninguna transición. Antes eran cuatro fotos a 90 grados con un
+  `rotateY` que fingía el volumen; con fotogramas de verdad ese truco suma dos
+  giros y emborrona el movimiento en vez de suavizarlo.
+- **El recorte de los 24 es uno solo, no uno por fotograma.** `barre(24)`
+  pinta la vuelta entera, mide el alfa de cada una y se queda con la unión. Si
+  cada fotograma se ajusta a su propia silueta, la caseta baila dentro del
+  cuadro en vez de girar. Efecto lateral inevitable: la peana es cuadrada, así
+  que de esquina llena el ancho y de frente ocupa dos tercios. Eso es lo que
+  hace un plato giratorio, no un fallo del encuadre.
+- **Al pasar de un fotograma al siguiente la esquina de delante se va hacia la
+  derecha.** Por eso arrastrar hacia la derecha **sube** el índice: así la
+  caseta va con el dedo. Con el signo al revés gira en contra, que es la
+  sensación de que el mando está estropeado.
+- **El taller de render no arranca sin `utils/BufferGeometryUtils.js`.**
+  `GLTFLoader` lo importa como `../utils/`, fuera de la carpeta donde se pone
+  three.js, y la consola solo dice «404» sin decir de qué. Media hora perdida.
+- **Cadencia y peso van juntos.** 24 fotogramas a 90 ms son 2,2 s la vuelta y
+  311 KB; por debajo de unos 12 por vuelta se ven los saltos y por encima de 30
+  el peso se dispara. A 640 px de ancho cada uno pesa 13 KB; bajar la calidad
+  del WebP de 0,78 a 0,62 solo ahorra un 10 %, porque lo que pesa es el canal
+  alfa, que va sin pérdida. Medido, no estimado.
 - **El detector de antipatrones lee dentro de los comentarios HTML.** Escribir
   `<` seguido de `img>` en un comentario le hace contar una imagen rota. Si
   `detect.mjs` señala una línea que es prosa, es esto: cambia la redacción.

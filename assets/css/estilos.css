@@ -753,38 +753,23 @@ button, input, select, textarea {
 
 /* --- 8 bis. El modelo del estudio, girando ------------------------------ */
 
-/* Cuatro renders del mismo modelo a 90 grados, uno encima de otro, y un
-   fundido para pasar de uno al siguiente. Con cuatro fotos y sin vídeo no hay
-   giro continuo posible; el fundido corto es lo que más se le parece. */
+/* 24 fotogramas del modelo 3D, uno cada 15 grados, apilados uno encima de
+   otro. A esa cadencia el giro ya está dentro de las imágenes, así que aquí no
+   hay ni fundido ni transformación: se enseña el que toca y se esconde el
+   anterior. Cualquier transición de por medio emborrona el movimiento, porque
+   mezcla dos posiciones del volumen que no son la misma. */
 
 .giro {
   display: grid;
   gap: var(--e2);
-  /* Cuánto se tuerce cada vista al entrar y al salir. El signo lo pone el
-     sentido del giro, que marca sitio.js en data-sentido.
-
-     Es NEGATIVO para el sentido de avance, y no es un capricho: en CSS un
-     rotateY positivo aleja el canto derecho, o sea que la fachada de delante
-     se va hacia la izquierda del que mira. Ese es justo el sentido en el que
-     gira la caseta de una foto a la siguiente (frente → derecha → detrás),
-     así que la que entra tiene que venir del lado contrario, en negativo, y
-     enderezarse. Con el signo al revés, el volumen gira hacia un lado y las
-     fotos cuentan que va hacia el otro. Comprobado leyendo la matriz. */
-  --vuelta: -38deg;
 }
-.giro[data-sentido="-1"] { --vuelta: 38deg; }
 
 .giro__caras {
   position: relative;
-  /* Sin perspectiva, rotateY solo aplasta la imagen y parece una persiana.
-     Con ella, el canto que se acerca crece y el que se aleja mengua, que es
-     lo que el ojo lee como una vuelta. El punto de fuga se baja al centro de
-     la caseta, que no es el centro del lienzo. */
-  perspective: 1500px;
-  perspective-origin: 50% 56%;
   /* Fijo desde el HTML: reserva el hueco antes de que baje la primera imagen
-     y la portada no da el tirón al cargar. */
-  aspect-ratio: 654 / 480;
+     y la portada no da el tirón al cargar. Es la caja común de los 24, la
+     unión de las siluetas de la vuelta entera. */
+  aspect-ratio: 640 / 348;
   cursor: grab;
   /* El arrastre horizontal es del modelo; el vertical se lo queda la página.
      Sin esto, en móvil el dedo se queda enganchado y no se puede pasar de la
@@ -792,46 +777,27 @@ button, input, select, textarea {
   touch-action: pan-y;
   /* La caseta es azul marino sobre el azul de azulejo del fondo: sin este
      halo por detrás, el canto de las fachadas en sombra se pierde. */
-  background: radial-gradient(58% 54% at 50% 56%, rgba(59, 179, 201, 0.15), transparent 72%);
+  background: radial-gradient(58% 52% at 50% 54%, rgba(59, 179, 201, 0.15), transparent 72%);
 }
 .giro__caras[data-agarrado="si"] { cursor: grabbing; }
 
-/* Cada vista es un <picture>: WebP con el PNG de respaldo dentro. */
+/* El primer fotograma es un <picture> escrito en el HTML, con su PNG de
+   respaldo dentro; los otros 23 son <img> que crea sitio.js. De ahí que la
+   regla tenga que valer para los dos casos. */
 .giro__cara {
   position: absolute;
   inset: 0;
-  opacity: 0;
-  transform: rotateY(var(--vuelta));
-  /* Las que esperan turno no animan nada: saltan a su posición de salida sin
-     que se note, porque están a opacidad cero. Solo animan las dos que se
-     ven, la que entra y la que sale. */
-  transition: none;
+  visibility: hidden;
 }
+.giro__cara[data-visible="si"] { visibility: visible; }
+
+img.giro__cara,
 .giro__cara > img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-
-/* La que entra viene torcida y se endereza; la que sale sigue de largo hacia
-   el otro lado. Las dos giran en el mismo sentido a la vez, y eso es lo que
-   se lee como una vuelta en lugar de como un cambio de diapositiva. */
-.giro__cara[data-visible="si"],
-.giro__cara[data-saliendo="si"] {
-  transition: opacity 0.34s linear, transform 0.34s cubic-bezier(0.33, 0.7, 0.3, 1);
-}
-.giro__cara[data-visible="si"] {
-  opacity: 1;
-  transform: rotateY(0deg);
-}
-.giro__cara[data-saliendo="si"] {
-  transform: rotateY(calc(-1 * var(--vuelta)));
-}
-
-/* Con el modelo agarrado no hay ni giro ni fundido: la vista tiene que ir
-   pegada al dedo, y cualquier transición de por medio se siente como retraso. */
-.giro__caras[data-agarrado="si"] .giro__cara { transition: none; }
 
 .giro__pie {
   display: flex;
@@ -851,11 +817,11 @@ button, input, select, textarea {
 .giro__pie .conmutador svg { width: 14px; height: 14px; }
 .giro__pie .conmutador button[data-anda] { padding-inline: 0.75rem; }
 
-@media (prefers-reduced-motion: reduce) {
-  .giro__cara,
-  .giro__cara[data-visible="si"],
-  .giro__cara[data-saliendo="si"] { transition: none; transform: none; }
-}
+/* Sin JavaScript, o con movimiento reducido, o si no hay más fotograma que el
+   primero, el pie sobra: no hay nada que parar ni que arrastrar. Lo enciende
+   sitio.js poniendo data-vivo. */
+.giro:not([data-vivo="si"]) .giro__pie { display: none; }
+.giro:not([data-vivo="si"]) .giro__caras { cursor: default; }
 
 /* --- 9. Oferta: filas de toldo, no tarjetas ----------------------------- */
 

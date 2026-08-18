@@ -5,3 +5,10 @@ desktop.ini
 
 # Carpeta que crea la herramienta de Vercel si algún día la usas
 .vercel
+
+# El taller de render: three.js bajado a mano y los fotogramas en crudo antes
+# de pasarlos a assets/img. Se rehacen con dos «curl» y una tanda; versionarlos
+# serían 1,4 MB de dependencia y 300 KB duplicados.
+tres/
+utils/
+_fotogramas/
