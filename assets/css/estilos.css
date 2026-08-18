@@ -815,7 +815,6 @@ img.giro__cara,
   padding-inline: 0.55rem;
 }
 .giro__pie .conmutador svg { width: 14px; height: 14px; }
-.giro__pie .conmutador button[data-anda] { padding-inline: 0.75rem; }
 
 /* Sin JavaScript, o con movimiento reducido, o si no hay más fotograma que el
    primero, el pie sobra: no hay nada que parar ni que arrastrar. Lo enciende

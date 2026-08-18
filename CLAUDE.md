@@ -65,12 +65,21 @@ Detector de antipatrones de **impeccable** (instalado global en `~\.claude`,
 nunca copiado dentro del proyecto). **Exit 0 = limpio.** Pásalo por cada página
 que toques antes de darla por buena.
 
+```bash
+node _render-servidor.js
+```
+
+El taller que saca los 48 fotogramas de la maqueta desde `_modelo-caseta.glb`.
+Sirve en `http://localhost:5199` y escribe en `_fotogramas/`. Necesita three.js
+en `tres/` y `utils/`, que no se versionan: cómo bajarlos y la receta completa
+están en la cabecera de `_render-modelo.html`. Nada de esto se publica.
+
 ## 3. Mapa
 
 | Archivo | Dirección publicada | Qué es |
 |---|---|---|
 | `index.html` | `/` | Portada: contrato de dirección, modelo girando, oferta |
-| `diseno-web.html` | `/diseno-web` | Los tres formatos, precios y desplegables |
+| `diseno-web.html` | `/diseno-web` | Los tres formatos, el mantenimiento y los desplegables |
 | `trabajos.html` | `/trabajos` | Rejilla del portfolio + filtros (menú: «Trabajos») |
 | `como-trabajo.html` | `/como-trabajo` | Los cuatro pasos del método |
 | `sobre-mi.html` | `/sobre-mi` | Quién está detrás |
@@ -85,7 +94,7 @@ assets/css/estilos.css    Sistema entero, 18 secciones numeradas en comentarios
 assets/js/proyectos.js    Datos del portfolio — lo único que se toca a menudo
 assets/js/escaparates.js  Motor de capturas, fichas y visor
 assets/js/sitio.js        Menú, año, .entra, formulario, varilla, cierre y giro
-assets/img/modelo-NN.webp Los 24 fotogramas de la maqueta, 00 a 23. Ver §5
+assets/img/modelo-NN.webp Los 48 fotogramas de la maqueta, 00 a 47. Ver §5
 assets/img/modelo-00.png  Solo el primero, de respaldo para quien no lea WebP
 _modelo-caseta.glb        El modelo 3D del que salen. No se publica
 _render-modelo.html       El taller que saca los fotogramas. Instrucciones dentro
@@ -98,6 +107,8 @@ favicon.ico               16/32/48 en DIB. En la raíz, sin enlazar: solo
                           para quien lo busque por costumbre
 favicon-conborde.svg      Logo con filete. Ya no se enlaza; es el original
 favicon.svg               El mismo sin filete, para fondos oscuros
+tres/ · utils/            three.js para el taller. Ni se versiona ni se publica
+_fotogramas/              Salida en crudo del taller. Ni se versiona ni se publica
 _dev-servidor.js          No se sube al hosting
 ```
 
@@ -185,31 +196,53 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   en todo: el navegador conserva la copia y el servidor contesta 304, que son
   200 bytes. Si algún día se quiere caché larga de verdad, primero hay que
   poner versión en las direcciones (`estilos.css?v=8`), no antes.
-- **La maqueta que gira son 24 fotogramas de un modelo 3D**, uno cada 15
+- **La maqueta que gira son 48 fotogramas de un modelo 3D**, uno cada 7,5
   grados, sacados con `_render-modelo.html` desde `_modelo-caseta.glb`. El HTML
-  solo trae el primero; los otros 23 los crea `sitio.js` al terminar la carga.
+  solo trae el primero; los otros 47 los crea `sitio.js` al terminar la carga.
   El giro está **dentro** de las imágenes: en el CSS de `.giro__cara` no puede
   haber ninguna transición. Antes eran cuatro fotos a 90 grados con un
   `rotateY` que fingía el volumen; con fotogramas de verdad ese truco suma dos
   giros y emborrona el movimiento en vez de suavizarlo.
-- **El recorte de los 24 es uno solo, no uno por fotograma.** `barre(24)`
-  pinta la vuelta entera, mide el alfa de cada una y se queda con la unión. Si
-  cada fotograma se ajusta a su propia silueta, la caseta baila dentro del
-  cuadro en vez de girar. Efecto lateral inevitable: la peana es cuadrada, así
-  que de esquina llena el ancho y de frente ocupa dos tercios. Eso es lo que
-  hace un plato giratorio, no un fallo del encuadre.
+- **No gira sola desde el 18/08/2026**, por decisión de Dario: la mueve el
+  visitante y nadie más. Eso cambia de dónde sale el peso —la mayoría de las
+  visitas no la tocan— y por eso los fotogramas bajan en **tres tandas**: uno de
+  cada cuatro (12, 177 KB), luego uno de cada dos (24, 331 KB) y luego todos
+  (48, 683 KB). La tercera **solo en pantallas de 768 px para arriba**: en un
+  móvil la maqueta se ve a 354 px, con 24 ya no se distinguen los saltos, y los
+  otros 24 serían medio mega y unos 20 MB de mapas de bits descodificados.
+  Mientras falten, `pinta()` enseña el fotograma cargado más próximo; la cuenta
+  del giro va aparte y no se entera, así que al llegar una tanda nueva el gesto
+  sigue donde estaba.
+- **`img.decode()` no se espera nunca, solo se dispara.** Adelanta el trabajo de
+  descodificar, que si no llega sin hacer al primer paso por ese fotograma y el
+  giro da un tirón. Pero con la pestaña de fondo hay navegadores que dejan esa
+  promesa **sin resolver ni rechazar indefinidamente**: con ella colgada, la
+  tanda no terminaba nunca y la maqueta se quedaba muerta con las imágenes ya
+  descargadas. Comprobado: 29 s con los 12 fotogramas en el DOM y `data-vivo`
+  sin poner. Lo que decide es `onload`, que sí llega siempre.
+- **La flecha no avanza un fotograma: da un cuarto de vuelta.** 12 fotogramas a
+  34 ms, pasando por todos los de en medio. Uno solo a 7,5 grados no se ve como
+  un giro, se ve como un parpadeo. Bajo `prefers-reduced-motion` salta directa
+  al destino sin recorrerlo.
+- **El recorte de los 48 es uno solo, no uno por fotograma.** `barre(48)`
+  pinta la vuelta entera, mide el alfa de cada una y se queda con la unión —da
+  `[111, 170, 1578, 857]`, el mismo que salía muestreando 24, así que el
+  encuadre es estable. Si cada fotograma se ajusta a su propia silueta, la
+  caseta baila dentro del cuadro en vez de girar. Efecto lateral inevitable: la
+  peana es cuadrada, así que de esquina llena el ancho y de frente ocupa dos
+  tercios. Eso es lo que hace un plato giratorio, no un fallo del encuadre.
 - **Al pasar de un fotograma al siguiente la esquina de delante se va hacia la
   derecha.** Por eso arrastrar hacia la derecha **sube** el índice: así la
   caseta va con el dedo. Con el signo al revés gira en contra, que es la
-  sensación de que el mando está estropeado.
+  sensación de que el mando está estropeado. Van 9 px de dedo por fotograma:
+  432 px la vuelta entera.
 - **El taller de render no arranca sin `utils/BufferGeometryUtils.js`.**
   `GLTFLoader` lo importa como `../utils/`, fuera de la carpeta donde se pone
   three.js, y la consola solo dice «404» sin decir de qué. Media hora perdida.
-- **Cadencia y peso van juntos.** 24 fotogramas a 300 ms son 7,2 s la vuelta y
-  311 KB; por debajo de unos 12 por vuelta se ven los saltos y por encima de 30
-  el peso se dispara. A 640 px de ancho cada uno pesa 13 KB; bajar la calidad
-  del WebP de 0,78 a 0,62 solo ahorra un 10 %, porque lo que pesa es el canal
-  alfa, que va sin pérdida. Medido, no estimado.
+- **Peso: 14 KB por fotograma a 640 px.** Bajar el ancho a 600 solo ahorra un
+  8 % y bajar la calidad del WebP de 0,78 a 0,62 solo un 10 %, porque lo que
+  pesa es el canal alfa, que va sin pérdida. Medido, no estimado: no se gana
+  nada apretando, se gana quitando fotogramas.
 - **El detector de antipatrones lee dentro de los comentarios HTML.** Escribir
   `<` seguido de `img>` en un comentario le hace contar una imagen rota. Si
   `detect.mjs` señala una línea que es prosa, es esto: cambia la redacción.

@@ -316,20 +316,22 @@
 /* =========================================================================
    El modelo del estudio, girando.
 
-   24 fotogramas del modelo 3D de la caseta, uno cada 15 grados. El giro está
+   48 fotogramas del modelo 3D de la caseta, uno cada 7,5 grados. El giro está
    dentro de las imágenes: aquí no se anima nada, solo se enseña la que toca.
    Por eso el CSS de las caras no lleva ninguna transición — mezclar dos
    posiciones distintas del volumen emborrona el movimiento en vez de suavizarlo.
 
-   En el HTML solo está escrito el primer fotograma. Los otros 23 los crea esta
-   función cuando la página ha terminado de cargar, y hasta que no están todos
-   descargados y descodificados no arranca: si empieza a girar con la mitad, se
-   ven huecos donde debería haber caseta.
+   NO GIRA SOLA. Desde el 18/08/2026 el movimiento es únicamente del visitante:
+   arrastrando, con las flechas o con el teclado. Antes daba vueltas por su
+   cuenta y Dario pidió quitarlo.
 
-   Gira solo hasta que el visitante toca algo. En cuanto arrastra o pulsa un
-   botón, manda él y no se vuelve a arrancar por su cuenta: una imagen que
-   sigue moviéndose después de que la hayas parado con la mano es de las cosas
-   que más molestan de una web.
+   Eso cambia por completo de dónde sale el peso. Los 48 fotogramas son 699 KB,
+   y la mayoría de las visitas no van a tocar la maqueta nunca. Por eso bajan en
+   dos tandas: primero uno de cada cuatro —12 fotogramas, 175 KB— con los que la
+   maqueta ya se puede girar entera a saltos de 30 grados, y después el resto,
+   que es lo que la vuelve fluida. Mientras falten, «pinta» enseña el fotograma
+   cargado más próximo al que se ha pedido; la cuenta del giro va aparte y no se
+   entera, así que al terminar la segunda tanda el gesto sigue donde estaba.
    ========================================================================= */
 
 (function () {
@@ -341,42 +343,61 @@
   var lienzo = caja.querySelector(".giro__caras");
   if (!lienzo) return;
 
-  var total = parseInt(caja.getAttribute("data-fotogramas"), 10) || 0;
+  var TOTAL = parseInt(caja.getAttribute("data-fotogramas"), 10) || 0;
   var ruta = caja.getAttribute("data-ruta") || "";
   var primera = lienzo.querySelector(".giro__cara");
-  if (total < 2 || !ruta || !primera) return;
+  if (TOTAL < 2 || !ruta || !primera) return;
 
-  var PAUSA = 300;  /* milisegundos por fotograma: 24 × 300 ms = 7,2 s la vuelta */
-  var PASO = 20;    /* píxeles de arrastre que valen un fotograma, o sea 15° */
+  var PASO = 9;     /* píxeles de arrastre por fotograma: 432 px la vuelta */
+  var SALTO = 12;   /* fotogramas que gira cada flecha: 90°, un cuarto */
+  var RITMO = 34;   /* milisegundos entre uno y otro dentro de esa vuelta */
+  var TANDAS = [4, 2, 1];  /* uno de cada cuatro, luego de cada dos, luego todos */
 
-  var caras = [primera];
+  /* Un hueco por fotograma. Solo el 0 viene escrito en el HTML; los demás se
+     van rellenando conforme llegan. */
+  var caras = new Array(TOTAL);
+  caras[0] = primera;
+
   var quieto = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var reloj = null;
-  var boton = caja.querySelector("[data-anda]");
+  var vuelta = null;
 
-  /* Se lleva la cuenta sin doblar (0, 1, 2, 3, 4, 5…) además del fotograma que
-     toca. Hace falta para saber el sentido de cada paso: del 23 al 0 se va
-     hacia delante, y con los índices ya doblados eso parece un salto atrás de
-     veintitrés. */
+  /* La cuenta sin doblar (…, -1, 0, 1, 2, …) va aparte de lo que se ve. Hace
+     falta para dos cosas: saber el sentido de cada paso —del 47 al 0 se va
+     hacia delante, y con los índices doblados parecería un salto atrás de 47— y
+     para que el arrastre no pierda resolución mientras faltan fotogramas. */
   var crudo = 0;
   var actual = 0;
 
-  function pinta(destino) {
-    var previo = actual;
-    crudo = destino;
-    actual = ((destino % caras.length) + caras.length) % caras.length;
-    if (actual === previo) return;
-
-    caras[previo].removeAttribute("data-visible");
-    caras[actual].setAttribute("data-visible", "si");
-    caja.setAttribute("data-cara", actual);
+  /* El fotograma cargado más próximo al que se ha pedido. Con la primera tanda
+     puesta, el error máximo es de 15 grados; con la segunda, ninguno. */
+  function cerca(i) {
+    if (caras[i]) return i;
+    for (var d = 1; d <= TOTAL; d++) {
+      var izq = ((i - d) % TOTAL + TOTAL) % TOTAL;
+      var der = (i + d) % TOTAL;
+      if (caras[izq]) return izq;
+      if (caras[der]) return der;
+    }
+    return 0;
   }
 
-  /* --- La descarga de los 23 que faltan --------------------------------- */
+  function pinta(destino) {
+    crudo = destino;
+    var quiere = ((destino % TOTAL) + TOTAL) % TOTAL;
+    var cara = cerca(quiere);
+    if (cara === actual) return;
 
-  /* Son 311 KB. No se le piden a quien ha dicho que quiere ahorrar datos ni a
-     quien navega por una red lenta: con el primer fotograma la portada ya está
-     completa, y una maqueta quieta es una imagen perfectamente válida. */
+    caras[actual].removeAttribute("data-visible");
+    caras[cara].setAttribute("data-visible", "si");
+    actual = cara;
+    caja.setAttribute("data-cara", cara);
+  }
+
+  /* --- La descarga, en dos tandas --------------------------------------- */
+
+  /* No se le piden más a quien ha dicho que quiere ahorrar datos ni a quien
+     navega por una red lenta. Ahí se queda en la primera tanda, que ya deja
+     dar la vuelta entera. */
   function vale() {
     var red = navigator.connection;
     if (!red) return true;
@@ -384,46 +405,76 @@
     return red.effectiveType !== "slow-2g" && red.effectiveType !== "2g";
   }
 
-  function suma(imagen, cuandoTermine) {
-    function bien() { cuandoTermine(true); }
-    function mal() { cuandoTermine(false); }
-    /* decode() espera a que la imagen esté descodificada, no solo descargada.
-       Con onload a secas el primer paso por cada fotograma llega con el trabajo
-       de descodificar por hacer y el giro da tirones. */
-    if (imagen.decode) imagen.decode().then(bien, mal);
-    else { imagen.onload = bien; imagen.onerror = mal; }
+  /* La tercera tanda solo en pantalla grande. En un móvil la maqueta se ve a
+     354 px y con 24 fotogramas ya no se distinguen los saltos; los otros 24
+     serían medio mega y 20 MB de mapas de bits descodificados para afinar un
+     giro que ahí no se aprecia. */
+  function ancha() {
+    return window.innerWidth >= 768;
+  }
+
+  var modelo = primera.querySelector("img");
+
+  function crea(i) {
+    var cara = document.createElement("img");
+    cara.className = "giro__cara";
+    cara.alt = "";
+    cara.decoding = "async";
+    cara.width = modelo.width;
+    cara.height = modelo.height;
+    cara.src = ruta + ("0" + i).slice(-2) + ".webp";
+    lienzo.appendChild(cara);
+    return cara;
+  }
+
+  function listo(imagen, cuandoTermine) {
+    imagen.onload = function () {
+      /* decode() adelanta el trabajo de descodificar, que si no llega sin hacer
+         al primer paso por ese fotograma y el giro da un tirón. Pero NO se
+         espera a que termine, y esto costó encontrarlo: con la pestaña de fondo
+         hay navegadores que dejan esa promesa sin resolver indefinidamente, y
+         con ella colgaba la tanda entera y la maqueta se quedaba muerta aunque
+         las imágenes ya estuviesen descargadas. onload sí llega siempre. */
+      if (imagen.decode) imagen.decode().catch(function () {});
+      cuandoTermine(true);
+    };
+    imagen.onerror = function () { cuandoTermine(false); };
+  }
+
+  /* Trae los múltiplos de «paso» que aún falten. Los que ya están puestos por
+     una tanda anterior no se vuelven a pedir. */
+  function tanda(paso, cuandoTermine) {
+    var lista = [];
+    for (var i = 0; i < TOTAL; i += paso) if (!caras[i]) lista.push(i);
+    if (!lista.length) { cuandoTermine(true); return; }
+
+    var pendientes = lista.length;
+    var entero = true;
+
+    lista.forEach(function (i) {
+      var cara = crea(i);
+      listo(cara, function (ok) {
+        /* Solo entra en el juego la que ha llegado bien: una imagen rota
+           metida en el array haría un hueco negro a mitad de vuelta. */
+        if (ok) caras[i] = cara;
+        else { entero = false; cara.remove(); }
+        if (--pendientes === 0) cuandoTermine(entero);
+      });
+    });
   }
 
   function trae() {
-    if (!vale()) return;
-
-    var modelo = primera.querySelector("img");
-    var pendientes = total - 1;
-    var roto = false;
-
-    function apunta(bien) {
-      if (!bien) roto = true;
-      if (--pendientes > 0) return;
-      /* Si alguna se ha quedado por el camino —red caída, o un navegador que
-         no entiende WebP— se deja la maqueta quieta en el primer fotograma en
-         vez de enseñar un giro con agujeros. */
-      if (roto) return;
+    tanda(TANDAS[0], function (entero) {
+      /* Si la primera tanda no ha llegado entera, la maqueta se queda quieta en
+         el primer fotograma: mejor una imagen fija que un giro con agujeros. */
+      if (!entero) return;
       caja.setAttribute("data-vivo", "si");
-      arranca();
-    }
-
-    for (var i = 1; i < total; i++) {
-      var cara = document.createElement("img");
-      cara.className = "giro__cara";
-      cara.alt = "";
-      cara.decoding = "async";
-      cara.width = modelo.width;
-      cara.height = modelo.height;
-      cara.src = ruta + ("0" + i).slice(-2) + ".webp";
-      lienzo.appendChild(cara);
-      caras.push(cara);
-      suma(cara, apunta);
-    }
+      if (!vale()) return;
+      tanda(TANDAS[1], function () {
+        if (!ancha()) return;
+        tanda(TANDAS[2], function () {});
+      });
+    });
   }
 
   if (document.readyState === "complete") trae();
@@ -431,41 +482,28 @@
 
   /* --- Mandos ------------------------------------------------------------ */
 
-  function anda() {
-    return !!reloj;
-  }
-
-  function arranca() {
-    if (quieto || reloj || caras.length < total) return;
-    reloj = setInterval(function () {
-      /* Con la pestaña de fondo no hay nada que enseñar. */
-      if (document.hidden) return;
-      pinta(crudo + 1);
-    }, PAUSA);
-    if (boton) boton.textContent = "Parar";
-  }
-
   function para() {
-    clearInterval(reloj);
-    reloj = null;
-    if (boton) boton.textContent = "Girar";
+    if (!vuelta) return;
+    clearInterval(vuelta);
+    vuelta = null;
   }
 
-  if (boton) {
-    if (quieto) boton.textContent = "Girar";
-    boton.addEventListener("click", function () {
-      if (anda()) { para(); return; }
-      /* Bajo «prefers-reduced-motion» no arranca solo, pero si lo pide a
-         mano se le da: la preferencia es sobre lo que pasa sin pedirlo. */
-      quieto = false;
-      arranca();
-    });
+  /* La flecha no avanza un fotograma: da un cuarto de vuelta pasando por todos
+     los de en medio. Un solo fotograma a 7,5 grados no se ve como un giro, se
+     ve como un parpadeo. */
+  function gira(sentido) {
+    para();
+    var meta = crudo + sentido * SALTO;
+    if (quieto) { pinta(meta); return; }
+    vuelta = setInterval(function () {
+      if (crudo === meta) { para(); return; }
+      pinta(crudo + sentido);
+    }, RITMO);
   }
 
   caja.querySelectorAll("[data-gira]").forEach(function (mando) {
     mando.addEventListener("click", function () {
-      para();
-      pinta(crudo + (parseInt(mando.getAttribute("data-gira"), 10) || 1));
+      gira(parseInt(mando.getAttribute("data-gira"), 10) || 1);
     });
   });
 
@@ -477,7 +515,7 @@
   var partida = 0;
 
   lienzo.addEventListener("pointerdown", function (ev) {
-    if (caras.length < total) return;
+    if (caja.getAttribute("data-vivo") !== "si") return;
     if (ev.button !== undefined && ev.button !== 0) return;
     para();
     origen = ev.clientX;
