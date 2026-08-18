@@ -131,42 +131,31 @@
 
       <!-- El estudio en maqueta, dando la vuelta.
 
-           Son cuatro renders del mismo modelo a 90 grados, no un giro
-           continuo: entre vista y vista hay un fundido corto, que a esa
-           velocidad se lee como movimiento. El orden en que están escritas ES
-           el del giro; si se reordenan, el modelo pega saltos.
+           Son 24 fotogramas del modelo 3D de la caseta, uno cada 15 grados,
+           sacados con una cámara ortográfica fija mientras gira el modelo. A
+           esa cadencia el paso de uno a otro ya no se lee como un cambio de
+           foto sino como movimiento, así que no hay ni fundido ni transición:
+           se enseña el que toca y se esconde el anterior.
 
-           Cada vista va en WebP con el PNG de respaldo: 36 KB frente a 400,
-           con la misma medida y la misma transparencia. El PNG solo lo baja
-           quien no entienda WebP, que a estas alturas es casi nadie.
+           El recorte de los 24 es EL MISMO, calculado sobre la unión de las
+           siluetas de la vuelta entera. Si cada uno se ajustase a la suya, la
+           caseta bailaría dentro del cuadro en vez de girar.
 
-           Solo la primera trae su imagen. Las otras tres no hacen falta para
-           pintar la portada, así que sus direcciones van en data-webp y
-           data-png y las pide sitio.js cuando la página ya ha terminado de
-           cargar. Sin JavaScript se queda la primera fija, que es una imagen
-           perfectamente válida.
+           Aquí solo va escrito el primero, que es el que ve quien llegue sin
+           JavaScript y una imagen perfectamente válida por sí sola. Los otros
+           23 los crea sitio.js cuando la página ha terminado de cargar, y solo
+           si el navegador entiende WebP y no hay ni movimiento reducido ni
+           ahorro de datos: son 311 KB que no todo el mundo tiene que pagar.
 
-           Mientras tanto llevan un píxel transparente por src, no el atributo
-           vacío: sin src son imágenes rotas para el navegador, aunque aquí
-           estén a opacidad cero. -->
-      <div class="giro" data-giro data-cara="0">
+           El PNG de respaldo es únicamente el del primer fotograma. Guardar
+           los 24 en PNG serían 3,7 MB para un caso que ya no se da desde 2020;
+           quien no entienda WebP se queda con la maqueta quieta. -->
+      <div class="giro" data-giro data-cara="0" data-fotogramas="24" data-ruta="assets/img/modelo-">
         <div class="giro__caras" role="img"
-             aria-label="Maqueta de la caseta de El Escaparate: rótulo en las dos fachadas, toldo de rayas sobre los escaparates acristalados y, por detrás, la puerta de servicio sobre una acera de adoquín.">
+             aria-label="Maqueta de la caseta de El Escaparate: rótulo en las dos fachadas, toldos de rayas sobre los escaparates acristalados y, por detrás, la puerta de servicio sobre una acera de adoquín.">
           <picture class="giro__cara" data-visible="si">
-            <source srcset="assets/img/modelo-frente.webp" type="image/webp">
-            <img src="assets/img/modelo-frente.png" alt="" width="654" height="480" fetchpriority="high" decoding="async">
-          </picture>
-          <picture class="giro__cara" data-webp="assets/img/modelo-derecha.webp" data-png="assets/img/modelo-derecha.png">
-            <source type="image/webp">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" width="654" height="480" decoding="async">
-          </picture>
-          <picture class="giro__cara" data-webp="assets/img/modelo-detras.webp" data-png="assets/img/modelo-detras.png">
-            <source type="image/webp">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" width="654" height="480" decoding="async">
-          </picture>
-          <picture class="giro__cara" data-webp="assets/img/modelo-izquierda.webp" data-png="assets/img/modelo-izquierda.png">
-            <source type="image/webp">
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" width="654" height="480" decoding="async">
+            <source srcset="assets/img/modelo-00.webp" type="image/webp">
+            <img src="assets/img/modelo-00.png" alt="" width="640" height="348" fetchpriority="high" decoding="async">
           </picture>
         </div>
 
