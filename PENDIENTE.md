@@ -1,0 +1,88 @@
+# Pendiente
+
+Las decisiones que están abiertas y las que ya están cerradas, para que no haya
+que reconstruirlas de memoria en la sesión siguiente. Lo que te falta por
+**rellenar** (plazos, precios, textos, portfolio) no está aquí: está en
+`PERSONALIZAR.md`, y ahí sigue.
+
+Última revisión: 19/08/2026.
+
+---
+
+## 1. Abierto: decisiones que son tuyas
+
+### Los comentarios del CSS y el punto que falta en móvil
+
+Ahora mismo: **98 en móvil, 100 en todo lo demás**. Lo único que bloquea la
+primera pintura es `estilos.css`, y Lighthouse le pone 270 ms.
+
+Medido el 19/08/2026: la hoja son 53.980 bytes en crudo, 13.657 de ellos
+comentarios. Vercel la sirve en **15.377** bytes y sin comentarios serían
+**9.111** — o sea que los comentarios son **6,2 KB en el cable, el 41 %** de la
+única petición que retrasa la pintura. La prosa comprime mucho peor que el CSS
+repetido, por eso pesa más de lo que hace pensar su cuarta parte del archivo.
+
+La palanca sería sacar los párrafos largos del CSS a un documento aparte que no
+se publique, dejando dentro solo las cabeceras numeradas de sección. Ganaría
+casi la mitad de la hoja y probablemente el punto o los dos que faltan.
+
+El coste: la explicación deja de estar al lado de la regla que explica. Las
+trampas del toldo, la máscara `left bottom`, la especificidad de los numerales
+—todo eso está escrito donde se tropieza con ello, y ahí es donde sirve—.
+
+**Recomendación: quedarse en 98.** No está decidido; si prefieres el punto, se
+hace en una sesión.
+
+### El nombre del menú: «Qué monto»
+
+Se propuso volver a **«Servicios»**, que es lo que espera cualquiera y lo que
+buscan los buscadores. Nunca se llegó a responder, así que sigue «Qué monto».
+Cambiarlo son diez páginas y `aria-current`; el archivo y la dirección
+(`/diseno-web`) no se tocan.
+
+### El repositorio de GitHub es público
+
+`github.com/DarioAlRio/ElEscaparate` está abierto. No hay claves ni datos
+personales dentro, así que no es urgente, pero cualquiera puede leer el sitio
+entero antes de que esté terminado. Ponerlo privado son dos clics en GitHub y
+no afecta a Vercel.
+
+### El BOM en el título de un commit
+
+El commit `7eca897` lleva tres bytes invisibles al principio del título, de una
+codificación mal puesta. Se ve raro en el historial de GitHub. Arreglarlo obliga
+a reescribir el historial y a un `push --force`, que es la única operación de
+todo esto que puede romper algo. Por eso no se ha hecho por iniciativa propia.
+
+---
+
+## 2. Cerrado: no volver a proponerlo
+
+Todo esto se midió y se descartó con un número delante. Está desarrollado en la
+sección 5 de `CLAUDE.md`.
+
+| Idea | Por qué no |
+|---|---|
+| Minificar el CSS y el JS | Exige un paso de compilación (regla 1) o borrar la documentación del sistema. Para el JS, además, no bloquea nada: va con `defer` |
+| Partir el CSS por anchura | Todos los `@media (min-width)` juntos son 1.739 bytes de 53.980, un 3 % |
+| Insertar el CSS crítico en el HTML | Obliga a mantener a mano un bloque duplicado en las diez páginas |
+| Volver a enlazar Google Fonts | Eran 780 ms de bloqueo y tres saltos encadenados |
+| Quitarle el eje óptico a Bricolage | Ahorra 36 KB y descoloca el titular de portada un 9 % |
+| Apretar más los fotogramas de la maqueta | Lo que pesa es el canal alfa. Se gana quitando fotogramas, no comprimiendo |
+| Subir la compresión del hosting | Vercel usa brotli de calidad 3 y no se configura desde el repositorio |
+
+---
+
+## 3. Hecho en agosto de 2026
+
+- Las fuentes se sirven desde el propio sitio; Google fuera de la ruta crítica.
+- Los tres `<script>` a la cabecera con `defer`.
+- Caché: `max-age=0` en todo `assets/` menos las fuentes, que llevan la versión
+  en el nombre.
+- Los tres recálculos de página que forzaba `sitio.js` en móvil.
+- La maqueta: 48 fotogramas de un modelo 3D, en tres tandas, movida por el
+  visitante.
+- Enlaces internos sin extensión, servidos por `cleanUrls`.
+- El registro de los textos: se tutea, pero sobrio.
+
+De 89 a 98 en móvil, y de ahí no se sube sin tocar la regla 1 o la 6.
