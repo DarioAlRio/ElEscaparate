@@ -220,11 +220,21 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   (`font-optical-sizing: auto`) y es lo que aprieta los titulares: sin él el
   titular de portada mide 1967 px en vez de 1803, un 9 % más ancho, y se
   descompone la portada. Los 36 KB no compensan.
-- **Lighthouse pide minificar el CSS y el JS: no se hace.** Son unos 13 KB ya
-  comprimidos, y la única forma de conseguirlos es un paso de compilación
-  (regla 1) o borrar los comentarios, que son la documentación del sistema
-  —13.657 de los 53.738 bytes del CSS, una cuarta parte—. El coste no está ahí,
-  está en la red.
+- **Lo que cuestan los comentarios del CSS en el cable: 6,2 KB, el 41 %.**
+  Medido el 19/08/2026, y corrige lo que decía antes esta misma línea («el coste
+  no está en los bytes»): sí lo está. La hoja son 53.980 bytes en crudo, 13.657
+  de ellos comentarios; Vercel la sirve en **15.377** y sin comentarios serían
+  **9.111**. La prosa comprime mucho peor que el CSS repetido, por eso pesa más
+  de lo que hace pensar su cuarta parte del archivo. Aun así **no se minifica**:
+  la única forma es un paso de compilación (regla 1) o borrar la documentación
+  del sistema, y esa decisión es de Dario, no del que edita. Para el JS la
+  objeción de siempre sí vale: van con `defer`, no bloquean la pintura.
+- **Vercel comprime con brotli de calidad 3, y eso no se toca desde aquí.**
+  Reproducido byte a byte: `brotliCompress(q=3, lgwin=16)` da 15.367 y el
+  servidor manda 15.377. La misma hoja a calidad 11 son 12.457, así que hay
+  2,9 KB que se pierden en el hosting y no hay ajuste que los recupere; ni
+  siquiera gana al gzip -9, que son 14.155. Antes de acusar al CSS de pesado,
+  ten en cuenta de dónde sale un quinto de su peso.
 - **Tampoco se parte el CSS por anchura.** El truco de sacar lo de escritorio a
   otra hoja con `media="(min-width: …)"`, que el navegador baja sin bloquear la
   pintura, aquí no da nada: contado, **todos los `@media (min-width)` juntos son
