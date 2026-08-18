@@ -119,36 +119,47 @@ dos líneas parece un párrafo con borde.
 
 ## La maqueta de la portada
 
-Desde el 18/08/2026 la portada enseña la caseta del estudio dando la vuelta
-(`.giro`). Son **24 fotogramas de un modelo 3D, uno cada 15°**, con el fondo
-transparente y apilados uno encima de otro. Antes eran cuatro renders a 90°
-con un `rotateY` en CSS que fingía el volumen entre foto y foto; con la vuelta
-entera fotograma a fotograma ese truco sobra, y de hecho estorba.
+La portada enseña la caseta del estudio girando (`.giro`). Son **48 fotogramas
+de un modelo 3D, uno cada 7,5°**, con el fondo transparente y apilados uno
+encima de otro.
+
+**No gira sola** (18/08/2026, decisión de Dario). El movimiento es únicamente
+del visitante: arrastrando o con las flechas. Antes daba vueltas por su cuenta
+cada 300 ms y había un botón de parar, que ya no existe.
 
 **No hay transición ninguna entre fotogramas.** El giro está dentro de las
 imágenes: se enseña el que toca y se esconde el anterior. Cualquier fundido o
 transformación de por medio mezcla dos posiciones distintas del volumen y
 emborrona el movimiento en vez de suavizarlo.
 
-**El recorte de los 24 es el mismo**, calculado sobre la unión de las siluetas
+**El recorte de los 48 es el mismo**, calculado sobre la unión de las siluetas
 de la vuelta entera (640 × 348). Si cada fotograma se ajustase al suyo, la
 caseta bailaría dentro del cuadro. Como la peana es cuadrada, de esquina llena
 el ancho y de frente ocupa dos tercios: eso es lo que hace un plato giratorio.
 
-- Gira sola a **300 ms por fotograma —7,2 s la vuelta— hasta que el visitante
-  toca algo**. En cuanto arrastra o pulsa, manda él y no vuelve a arrancar sola.
-- Se puede arrastrar: 20 px de dedo = un fotograma = 15°, unos 480 px la vuelta
-  entera. **Hacia la derecha sube el índice**, porque al avanzar un fotograma la
-  esquina de delante se va hacia la derecha; así la caseta va con el dedo.
-- Tres botones con el mismo `.conmutador` que el resto del sitio. El pie solo
-  aparece cuando los 24 están cargados: si no hay giro, no hay nada que parar.
+- **Arrastre:** 9 px de dedo = un fotograma = 7,5°; 432 px la vuelta entera.
+  Hacia la derecha sube el índice, porque al avanzar un fotograma la esquina de
+  delante se va hacia la derecha; así la caseta va con el dedo.
+- **Flechas:** cada una da **un cuarto de vuelta** —12 fotogramas a 34 ms, unos
+  0,4 s— pasando por todos los de en medio. Un solo fotograma a 7,5° no se ve
+  como un giro, se ve como un parpadeo. Bajo `prefers-reduced-motion` salta
+  directa al destino sin recorrerlo.
+- Las dos flechas van en el mismo `.conmutador` que el resto del sitio. El pie
+  solo aparece cuando la maqueta está cargada: si no hay giro, no hay nada que
+  arrastrar ni ninguna flecha que pulsar.
 - Detrás lleva un halo turquesa muy tenue: la caseta es azul marino sobre el
   azul de azulejo del fondo y sin él se pierde el canto de las fachadas.
-- **311 KB los 24 en WebP.** Con la página solo baja el primero (19 KB, con su
-  PNG de respaldo en un `<picture>`); los otros 23 los pide `sitio.js` al
-  terminar la carga, y **no los pide** si el navegador dice `saveData` o red de
-  2G. Si alguno falla, la maqueta se queda quieta en el primero en vez de girar
-  con agujeros.
+- **699 KB los 48 en WebP**, y por eso bajan escalonados. Con la página solo
+  llega el primero (19 KB, con su PNG de respaldo en un `<picture>`); después,
+  `sitio.js` pide **uno de cada cuatro** (12 fotogramas, 177 KB — con eso ya se
+  da la vuelta entera a saltos de 30°), luego **uno de cada dos** (24, 331 KB) y
+  por último **todos**. La última tanda **solo de 768 px de ancho para arriba**:
+  en un móvil la maqueta se ve a 354 px y con 24 fotogramas ya no se distinguen
+  los saltos. Tampoco se piden más si el navegador dice `saveData` o red de 2G.
+  Mientras falten, se enseña el fotograma cargado más próximo al pedido; la
+  cuenta del giro va aparte, así que al llegar una tanda nueva el gesto sigue
+  donde estaba. Si la primera tanda falla, la maqueta se queda quieta en el
+  primer fotograma en vez de girar con agujeros.
 
 ## Movimiento
 
@@ -161,8 +172,9 @@ fichas. El giro de la portada no lleva transición: la lleva dentro. No hay anim
 sección: solo la rejilla del portfolio usa `.entra`, una vez.
 
 `prefers-reduced-motion: reduce` anula transiciones, animaciones y el
-desplazamiento suave. La maqueta **no arranca sola** bajo esa preferencia, pero
-si se pulsa «Girar» se le da: la preferencia es sobre lo que pasa sin pedirlo.
+desplazamiento suave. La maqueta ya no arranca sola bajo ninguna preferencia; lo
+único que cambia esa opción es la flecha, que salta directa al cuarto de vuelta
+en lugar de recorrerlo.
 
 ## Estados
 

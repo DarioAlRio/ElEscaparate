@@ -131,26 +131,28 @@
 
       <!-- El estudio en maqueta, dando la vuelta.
 
-           Son 24 fotogramas del modelo 3D de la caseta, uno cada 15 grados,
-           sacados con una cámara ortográfica fija mientras gira el modelo. A
-           esa cadencia el paso de uno a otro ya no se lee como un cambio de
-           foto sino como movimiento, así que no hay ni fundido ni transición:
-           se enseña el que toca y se esconde el anterior.
+           Son 48 fotogramas del modelo 3D de la caseta, uno cada 7,5 grados,
+           sacados con una cámara ortográfica fija mientras gira el modelo. El
+           giro está dentro de las imágenes, así que no hay ni fundido ni
+           transición: se enseña el que toca y se esconde el anterior.
 
-           El recorte de los 24 es EL MISMO, calculado sobre la unión de las
+           El recorte de los 48 es EL MISMO, calculado sobre la unión de las
            siluetas de la vuelta entera. Si cada uno se ajustase a la suya, la
            caseta bailaría dentro del cuadro en vez de girar.
 
+           No gira sola: la mueve el visitante, arrastrando o con las flechas.
+           Por eso los fotogramas bajan en dos tandas —uno de cada cuatro
+           primero, el resto después—: son 699 KB en total y la mayoría de las
+           visitas no van a tocarla. Con la primera tanda ya se puede dar la
+           vuelta entera; la segunda es la que la vuelve fluida.
+
            Aquí solo va escrito el primero, que es el que ve quien llegue sin
-           JavaScript y una imagen perfectamente válida por sí sola. Los otros
-           23 los crea sitio.js cuando la página ha terminado de cargar, y solo
-           si el navegador entiende WebP y no hay ni movimiento reducido ni
-           ahorro de datos: son 311 KB que no todo el mundo tiene que pagar.
+           JavaScript y una imagen perfectamente válida por sí sola.
 
            El PNG de respaldo es únicamente el del primer fotograma. Guardar
-           los 24 en PNG serían 3,7 MB para un caso que ya no se da desde 2020;
+           los 48 en PNG serían 7,4 MB para un caso que ya no se da desde 2020;
            quien no entienda WebP se queda con la maqueta quieta. -->
-      <div class="giro" data-giro data-cara="0" data-fotogramas="24" data-ruta="assets/img/modelo-">
+      <div class="giro" data-giro data-cara="0" data-fotogramas="48" data-ruta="assets/img/modelo-">
         <div class="giro__caras" role="img"
              aria-label="Maqueta de la caseta de El Escaparate: rótulo en las dos fachadas, toldos de rayas sobre los escaparates acristalados y, por detrás, la puerta de servicio sobre una acera de adoquín.">
           <picture class="giro__cara" data-visible="si">
@@ -160,13 +162,12 @@
         </div>
 
         <div class="giro__pie">
-          <span>Arrástralo para girarlo.</span>
+          <span>Arrástralo para girarlo, o usa las flechas.</span>
           <div class="conmutador" role="group" aria-label="Giro del modelo">
-            <button type="button" data-gira="-1" aria-label="Vista anterior">
+            <button type="button" data-gira="-1" aria-label="Girar un cuarto hacia la izquierda">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg>
             </button>
-            <button type="button" data-anda>Parar</button>
-            <button type="button" data-gira="1" aria-label="Vista siguiente">
+            <button type="button" data-gira="1" aria-label="Girar un cuarto hacia la derecha">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
             </button>
           </div>
