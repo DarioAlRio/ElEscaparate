@@ -1,6 +1,6 @@
 # CLAUDE.md — El Escaparate
 
-Web del estudio de Dario Domínguez. Siete páginas estáticas, sin build.
+Web del estudio de Darío Domínguez García. Siete páginas estáticas, sin build.
 Dominio: `elescaparateweb.com`.
 
 Antes de tocar nada, mira si la respuesta ya está escrita:
