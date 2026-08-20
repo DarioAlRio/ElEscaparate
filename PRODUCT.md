@@ -5,7 +5,7 @@ DESIGN.md) ni instrucciones de personalización (eso vive en PERSONALIZAR.md).
 
 ## Qué es
 
-**El Escaparate** es el estudio de Dario Domínguez: diseña y programa webs para
+**El Escaparate** es el estudio de Darío Domínguez García: diseña y programa webs para
 negocios pequeños que ya tienen clientes en la calle y no tienen presencia
 decente en internet. Es la web del propio estudio: capta encargos y enseña
 trabajo hecho.
