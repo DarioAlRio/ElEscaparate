@@ -207,7 +207,7 @@ página.
 Falta también una foto tuya. Sin ella, «detrás de esto hay una persona» es una
 frase; con ella, es un hecho.
 
-## 9. Textos legales ✓ escritos — falta el NIF, el domicilio y el aviso de cookies
+## 9. Textos legales ✓ escritos — falta el NIF y el domicilio, por decisión tuya
 
 Ya están escritas las tres páginas y enlazadas en la barra de abajo de todas:
 `aviso-legal.html`, `privacidad.html` y `cookies.html`.
@@ -237,14 +237,13 @@ come al nombrarla; comprobado en el navegador), lo que guardan, los dos años qu
 las tres formas de quitarlas. La de privacidad tiene su apartado propio y a
 Google en la lista de destinatarios.
 
-**Lo que falta, y es cosa tuya decidirlo:** el artículo 22.2 de la LSSI pide
-consentimiento **antes** de instalar cookies que no sean imprescindibles, y las
-de analítica no lo son. Hoy se instalan al cargar la página. Las dos salidas
-son un aviso previo de aceptar o rechazar —un archivo JS más y una tira en las
-diez páginas— o cambiar Analytics a modo sin cookies, que no necesita aviso
-pero deja de distinguir visitantes recurrentes. Mientras no elijas una, la
-política de cookies explica cómo quitarlas después, que es lo único que puede
-ofrecer con honestidad.
+**El aviso previo ya está puesto**, ese mismo día. Sale abajo a la izquierda en
+la primera visita, con el toldo encima para que no parezca pegado de otra web,
+y tiene dos botones del mismo tamaño: aceptar y rechazar. Hasta que alguien
+acepta no se descarga nada de Google, así que se cumple el artículo 22.2 de la
+LSSI sin depender de la buena fe de nadie. Si rechaza, se le caducan las
+cookies que pudiera tener de antes. Vive en `sitio.js` y en la sección 17 ter
+del CSS; no hay archivos nuevos.
 
 Y dos ajustes en el panel de Analytics que no puedo hacer yo: fijar la
 conservación de datos en 14 meses (viene en 2) y desactivar las señales de

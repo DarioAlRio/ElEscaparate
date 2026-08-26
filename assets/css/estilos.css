@@ -1883,9 +1883,88 @@ html.sin-js .entra { opacity: 1; transform: none; }
   font-size: var(--t-s);
 }
 
+/* --- 17 ter. Aviso de cookies -------------------------------------------- */
+
+/* Mismo recurso que la llamada de la portada: suelo azul y toldo dentro, con
+   el relleno de arriba reservando su altura. Va fijo abajo y a la izquierda,
+   sin velo ni foco atrapado: se puede seguir leyendo la web sin contestar.
+   Un aviso que secuestra la página para forzar el «acepto» no es un
+   consentimiento libre, que es justo lo que la norma pide. */
+.galletas {
+  position: fixed;
+  z-index: 45;
+  left: var(--e3);
+  right: var(--e3);
+  bottom: var(--e3);
+  max-width: 27rem;
+  padding: calc(var(--e3) + var(--alto-toldo)) var(--e3) var(--e3);
+  /* Azul hondo y filete, no el azul de las franjas: encima de una sección
+     azul —la portada, sin ir más lejos— un recuadro del mismo color se funde
+     con el fondo y solo lo despega la sombra, que sobre azul no se ve. */
+  background: var(--azul-hondo);
+  border: 1px solid var(--azul-linea);
+  color: var(--cal);
+  border-radius: var(--radio-g);
+  box-shadow: var(--sombra-alta);
+  overflow: hidden;
+}
+
+/* Igual que el de la llamada: dentro y no colgando, para que entre festón y
+   festón se vea el propio azul del recuadro. */
+.galletas__toldo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.galletas p { font-size: var(--t-s); color: var(--azul-suave); }
+/* Con la clase repetida, igual que en .fase .fase__marca y por lo mismo: el
+   titular también es un p, y `.galletas p` gana por especificidad aunque vaya
+   antes. Sin esto el titular se queda del gris del cuerpo, sin jerarquía.
+   Medido: 9,49 de contraste en los dos casos, que es lo que delató el fallo. */
+.galletas .galletas__titulo {
+  font-family: var(--letra-titular);
+  font-weight: 800;
+  font-size: var(--t-l);
+  letter-spacing: -0.025em;
+  margin-bottom: var(--e1);
+  color: var(--cal);
+}
+.galletas a { color: var(--cal); text-underline-offset: 3px; }
+.galletas a:hover { color: var(--accion-hondo); }
+
+.galletas__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e2);
+  margin-top: var(--e3);
+}
+/* Los dos botones reparten el ancho: a esta anchura, uno solo estirado y otro
+   corto se lee como si el corto fuera de segunda. La base va en 7rem y no en
+   9: con 9 no caben los dos en el ancho de un móvil, se apilan y el recuadro
+   crece 58 px, que en una pantalla de 844 se notan. */
+.galletas__acciones .boton { flex: 1 1 7rem; }
+
+/* Entra desde abajo una sola vez. Bajo prefers-reduced-motion aparece sin
+   recorrido, como el resto de movimientos del sitio. */
+@keyframes asoma-galletas {
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.galletas { animation: asoma-galletas 0.42s var(--salida) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .galletas { animation: none; }
+}
+
+@media (min-width: 40rem) {
+  .galletas { left: var(--e4); bottom: var(--e4); right: auto; width: 27rem; }
+}
+
 /* --- 18. Impresión ------------------------------------------------------ */
 
 @media print {
-  .cabecera, .pie, .visor, .escaparate-vivo, .cierre-fachada { display: none; }
+  .cabecera, .pie, .visor, .escaparate-vivo, .cierre-fachada, .galletas { display: none; }
   body { background: #fff; color: #000; }
 }

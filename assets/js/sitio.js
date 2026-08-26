@@ -323,6 +323,78 @@
 })();
 
 /* =========================================================================
+   Aviso de cookies.
+
+   La medición no se carga hasta que hay un sí: el fragmento de la cabecera
+   solo deja preparada window.cargaMedicion y la llama si ya había permiso
+   guardado. Quien rechaza, o quien no contesta, no descarga nada de Google
+   ni siquiera el archivo, que es lo que pide el artículo 22.2 de la LSSI y
+   de paso lo que ahorra 150 KB a la mayoría de las visitas.
+
+   La decisión se guarda en localStorage, no en una cookie: una cookie para
+   recordar que no quieres cookies es una contradicción que hay que explicar
+   en la política, y aquí no hace falta.
+   ========================================================================= */
+
+(function () {
+  "use strict";
+
+  var LLAVE = "galletas";
+
+  function leida() {
+    try { return localStorage.getItem(LLAVE); } catch (e) { return null; }
+  }
+
+  function anota(valor) {
+    try { localStorage.setItem(LLAVE, valor); } catch (e) {}
+  }
+
+  /* Quien entró antes de que existiera el aviso puede tener ya las dos
+     cookies puestas. Si ahora dice que no, hay que caducarlas o el «no» se
+     queda en papel mojado. Se prueban las dos rutas —dominio a secas y con
+     punto delante— porque no se sabe con cuál las escribió Google. */
+  function caduca() {
+    var nombres = ["_ga", "_ga_97JZNBDJE6"];
+    var dominio = location.hostname.replace(/^www\./, "");
+    nombres.forEach(function (nombre) {
+      document.cookie = nombre + "=; max-age=0; path=/";
+      document.cookie = nombre + "=; max-age=0; path=/; domain=" + dominio;
+      document.cookie = nombre + "=; max-age=0; path=/; domain=." + dominio;
+    });
+  }
+
+  if (leida()) return;
+
+  var aviso = document.createElement("div");
+  aviso.className = "galletas";
+  aviso.setAttribute("role", "region");
+  aviso.setAttribute("aria-label", "Aviso de cookies");
+  aviso.innerHTML =
+    '<div class="toldo toldo--fino galletas__toldo" aria-hidden="true"></div>' +
+    '<p class="galletas__titulo">Cookies de medición</p>' +
+    '<p>Dos cookies de Google Analytics para saber cuánta gente entra y qué páginas interesan. ' +
+      'No hay publicidad ni perfiles. Si las rechazas, la web funciona igual. ' +
+      '<a href="/cookies">Ver el detalle</a>.</p>' +
+    '<div class="galletas__acciones">' +
+      '<button type="button" class="boton boton--pequeno" data-galletas="si">Aceptar</button>' +
+      '<button type="button" class="boton boton--pequeno boton--fantasma" data-galletas="no">Rechazar</button>' +
+    '</div>';
+  document.body.appendChild(aviso);
+
+  aviso.addEventListener("click", function (ev) {
+    var boton = ev.target.closest("[data-galletas]");
+    if (!boton) return;
+
+    var si = boton.getAttribute("data-galletas") === "si";
+    anota(si ? "si" : "no");
+    if (si && typeof window.cargaMedicion === "function") window.cargaMedicion();
+    else if (!si) caduca();
+
+    aviso.remove();
+  });
+})();
+
+/* =========================================================================
    El modelo del estudio, girando.
 
    48 fotogramas del modelo 3D de la caseta, uno cada 7,5 grados. El giro está
