@@ -1384,6 +1384,10 @@ img.giro__cara,
 .fase h3 { font-size: var(--t-xl); margin-bottom: var(--e1); }
 .fase p { color: var(--tinta-suave); max-width: 42rem; }
 .franja--azul .fase p { color: var(--azul-suave); }
+/* La lista dentro de un paso hereda la tinta fuerte del body y se ve mas negra
+   que los parrafos que la rodean. Va al mismo tono que ellos. */
+.fase .lista-marcada li { color: var(--tinta-suave); }
+.franja--azul .fase .lista-marcada li { color: var(--azul-suave); }
 .fase__plazo {
   margin-top: var(--e2);
   font-size: var(--t-xs);
