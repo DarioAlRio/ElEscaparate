@@ -131,7 +131,10 @@ reglas **dentro de su sección**, no al final del archivo.
   instancia (`style="--tono:#ff5c3a"`).
 - **JS: `var`, funciones nombradas, sin frameworks.** `escaparates.js` expone
   `window.Escaparates = { captura, normaliza, pinta, abreVisor }`; es la única
-  variable global del sitio.
+  variable global del código propio. Las otras dos, `dataLayer` y `gtag`, las
+  crea el fragmento de Google Analytics que va en la cabecera de las diez
+  páginas desde el 26/08/2026: ese trozo va tal cual lo publica Google, sin
+  traducir ni envolver en IIFE, porque tiene que quedar global.
 - **Los comentarios explican el porqué, no el qué.** Si una regla parece
   arbitraria, es que costó descubrirla: déjala documentada en el sitio.
 - **Accesibilidad no opcional:** `aria-current` en el menú, `aria-expanded` en
