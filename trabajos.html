@@ -21,6 +21,16 @@
 <script src="assets/js/proyectos.js" defer></script>
 <script src="assets/js/escaparates.js" defer></script>
 <script src="assets/js/sitio.js" defer></script>
+<!-- Google Analytics 4. Es el fragmento tal cual lo publica Google: ni se
+     traduce ni se envuelve en IIFE como el resto del JS, porque gtag y
+     dataLayer tienen que quedar globales. Va igual en las diez paginas. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-97JZNBDJE6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-97JZNBDJE6');
+</script>
 </head>
 <body>
 

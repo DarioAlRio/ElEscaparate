@@ -18,6 +18,16 @@
 <link rel="preload" href="/assets/fuentes/archivo-v25-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.remove("sin-js");</script>
 <script src="assets/js/sitio.js" defer></script>
+<!-- Google Analytics 4. Es el fragmento tal cual lo publica Google: ni se
+     traduce ni se envuelve en IIFE como el resto del JS, porque gtag y
+     dataLayer tienen que quedar globales. Va igual en las diez paginas. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-97JZNBDJE6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-97JZNBDJE6');
+</script>
 </head>
 <body>
 
@@ -77,16 +87,19 @@
 <main id="contenido">
 
   <!-- DATOS DEL RESPONSABLE: solo el nombre, igual que en el aviso legal y por
-       la misma decisión (07/08/2026). Si algún día contratas un servicio de
-       formularios o añades analítica, hay que actualizar la lista de
-       destinatarios. Ver PERSONALIZAR.md -->
+       la misma decisión (07/08/2026). La analítica se añadió el 26/08/2026 y
+       ya está recogida abajo. Si algún día contratas un servicio de
+       formularios, hay que volver a tocar la lista de destinatarios.
+       Ver PERSONALIZAR.md -->
 
   <section class="franja franja--corta franja--azul">
     <div class="envoltura">
       <h1 class="titulo-pagina">Política de privacidad</h1>
       <p class="portada__entrada">
-        Qué datos tuyos llegan aquí, para qué los uso, cuánto los guardo y cómo
-        pedirme que los borre.
+        Información relativa al tratamiento de datos personales en
+        elescaparateweb.com, facilitada conforme al Reglamento (UE) 2016/679 y a
+        la Ley Orgánica 3/2018: qué datos se tratan, con qué finalidad y
+        legitimación, durante cuánto tiempo y cómo ejercer tus derechos.
       </p>
     </div>
   </section>
@@ -95,97 +108,120 @@
     <div class="envoltura">
       <div class="texto-legal">
 
-        <h2>Quién responde de tus datos</h2>
+        <h2>Responsable del tratamiento</h2>
         <p>
           <strong>Darío Domínguez García</strong>, que ejerce como profesional
-          autónomo bajo el nombre comercial El Escaparate. Puedes escribirme a
-          <a href="mailto:contacto@elescaparateweb.com">contacto@elescaparateweb.com</a>
-          para cualquier cosa relacionada con esta política.
+          autónomo bajo el nombre comercial El Escaparate. El canal habilitado
+          para cualquier cuestión relativa a esta política es
+          <a href="mailto:contacto@elescaparateweb.com">contacto@elescaparateweb.com</a>.
         </p>
 
-        <h2>Qué datos recojo</h2>
+        <h2>Datos objeto de tratamiento</h2>
         <p>
-          Solo los que me das tú. No hay registro de usuarios, ni analítica, ni
-          perfilado, ni publicidad.
+          Se tratan los datos facilitados voluntariamente por el usuario y,
+          desde el 26 de agosto de 2026, los datos estadísticos de navegación. No
+          existe registro de usuarios, elaboración de perfiles ni actividad
+          publicitaria.
         </p>
         <ul class="lista-marcada">
-          <li><span><strong>Del formulario de presupuesto:</strong> tu nombre, el de tu negocio, tu correo, tu teléfono si lo pones, el formato y el presupuesto que eliges, la dirección de tu web actual si la indicas, y lo que escribas en el mensaje.</span></li>
-          <li><span><strong>Si me escribes por WhatsApp o por correo:</strong> los datos que aparezcan en esa conversación.</span></li>
-          <li><span><strong>Del escaparate de pruebas:</strong> la dirección web que pegues. No es un dato personal en sí, pero viaja al servicio de capturas, así que conviene que lo sepas.</span></li>
+          <li><span><strong>Formulario de presupuesto:</strong> nombre, denominación del negocio, dirección de correo electrónico, teléfono en caso de facilitarse, formato y presupuesto seleccionados, dirección de la web actual si se indica, y el contenido del mensaje.</span></li>
+          <li><span><strong>Comunicaciones por correo electrónico o WhatsApp:</strong> los datos que consten en la propia conversación.</span></li>
+          <li><span><strong>Escaparate de pruebas:</strong> la dirección web introducida. No constituye un dato personal en sí misma, si bien se transmite al proveedor de capturas, circunstancia que se informa expresamente.</span></li>
+          <li><span><strong>Datos de navegación:</strong> páginas consultadas, tiempo de permanencia, origen de la visita, tipología de dispositivo y localización aproximada por país o ciudad, asociados a un identificador aleatorio de navegador y no a una persona identificada.</span></li>
         </ul>
 
-        <h2>Para qué los uso</h2>
+        <h2>Analítica web</h2>
         <p>
-          Para contestarte, preparar tu presupuesto y, si acabamos trabajando
-          juntos, gestionar el encargo y su facturación. Para nada más. No cedo
-          tus datos a nadie para que te venda cosas y no te voy a apuntar a
-          ninguna lista de correo.
-        </p>
-
-        <h2>Con qué derecho</h2>
-        <p>
-          Con tu consentimiento al enviarme el mensaje, y con la aplicación de
-          medidas precontractuales a petición tuya cuando lo que pides es un
-          presupuesto. Si llegamos a un encargo, la base pasa a ser la ejecución
-          del contrato y el cumplimiento de las obligaciones fiscales.
-        </p>
-
-        <h2>Cuánto los guardo</h2>
-        <p>
-          Las consultas que no acaban en encargo, un año. Si hay encargo, lo que
-          dure la relación y después los plazos que exige la ley: seis años la
-          documentación con efectos fiscales y contables, cuatro años los datos
-          con efectos tributarios.
-        </p>
-
-        <h2>Quién más los ve</h2>
-        <p>
-          Nadie a quien no haga falta. Estos son los proveedores que intervienen
-          y por qué:
+          Se utiliza <strong>Google Analytics 4</strong> con la finalidad de
+          medir la audiencia del sitio y orientar sus mejoras. La medición se
+          efectúa mediante dos cookies, descritas junto con los procedimientos
+          para su eliminación en la
+          <a href="/cookies">política de cookies</a>.
         </p>
         <ul class="lista-marcada">
-          <li><span><strong>Vercel Inc.</strong> — alojamiento de la web. Registra las peticiones al servidor, incluida tu dirección IP, por seguridad y funcionamiento.</span></li>
-          <li><span><strong>Google Ireland Ltd.</strong> — el correo de contacto es una cuenta de Gmail, así que los mensajes que me mandes se guardan ahí. Las tipografías también se cargan desde servidores de Google, que reciben tu IP al abrir la página.</span></li>
-          <li><span><strong>WhatsApp Ireland Ltd. (Meta)</strong> — solo si eliges escribirme por WhatsApp.</span></li>
-          <li><span><strong>Servicios de captura</strong> — thum.io, Automattic (mShots) y Microlink. Reciben la dirección web que se quiere capturar y tu IP al cargar la imagen.</span></li>
+          <li><span>Por esta vía no se recaban nombre, dirección de correo electrónico ni teléfono, y los informes no se cruzan con los datos remitidos a través del formulario.</span></li>
+          <li><span>Google anonimiza la dirección IP, que se emplea para deducir la localización aproximada y no se almacena.</span></li>
+          <li><span>Los datos asociados a un navegador concreto se conservan durante el plazo configurado en la herramienta, que <strong>no excede de catorce meses</strong>; los informes agregados, mientras permanezca activa la cuenta.</span></li>
+          <li><span>La base jurídica es el consentimiento del usuario, revocable en cualquier momento mediante la eliminación o el bloqueo de las cookies desde el navegador.</span></li>
         </ul>
+
+        <h2>Finalidades</h2>
         <p>
-          Algunos de estos proveedores están en Estados Unidos o tratan datos
-          allí. Esas transferencias se amparan en el marco de adecuación
-          UE-EE. UU. o en cláusulas contractuales tipo aprobadas por la Comisión
-          Europea.
+          Atender las consultas recibidas, elaborar el presupuesto solicitado y,
+          en caso de formalizarse el encargo, gestionar su ejecución y la
+          correspondiente facturación. Los datos no se ceden a terceros con
+          fines comerciales ni se incorporan a ninguna lista de distribución.
         </p>
 
-        <h2>Qué puedes exigirme</h2>
+        <h2>Base jurídica</h2>
         <p>
-          Acceder a tus datos, rectificarlos, suprimirlos, oponerte al
-          tratamiento, limitarlo y pedir que te los entregue en un formato
-          portable. Basta con que me escribas a
-          <a href="mailto:contacto@elescaparateweb.com">contacto@elescaparateweb.com</a>
-          y te contesto en menos de un mes.
-        </p>
-        <p>
-          Si crees que no lo he hecho bien, puedes reclamar ante la Agencia
-          Española de Protección de Datos,
-          <a href="https://www.aepd.es" target="_blank" rel="noopener noreferrer">aepd.es</a>.
-          Te agradecería que me lo dijeras antes, para intentar arreglarlo.
+          El consentimiento del interesado al remitir la comunicación y la
+          aplicación de medidas precontractuales adoptadas a su solicitud cuando
+          el objeto es la elaboración de un presupuesto. Formalizado el encargo,
+          la legitimación pasa a ser la ejecución del contrato y el cumplimiento
+          de las obligaciones legales de carácter fiscal y contable.
         </p>
 
-        <h2>Seguridad y menores</h2>
+        <h2>Plazos de conservación</h2>
         <p>
-          La web se sirve siempre cifrada y los datos se tratan en cuentas
-          protegidas con contraseña propia y verificación en dos pasos. Este
-          servicio se dirige a personas mayores de edad: no recojo datos de
-          menores a sabiendas.
+          Las consultas que no derivan en encargo se conservan durante un año.
+          Formalizado el encargo, los datos se conservan mientras dure la
+          relación y, posteriormente, durante los plazos legalmente exigibles:
+          seis años la documentación con efectos mercantiles y contables y
+          cuatro años los datos con trascendencia tributaria.
         </p>
 
-        <p class="apunte">Última actualización: 7 de agosto de 2026.</p>
+        <h2>Destinatarios y encargados del tratamiento</h2>
+        <p>
+          Únicamente los proveedores necesarios para la prestación del servicio.
+          Son los siguientes:
+        </p>
+        <ul class="lista-marcada">
+          <li><span><strong>Vercel Inc.</strong> — alojamiento del sitio web. Registra las peticiones al servidor, incluida la dirección IP, por motivos de seguridad y funcionamiento.</span></li>
+          <li><span><strong>Google Ireland Ltd.</strong> — por dos vías. El buzón de contacto es una cuenta de Gmail, en la que quedan almacenadas las comunicaciones recibidas, y Google Analytics recibe los datos de navegación descritos. Las tipografías, en cambio, se sirven desde este mismo dominio y no generan transmisión alguna.</span></li>
+          <li><span><strong>WhatsApp Ireland Ltd. (Meta)</strong> — únicamente si el usuario opta por ese canal.</span></li>
+          <li><span><strong>Proveedores de captura</strong> — thum.io, Automattic (mShots) y Microlink. Reciben la dirección web objeto de captura y la dirección IP al cargarse la imagen.</span></li>
+        </ul>
+
+        <h2>Transferencias internacionales</h2>
+        <p>
+          Algunos de los proveedores indicados están establecidos en Estados
+          Unidos o tratan datos en dicho territorio. Tales transferencias se
+          amparan en el marco de adecuación UE-EE. UU. o en cláusulas
+          contractuales tipo aprobadas por la Comisión Europea.
+        </p>
+
+        <h2>Derechos del interesado</h2>
+        <p>
+          Puedes ejercer los derechos de acceso, rectificación, supresión,
+          oposición, limitación del tratamiento y portabilidad dirigiendo una
+          solicitud a
+          <a href="mailto:contacto@elescaparateweb.com">contacto@elescaparateweb.com</a>.
+          La respuesta se emitirá en el plazo máximo de un mes.
+        </p>
+        <p>
+          Asimismo, puedes presentar una reclamación ante la Agencia Española de
+          Protección de Datos,
+          <a href="https://www.aepd.es" target="_blank" rel="noopener noreferrer">aepd.es</a>,
+          si consideras que el tratamiento no se ajusta a la normativa. Se
+          agradece la comunicación previa al responsable, a efectos de
+          subsanación.
+        </p>
+
+        <h2>Medidas de seguridad y menores de edad</h2>
+        <p>
+          El sitio se sirve siempre mediante conexión cifrada y los datos se
+          tratan en cuentas protegidas con contraseña única y verificación en dos
+          pasos. El servicio se dirige a personas mayores de edad: no se recaban
+          conscientemente datos de menores.
+        </p>
+
+        <p class="apunte">Última actualización: 26 de agosto de 2026.</p>
 
       </div>
     </div>
   </section>
 
-</main>
 </main>
 
 <footer class="pie">
