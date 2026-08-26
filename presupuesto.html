@@ -18,6 +18,16 @@
 <link rel="preload" href="/assets/fuentes/archivo-v25-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.remove("sin-js");</script>
 <script src="assets/js/sitio.js" defer></script>
+<!-- Google Analytics 4. Es el fragmento tal cual lo publica Google: ni se
+     traduce ni se envuelve en IIFE como el resto del JS, porque gtag y
+     dataLayer tienen que quedar globales. Va igual en las diez paginas. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-97JZNBDJE6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-97JZNBDJE6');
+</script>
 </head>
 <body>
 

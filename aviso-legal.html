@@ -18,6 +18,16 @@
 <link rel="preload" href="/assets/fuentes/archivo-v25-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.remove("sin-js");</script>
 <script src="assets/js/sitio.js" defer></script>
+<!-- Google Analytics 4. Es el fragmento tal cual lo publica Google: ni se
+     traduce ni se envuelve en IIFE como el resto del JS, porque gtag y
+     dataLayer tienen que quedar globales. Va igual en las diez paginas. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-97JZNBDJE6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-97JZNBDJE6');
+</script>
 </head>
 <body>
 
@@ -85,8 +95,9 @@
     <div class="envoltura">
       <h1 class="titulo-pagina">Aviso legal</h1>
       <p class="portada__entrada">
-        Quién está detrás de esta web, qué puedes hacer con lo que hay en ella y
-        de qué respondo.
+        Condiciones generales de acceso y utilización de elescaparateweb.com,
+        junto con los datos identificativos del titular, el régimen de propiedad
+        intelectual y el alcance de la responsabilidad asumida.
       </p>
     </div>
   </section>
@@ -95,83 +106,92 @@
     <div class="envoltura">
       <div class="texto-legal">
 
-        <h2>Quién es el titular</h2>
+        <h2>Datos identificativos del titular</h2>
         <p>
-          Esta web es titularidad de <strong>Darío Domínguez García</strong>,
-          que ejerce como profesional autónomo bajo el nombre comercial
-          <strong>El Escaparate</strong>. Para cualquier asunto relacionado con
-          esta web, el canal de contacto es el que aparece a continuación.
+          El presente sitio web es titularidad de
+          <strong>Darío Domínguez García</strong>, que ejerce como profesional
+          autónomo bajo el nombre comercial <strong>El Escaparate</strong>. Los
+          canales habilitados para cualquier comunicación relativa al sitio son
+          los siguientes:
         </p>
         <ul class="lista-marcada">
-          <li><span>Correo: <a href="mailto:contacto@elescaparateweb.com">contacto@elescaparateweb.com</a></span></li>
+          <li><span>Correo electrónico: <a href="mailto:contacto@elescaparateweb.com">contacto@elescaparateweb.com</a></span></li>
           <li><span>Teléfono: <a href="tel:+34684082490">684 08 24 90</a></span></li>
           <li><span>Dominio: elescaparateweb.com</span></li>
         </ul>
 
-        <h2>Qué se ofrece aquí</h2>
+        <h2>Objeto</h2>
         <p>
-          Esta web presenta un servicio de diseño y programación de páginas web
-          para negocios, enseña trabajos ya publicados y permite pedir un
-          presupuesto. No se publican tarifas: el presupuesto se cierra por escrito antes de
-          empezar cualquier encargo, y hasta ese momento nada de lo publicado
-          aquí es una oferta vinculante. El mantenimiento que se menciona es
-          voluntario, sin permanencia y ajeno a los encargos.
+          Este sitio web tiene por objeto la presentación de un servicio
+          profesional de diseño y desarrollo de páginas web para empresas, la
+          exposición de trabajos ya publicados y la solicitud de presupuesto. No
+          se publican tarifas: la propuesta económica se formaliza por escrito
+          con carácter previo al inicio de cualquier encargo y, hasta ese
+          momento, ningún contenido publicado en este sitio constituye oferta
+          vinculante. El servicio de mantenimiento mencionado tiene carácter
+          voluntario, carece de compromiso de permanencia y es independiente de
+          los encargos de desarrollo.
         </p>
 
         <h2>Condiciones de uso</h2>
         <p>
-          Puedes navegar por esta web libremente. Al hacerlo te comprometes a no
-          utilizarla para fines contrarios a la ley, a no intentar dañar su
-          funcionamiento y a no introducir en el formulario datos falsos o datos
-          personales de otras personas sin su permiso.
+          El acceso a este sitio es libre y gratuito. Al utilizarlo, el usuario
+          se compromete a no destinarlo a fines contrarios a la ley, a no
+          realizar actuaciones que puedan perjudicar su funcionamiento y a no
+          introducir en el formulario datos falsos ni datos personales de
+          terceros sin su autorización.
         </p>
 
-        <h2>Propiedad intelectual</h2>
+        <h2>Propiedad intelectual e industrial</h2>
         <p>
-          El diseño, los textos, el código y los gráficos de esta web son obra
-          propia y están protegidos por la normativa de propiedad intelectual.
-          Puedes citarlos y enlazarlos indicando la fuente; no puedes copiarlos
-          ni reutilizarlos para montar otra web sin permiso por escrito.
+          El diseño, los textos, el código fuente y los elementos gráficos de
+          este sitio son obra propia del titular y se encuentran protegidos por
+          la normativa reguladora de la propiedad intelectual. Se autoriza su
+          cita y enlace con indicación de la fuente; queda prohibida su
+          reproducción o reutilización para la elaboración de otros sitios web
+          sin autorización expresa y por escrito.
         </p>
         <p>
-          Los nombres, las marcas y los contenidos de los negocios que aparecen
-          en el portfolio pertenecen a sus titulares y se muestran únicamente
-          como referencia del trabajo realizado.
-        </p>
-
-        <h2>Enlaces y webs de terceros</h2>
-        <p>
-          El portfolio muestra webs de terceros: primero como captura generada
-          por un servicio externo y, al abrir una ficha, la propia web dentro de
-          un marco. Esos sitios tienen sus responsables, sus condiciones y sus
-          políticas de privacidad. No respondo de sus contenidos ni de sus
-          cambios: enlazar a una web no significa respaldarla.
+          Las denominaciones, marcas y contenidos de las empresas que figuran en
+          el portfolio pertenecen a sus respectivos titulares y se muestran
+          únicamente como referencia del trabajo realizado.
         </p>
 
-        <h2>Responsabilidad</h2>
+        <h2>Enlaces a sitios de terceros</h2>
         <p>
-          Pongo los medios razonables para que esta web esté disponible y para
-          que su información sea correcta, pero no puedo garantizar que no haya
-          interrupciones, errores o cambios en los servicios externos de los que
-          depende. Si ves algo incorrecto, escríbeme y lo corrijo.
+          El portfolio muestra sitios web de terceros, inicialmente como captura
+          generada por un proveedor externo y, al abrir la ficha correspondiente,
+          mediante su visualización en un marco. Dichos sitios cuentan con sus
+          propios responsables, condiciones y políticas de privacidad. El titular
+          no responde de sus contenidos ni de sus modificaciones: la existencia
+          de un enlace no implica recomendación ni respaldo alguno.
         </p>
 
-        <h2>Legislación aplicable</h2>
+        <h2>Exclusión de responsabilidad</h2>
         <p>
-          Esta web se rige por la legislación española, en particular por la Ley
-          34/2002 de servicios de la sociedad de la información y de comercio
-          electrónico. Para cualquier controversia, las partes se someten a los
-          juzgados y tribunales del domicilio del titular, salvo que la normativa
-          de consumidores determine otro fuero.
+          El titular adopta las medidas razonables para mantener la
+          disponibilidad del sitio y la exactitud de su información, si bien no
+          garantiza la ausencia de interrupciones, errores o modificaciones en
+          los servicios externos de los que depende. Cualquier incorrección
+          detectada puede comunicarse a la dirección indicada, y será subsanada.
         </p>
 
-        <p class="apunte">Última actualización: 7 de agosto de 2026.</p>
+        <h2>Legislación aplicable y jurisdicción</h2>
+        <p>
+          El presente aviso legal se rige por la legislación española y, en
+          particular, por la Ley 34/2002 de servicios de la sociedad de la
+          información y de comercio electrónico. Para la resolución de cualquier
+          controversia, las partes se someten a los juzgados y tribunales del
+          domicilio del titular, salvo que la normativa de consumidores
+          determine un fuero distinto.
+        </p>
+
+        <p class="apunte">Última actualización: 26 de agosto de 2026.</p>
 
       </div>
     </div>
   </section>
 
-</main>
 </main>
 
 <footer class="pie">

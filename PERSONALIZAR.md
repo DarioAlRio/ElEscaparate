@@ -207,7 +207,7 @@ página.
 Falta también una foto tuya. Sin ella, «detrás de esto hay una persona» es una
 frase; con ella, es un hecho.
 
-## 9. Textos legales ✓ escritos — falta el NIF y el domicilio, por decisión tuya
+## 9. Textos legales ✓ escritos — falta el NIF, el domicilio y el aviso de cookies
 
 Ya están escritas las tres páginas y enlazadas en la barra de abajo de todas:
 `aviso-legal.html`, `privacidad.html` y `cookies.html`.
@@ -225,14 +225,35 @@ un comentario en los dos archivos.
 Lo demás está escrito según lo que la web hace **de verdad**, comprobado
 funcionalidad por funcionalidad: qué recoge el formulario, qué proveedores
 intervienen (Vercel, Google, WhatsApp y los tres servicios de captura), qué se
-guarda en el navegador y cuánto duran los datos.
+guarda en el navegador y cuánto duran los datos. Ojo con un detalle que ya se
+quedó viejo una vez: las dos políticas decían que las tipografías se cargaban
+desde servidores de Google, y desde que se sirven de aquí eso era una cesión de
+datos declarada que no ocurría. Corregido el 26/08/2026.
 
-**La página de cookies dice que no hay cookies, y hoy es cierto**: no hay
-analítica, ni publicidad, ni botones de redes. Por eso no hay banner, que es
-legal precisamente porque no hay nada que consentir. Si algún día añades Google
-Analytics, un mapa incrustado, un chat o un píxel de publicidad, **esa página
-deja de ser verdad** y pasas a necesitar banner de consentimiento. Está avisado
-en un comentario dentro del propio archivo.
+**Desde el 26/08/2026 hay Google Analytics 4** (identificador
+`G-97JZNBDJE6`), por decisión tuya. La página de cookies ya lo cuenta: las dos
+cookies (`_ga` y `_ga_97JZNBDJE6`, sin la «G-» del identificador, que Google se
+come al nombrarla; comprobado en el navegador), lo que guardan, los dos años que duran y
+las tres formas de quitarlas. La de privacidad tiene su apartado propio y a
+Google en la lista de destinatarios.
+
+**Lo que falta, y es cosa tuya decidirlo:** el artículo 22.2 de la LSSI pide
+consentimiento **antes** de instalar cookies que no sean imprescindibles, y las
+de analítica no lo son. Hoy se instalan al cargar la página. Las dos salidas
+son un aviso previo de aceptar o rechazar —un archivo JS más y una tira en las
+diez páginas— o cambiar Analytics a modo sin cookies, que no necesita aviso
+pero deja de distinguir visitantes recurrentes. Mientras no elijas una, la
+política de cookies explica cómo quitarlas después, que es lo único que puede
+ofrecer con honestidad.
+
+Y dos ajustes en el panel de Analytics que no puedo hacer yo: fijar la
+conservación de datos en 14 meses (viene en 2) y desactivar las señales de
+Google si no vas a hacer publicidad. La política dice «no supera los catorce
+meses», que es cierto con cualquiera de las dos opciones.
+
+Si algún día añades además un mapa incrustado, un chat o un píxel de
+publicidad, esas páginas vuelven a quedarse cortas. Está avisado en un
+comentario dentro de cada archivo.
 
 Los plazos de conservación que he puesto (un año las consultas, seis años la
 documentación contable) son los habituales; si tu gestoría te dice otros,
