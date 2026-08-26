@@ -5,7 +5,7 @@ que reconstruirlas de memoria en la sesión siguiente. Lo que te falta por
 **rellenar** (plazos, precios, textos, portfolio) no está aquí: está en
 `PERSONALIZAR.md`, y ahí sigue.
 
-Última revisión: 19/08/2026.
+Última revisión: 26/08/2026.
 
 ---
 
@@ -70,6 +70,33 @@ sección 5 de `CLAUDE.md`.
 | Quitarle el eje óptico a Bricolage | Ahorra 36 KB y descoloca el titular de portada un 9 % |
 | Apretar más los fotogramas de la maqueta | Lo que pesa es el canal alfa. Se gana quitando fotogramas, no comprimiendo |
 | Subir la compresión del hosting | Vercel usa brotli de calidad 3 y no se configura desde el repositorio |
+| El botón «Añadir a fuentes preferidas» de Google | Ver abajo |
+
+### El botón de fuentes preferidas de Google
+
+Google lo abrió a cualquier web el 20/08/2026: un `<script>` y un `<div
+google-add-preferred-source-btn>`. Probado en local el 26/08/2026 y descartado
+con tres números.
+
+**73.397 bytes en el cable** (251.420 en crudo), más tres marcos de
+`news.google.com` —uno oculto de servicio y uno por botón— y un `loader.svg`.
+La hoja de estilos entera son 15.377: el botón es **4,8 veces el CSS completo**,
+en cada página.
+
+**Se carga antes de cualquier consentimiento**, y esos marcos llevan `origin` y
+`source` con la dirección completa de la página. `news.google.com` es subdominio
+de `google.com`, así que van con las cookies de Google del visitante. Es
+contenido incrustado de un tercero: pide permiso previo igual que la medición, y
+sin declararlo las políticas dejarían de ser ciertas. No pone cookies propias ni
+toca `localStorage`; eso sí se comprobó.
+
+**Y lo que compra son *Noticias destacadas*** y una insignia en AI Overviews y
+AI Mode. Superficies de noticias, y el botón solo rinde con lectores que
+vuelven. Aquí entra una vez quien está decidiendo si te contrata.
+
+No necesita Publisher Center ni identificador: sale del dominio
+(`publicationId=publication-id-free`). Si algún día esta web publica artículos
+con fecha, la cuenta cambia y se vuelve a mirar.
 
 ---
 
