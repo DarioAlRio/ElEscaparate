@@ -45,9 +45,15 @@ detrás.
 Tres tipos de encargo, sin tarifa publicada y con presupuesto cerrado por
 escrito tras hablar:
 
-- Web de una página (tarjeta de presentación con reserva o contacto)
-- Web multipágina (catálogo, servicios, historia, contacto)
-- Tienda online
+- Sitio web de página única (tarjeta de presentación con reserva o contacto)
+- Sitio web multipágina (catálogo, servicios, historia, contacto)
+- Plataforma de comercio electrónico
+
+Esos son los titulares de `/diseno-web` desde el 26/08/2026, cuando Dario dio los
+textos nuevos de la página. El pie y el formulario siguen usando los nombres
+cortos con los que nació la web —«Web de una página», «Web multipágina»,
+«Tienda online»—, que son los que caben en una lista. Si algún día se unifican,
+son diez pies y el `<select>` de `/presupuesto`.
 
 **Los precios de entrada dejaron de publicarse el 18/08/2026**, por decisión de
 Dario. Hasta entonces el argumento principal era «desde 400 / 700 / 1.200 €», y
