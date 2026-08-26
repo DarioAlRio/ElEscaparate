@@ -18,15 +18,24 @@
 <link rel="preload" href="/assets/fuentes/archivo-v25-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.remove("sin-js");</script>
 <script src="assets/js/sitio.js" defer></script>
-<!-- Google Analytics 4. Es el fragmento tal cual lo publica Google: ni se
-     traduce ni se envuelve en IIFE como el resto del JS, porque gtag y
-     dataLayer tienen que quedar globales. Va igual en las diez paginas. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-97JZNBDJE6"></script>
+<!-- Medicion: no se carga hasta que hay un si. Este trozo solo deja gtag
+     preparado y lo arranca si ya habia permiso guardado; el aviso que lo
+     pide vive en sitio.js. gtag y dataLayer van tal cual los publica
+     Google, sin traducir ni envolver, porque tienen que quedar globales. -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-97JZNBDJE6');
+  window.cargaMedicion = function () {
+    if (window.cargaMedicion.puesta) return;
+    window.cargaMedicion.puesta = true;
+    var tag = document.createElement("script");
+    tag.async = true;
+    tag.src = "https://www.googletagmanager.com/gtag/js?id=G-97JZNBDJE6";
+    document.head.appendChild(tag);
+    gtag('js', new Date());
+    gtag('config', 'G-97JZNBDJE6');
+  };
+  try { if (localStorage.getItem("galletas") === "si") window.cargaMedicion(); } catch (e) {}
 </script>
 </head>
 <body>
@@ -142,7 +151,7 @@
           <li><span>Por esta vía no se recaban nombre, dirección de correo electrónico ni teléfono, y los informes no se cruzan con los datos remitidos a través del formulario.</span></li>
           <li><span>Google anonimiza la dirección IP, que se emplea para deducir la localización aproximada y no se almacena.</span></li>
           <li><span>Los datos asociados a un navegador concreto se conservan durante el plazo configurado en la herramienta, que <strong>no excede de catorce meses</strong>; los informes agregados, mientras permanezca activa la cuenta.</span></li>
-          <li><span>La base jurídica es el consentimiento del usuario, revocable en cualquier momento mediante la eliminación o el bloqueo de las cookies desde el navegador.</span></li>
+          <li><span>La base jurídica es el consentimiento del usuario, recabado mediante el aviso que se muestra en la primera visita y revocable en cualquier momento desde la configuración del navegador. Sin aceptación previa no se descarga el archivo de medición ni se produce comunicación alguna con Google.</span></li>
         </ul>
 
         <h2>Finalidades</h2>
@@ -178,7 +187,7 @@
         </p>
         <ul class="lista-marcada">
           <li><span><strong>Vercel Inc.</strong> — alojamiento del sitio web. Registra las peticiones al servidor, incluida la dirección IP, por motivos de seguridad y funcionamiento.</span></li>
-          <li><span><strong>Google Ireland Ltd.</strong> — por dos vías. El buzón de contacto es una cuenta de Gmail, en la que quedan almacenadas las comunicaciones recibidas, y Google Analytics recibe los datos de navegación descritos. Las tipografías, en cambio, se sirven desde este mismo dominio y no generan transmisión alguna.</span></li>
+          <li><span><strong>Google Ireland Ltd.</strong> — por dos vías. El buzón de contacto es una cuenta de Gmail, en la que quedan almacenadas las comunicaciones recibidas, y Google Analytics recibe los datos de navegación descritos, siempre que la medición se haya aceptado. Las tipografías, en cambio, se sirven desde este mismo dominio y no generan transmisión alguna.</span></li>
           <li><span><strong>WhatsApp Ireland Ltd. (Meta)</strong> — únicamente si el usuario opta por ese canal.</span></li>
           <li><span><strong>Proveedores de captura</strong> — thum.io, Automattic (mShots) y Microlink. Reciben la dirección web objeto de captura y la dirección IP al cargarse la imagen.</span></li>
         </ul>

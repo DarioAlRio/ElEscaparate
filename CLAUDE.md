@@ -94,7 +94,8 @@ están en la cabecera de `_render-modelo.html`. Nada de esto se publica.
 assets/css/estilos.css    Sistema entero, 18 secciones numeradas en comentarios
 assets/js/proyectos.js    Datos del portfolio — lo único que se toca a menudo
 assets/js/escaparates.js  Motor de capturas, fichas y visor
-assets/js/sitio.js        Menú, año, .entra, formulario, varilla, cierre y giro
+assets/js/sitio.js        Menú, año, .entra, formulario, varilla, cierre, giro
+                          y el aviso de cookies
 assets/fuentes/*.woff2   Archivo y Bricolage, subconjunto latin. Ver §5
 assets/img/modelo-NN.webp Los 48 fotogramas de la maqueta, 00 a 47. Ver §5
 assets/img/modelo-00.png  Solo el primero, de respaldo para quien no lea WebP
@@ -131,10 +132,11 @@ reglas **dentro de su sección**, no al final del archivo.
   instancia (`style="--tono:#ff5c3a"`).
 - **JS: `var`, funciones nombradas, sin frameworks.** `escaparates.js` expone
   `window.Escaparates = { captura, normaliza, pinta, abreVisor }`; es la única
-  variable global del código propio. Las otras dos, `dataLayer` y `gtag`, las
-  crea el fragmento de Google Analytics que va en la cabecera de las diez
-  páginas desde el 26/08/2026: ese trozo va tal cual lo publica Google, sin
-  traducir ni envolver en IIFE, porque tiene que quedar global.
+  variable global del código propio. Las otras tres las crea el fragmento de
+  medición que va en la cabecera de las diez páginas desde el 26/08/2026:
+  `dataLayer` y `gtag`, tal cual los publica Google —sin traducir ni envolver
+  en IIFE, porque tienen que quedar globales—, y `cargaMedicion`, que es
+  nuestra y solo se llama cuando hay consentimiento.
 - **Los comentarios explican el porqué, no el qué.** Si una regla parece
   arbitraria, es que costó descubrirla: déjala documentada en el sitio.
 - **Accesibilidad no opcional:** `aria-current` en el menú, `aria-expanded` en
@@ -316,6 +318,24 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   `detect.mjs` señala una línea que es prosa, es esto: cambia la redacción.
 - **Sin bloqueo de scroll al bajar el cierre:** el `overflow:hidden` en el body
   dejaba una franja clara a la derecha. El cierre es `fixed` y ya tapa todo.
+- **La medición no se carga hasta que hay un sí, y eso es a propósito.** El
+  fragmento de la cabecera solo deja preparada `cargaMedicion`; quien rechaza o
+  no contesta no descarga nada de Google, ni siquiera el archivo. La
+  alternativa que recomienda Google —cargarlo siempre con el consentimiento en
+  `denied`— pone las cookies a cero pero sigue pidiendo 150 KB a un tercero
+  antes de tener permiso. Así se cumple el 22.2 de la LSSI sin discusión y de
+  paso no se paga ese peso en la mayoría de las visitas.
+  La decisión se guarda en `localStorage` con la llave `galletas`, no en una
+  cookie: una cookie para recordar que no quieres cookies hay que explicarla en
+  la política. Al rechazar se caducan `_ga` y `_ga_97JZNBDJE6` por si venían de
+  antes del aviso.
+- **La cookie de sesión de GA4 se llama `_ga_97JZNBDJE6`, sin la «G-».** Google
+  se la come al nombrarla, aunque el identificador de la propiedad sí la lleve.
+  Comprobado leyendo `document.cookie`; casi todas las políticas que se copian
+  por ahí la escriben mal.
+- **El recuadro del aviso va en `--azul-hondo` y con filete, no en `--azul`.**
+  Aparece sobre la portada, que ya es una franja azul: del mismo color se funde
+  con el fondo y lo único que lo despega es la sombra, que sobre azul no se ve.
 
 ## 6. Cómo verificar
 

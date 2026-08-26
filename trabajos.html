@@ -21,15 +21,24 @@
 <script src="assets/js/proyectos.js" defer></script>
 <script src="assets/js/escaparates.js" defer></script>
 <script src="assets/js/sitio.js" defer></script>
-<!-- Google Analytics 4. Es el fragmento tal cual lo publica Google: ni se
-     traduce ni se envuelve en IIFE como el resto del JS, porque gtag y
-     dataLayer tienen que quedar globales. Va igual en las diez paginas. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-97JZNBDJE6"></script>
+<!-- Medicion: no se carga hasta que hay un si. Este trozo solo deja gtag
+     preparado y lo arranca si ya habia permiso guardado; el aviso que lo
+     pide vive en sitio.js. gtag y dataLayer van tal cual los publica
+     Google, sin traducir ni envolver, porque tienen que quedar globales. -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-97JZNBDJE6');
+  window.cargaMedicion = function () {
+    if (window.cargaMedicion.puesta) return;
+    window.cargaMedicion.puesta = true;
+    var tag = document.createElement("script");
+    tag.async = true;
+    tag.src = "https://www.googletagmanager.com/gtag/js?id=G-97JZNBDJE6";
+    document.head.appendChild(tag);
+    gtag('js', new Date());
+    gtag('config', 'G-97JZNBDJE6');
+  };
+  try { if (localStorage.getItem("galletas") === "si") window.cargaMedicion(); } catch (e) {}
 </script>
 </head>
 <body>
