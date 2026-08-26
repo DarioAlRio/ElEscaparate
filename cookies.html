@@ -18,15 +18,24 @@
 <link rel="preload" href="/assets/fuentes/archivo-v25-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.remove("sin-js");</script>
 <script src="assets/js/sitio.js" defer></script>
-<!-- Google Analytics 4. Es el fragmento tal cual lo publica Google: ni se
-     traduce ni se envuelve en IIFE como el resto del JS, porque gtag y
-     dataLayer tienen que quedar globales. Va igual en las diez paginas. -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-97JZNBDJE6"></script>
+<!-- Medicion: no se carga hasta que hay un si. Este trozo solo deja gtag
+     preparado y lo arranca si ya habia permiso guardado; el aviso que lo
+     pide vive en sitio.js. gtag y dataLayer van tal cual los publica
+     Google, sin traducir ni envolver, porque tienen que quedar globales. -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-97JZNBDJE6');
+  window.cargaMedicion = function () {
+    if (window.cargaMedicion.puesta) return;
+    window.cargaMedicion.puesta = true;
+    var tag = document.createElement("script");
+    tag.async = true;
+    tag.src = "https://www.googletagmanager.com/gtag/js?id=G-97JZNBDJE6";
+    document.head.appendChild(tag);
+    gtag('js', new Date());
+    gtag('config', 'G-97JZNBDJE6');
+  };
+  try { if (localStorage.getItem("galletas") === "si") window.cargaMedicion(); } catch (e) {}
 </script>
 </head>
 <body>
@@ -87,11 +96,10 @@
 <main id="contenido">
 
   <!-- OJO: esta página dice la verdad sobre la web tal y como está hoy.
-       Desde el 26/08/2026 hay Google Analytics 4, así que sí hay cookies.
-       Lo que NO hay todavía es el aviso previo que pide el artículo 22.2 de
-       la LSSI: mientras no exista, esta página solo puede explicar cómo
-       rechazarlas después. Si se añade un mapa incrustado, un chat o un
-       píxel de publicidad, hay que volver a tocarla. Ver PERSONALIZAR.md -->
+       Desde el 26/08/2026 hay Google Analytics 4, con su aviso previo: nada
+       de Google se descarga hasta que alguien pulsa «Aceptar». Si se añade
+       un mapa incrustado, un chat o un píxel de publicidad, hay que volver a
+       tocar esta página y el aviso. Ver PERSONALIZAR.md -->
 
   <section class="franja franja--corta franja--azul">
     <div class="envoltura">
@@ -139,32 +147,47 @@
           dispositivo), sin identificación nominativa de los usuarios.
         </p>
 
+        <h2>Consentimiento previo</h2>
+        <p>
+          En la primera visita se muestra un aviso con dos opciones, aceptar o
+          rechazar, y <strong>ninguna de las cookies descritas se instala hasta
+          que se acepta</strong>. Mientras no exista aceptación expresa, el
+          archivo de medición ni siquiera se descarga: no se produce
+          comunicación alguna con servidores de Google. Rechazar no limita
+          ninguna funcionalidad del sitio.
+        </p>
+
         <h2>Revocación y eliminación</h2>
         <p>
-          Este sitio web no muestra actualmente un panel de aceptación previa,
-          por lo que las cookies descritas se instalan al cargar la página. Su
-          eliminación puede realizarse en cualquier momento, sin necesidad de
-          justificación, por cualquiera de estos tres procedimientos:
+          El consentimiento puede retirarse en cualquier momento, sin necesidad
+          de justificación, por cualquiera de estos procedimientos:
         </p>
         <ul class="lista-marcada">
-          <li><span>Eliminar los datos de este sitio desde la configuración del navegador. La funcionalidad del sitio no se ve afectada.</span></li>
+          <li><span>Eliminar los datos de este sitio desde la configuración del navegador. Esa acción borra también la decisión registrada, por lo que el aviso volverá a mostrarse en la siguiente visita.</span></li>
           <li><span>Bloquear las cookies de este dominio en esa misma configuración, con efecto para visitas sucesivas.</span></li>
           <li><span>Instalar el <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">complemento de inhabilitación de Google Analytics</a>, que desactiva la medición en todos los sitios que la utilicen.</span></li>
         </ul>
+        <p>
+          Al rechazar desde el aviso, las cookies que pudieran existir de una
+          visita anterior se eliminan de forma inmediata.
+        </p>
 
         <h2>Almacenamiento local del navegador</h2>
         <p>
           Con independencia de lo anterior, este sitio emplea el almacenamiento
-          local del navegador para conservar durante 30 días la
-          <strong>dirección de las capturas del portfolio ya generadas</strong>.
-          No se trata de una cookie ni se transmite a ningún servidor.
+          local del navegador para dos cometidos. No son cookies y su contenido
+          no se transmite a ningún servidor.
         </p>
         <ul class="lista-marcada">
-          <li><span>Su finalidad es evitar la generación repetida de la misma captura, lo que reduce el tiempo de carga y el consumo de la cuota diaria del proveedor.</span></li>
-          <li><span>No contiene datos de carácter personal: se limita a direcciones de imágenes.</span></li>
-          <li><span><strong>No se remite a ningún servidor.</strong> Permanece íntegramente en tu equipo.</span></li>
-          <li><span>Puede eliminarse en cualquier momento desde la opción de borrado de datos de navegación del navegador. El sitio mantiene su funcionamiento, con un tiempo de carga superior en la primera visita posterior.</span></li>
+          <li><span><strong>La decisión sobre las cookies</strong>, para no repetir el aviso en cada visita. Se registra únicamente un «sí» o un «no». Se guarda aquí, y no en una cookie, porque emplear una cookie para recordar que se han rechazado las cookies sería contradictorio.</span></li>
+          <li><span><strong>La dirección de las capturas del portfolio ya generadas</strong>, durante 30 días. Evita la generación repetida de la misma captura, lo que reduce el tiempo de carga y el consumo de la cuota diaria del proveedor. No contiene datos de carácter personal: se limita a direcciones de imágenes.</span></li>
         </ul>
+        <p>
+          Ambos registros pueden eliminarse en cualquier momento desde la opción
+          de borrado de datos de navegación del navegador. El sitio mantiene su
+          funcionamiento: solo volverá a mostrarse el aviso y la primera visita
+          posterior tardará algo más en generar las capturas.
+        </p>
 
         <h2>Terceros con acceso a datos de conexión</h2>
         <p>
@@ -173,12 +196,13 @@
           independencia de que existan o no cookies. Son los siguientes:
         </p>
         <ul class="lista-marcada">
-          <li><span><strong>Google</strong> — el archivo de Analytics se descarga desde googletagmanager.com y las mediciones se transmiten a sus servidores.</span></li>
+          <li><span><strong>Google</strong> — únicamente si se acepta la medición. En ese caso el archivo de Analytics se descarga desde googletagmanager.com y las mediciones se transmiten a sus servidores.</span></li>
           <li><span><strong>thum.io, Automattic (mShots) y Microlink</strong> — generación de las capturas del portfolio y del escaparate de pruebas. Reciben además la dirección web objeto de captura.</span></li>
           <li><span><strong>Vercel</strong> — proveedor de alojamiento, que registra las peticiones al servidor.</span></li>
         </ul>
         <p>
-          Con la salvedad de Google, ninguno de ellos instala cookies a través de
+          Con la salvedad de Google, y solo previa aceptación, ninguno de ellos
+          instala cookies a través de
           este sitio. Las tipografías se sirven desde este mismo dominio, por lo
           que no se produce petición alguna a servidores ajenos por esa vía. El
           detalle del tratamiento consta en la
