@@ -112,15 +112,27 @@
       <div>
         <h2 class="forma__titulo" id="titulo-formulario">Formulario de presupuesto</h2>
 
-        <!-- FORMULARIO: dos salidas, WhatsApp y correo. Mientras el action
-             ponga PENDIENTE, el botón de correo abre el programa de correo del
-             visitante con el mensaje escrito; con un endpoint de verdad, envía
-             a tu bandeja. El de WhatsApp no necesita nada de eso.
+        <!-- FORMULARIO: dos salidas, WhatsApp y correo. El correo va siempre a
+             contacto@elescaparateweb.com.
+
+             El «action» es el camino de respaldo, el que usa el navegador si el
+             JavaScript no llega a ejecutarse: un «mailto» al correo del estudio.
+             Antes ponía PENDIENTE-pon-aqui-tu-endpoint, que no era una dirección
+             de nada: sin JavaScript ese envío daba un 404 en el propio dominio.
+
+             Con JavaScript —que es lo normal— manda «sitio.js»: valida, redacta
+             el mensaje ordenado y lo saca por WhatsApp o por el programa de
+             correo. Si algún día das de alta un servicio de formularios
+             (Formspree, Basin, Web3Forms), se cambian estas tres líneas por
+             action="https://…" method="POST" y se quita el enctype: el código ya
+             reconoce el endpoint por el «https://» y envía directamente a tu
+             bandeja, sin depender de que el visitante tenga correo configurado.
              Ver PERSONALIZAR.md -->
         <form class="forma" data-forma-presupuesto novalidate
               aria-labelledby="titulo-formulario"
-              action="PENDIENTE-pon-aqui-tu-endpoint"
+              action="mailto:contacto@elescaparateweb.com"
               method="POST"
+              enctype="text/plain"
               data-correo="contacto@elescaparateweb.com"
               data-whatsapp="34684082490">
 
@@ -199,6 +211,18 @@
             <label for="_apellido">No rellenes esto</label>
             <input id="_apellido" name="_apellido" type="text" tabindex="-1" autocomplete="off">
           </div>
+
+          <!-- Sin JavaScript los dos botones hacen lo mismo, abrir el correo,
+               porque quien redacta el mensaje ordenado es «sitio.js». Decirlo
+               vale más que dejar un botón de WhatsApp que abre el correo. -->
+          <noscript>
+            <p class="campo__ayuda">
+              Con JavaScript desactivado, los dos botones abren tu programa de
+              correo. Si prefieres no usarlo, escríbeme por
+              <a href="https://wa.me/34684082490">WhatsApp al 684 08 24 90</a>
+              o a <a href="mailto:contacto@elescaparateweb.com">contacto@elescaparateweb.com</a>.
+            </p>
+          </noscript>
 
           <div>
             <div class="acciones-forma">

@@ -7,12 +7,17 @@
 <meta name="description" content="La página que buscas no existe o ha cambiado de sitio.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#0b2350">
-<link rel="icon" href="icono-buscador-192.png" type="image/png" sizes="192x192">
-<link rel="stylesheet" href="assets/css/estilos.css">
+<!-- Aqui los assets van con barra inicial, y esta pagina es la unica donde eso
+     no es cosmetico: el hosting sirve este archivo desde la direccion que pidio
+     el visitante, no desde la raiz. Con rutas relativas, un 404 en /blog/algo/x
+     pedia /blog/algo/assets/css/estilos.css y la pagina de error salia sin una
+     sola regla de estilo, en Times New Roman. Medido. No les quites la barra. -->
+<link rel="icon" href="/icono-buscador-192.png" type="image/png" sizes="192x192">
+<link rel="stylesheet" href="/assets/css/estilos.css">
 <link rel="preload" href="/assets/fuentes/bricolage-v9-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fuentes/archivo-v25-latin.woff2" as="font" type="font/woff2" crossorigin>
 <script>document.documentElement.classList.remove("sin-js");</script>
-<script src="assets/js/sitio.js" defer></script>
+<script src="/assets/js/sitio.js" defer></script>
 <!-- Medicion: no se carga hasta que hay un si. Este trozo solo deja gtag
      preparado y lo arranca si ya habia permiso guardado; el aviso que lo
      pide vive en sitio.js. gtag y dataLayer van tal cual los publica
