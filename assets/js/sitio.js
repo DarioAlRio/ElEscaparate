@@ -155,11 +155,21 @@
     aviso.textContent = texto;
   }
 
+  /* Le cuenta a la medición que alguien ha llegado hasta el final. Sin
+     consentimiento «gtag» existe igual —la cabecera lo define siempre— pero solo
+     apila el aviso en dataLayer y no sale de este navegador, así que no hay que
+     preguntar aquí si hay permiso. */
+  function apunta(nombre) {
+    if (typeof gtag !== "function") return;
+    gtag("event", nombre, { origen: "formulario" });
+  }
+
   /* Salida 1: WhatsApp. No necesita servicio ninguno. */
   function porWhatsapp() {
     var numero = forma.getAttribute("data-whatsapp");
     if (!numero) return;
     var url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje());
+    apunta("envio_whatsapp");
     avisa("Abriendo WhatsApp con el mensaje redactado. Solo queda enviarlo.");
     var ventana = window.open(url, "_blank", "noopener");
     if (!ventana) window.location.href = url;
@@ -175,6 +185,7 @@
      respaldo es un «mailto» de verdad y la comprobación sigue siendo una línea. */
   function porCorreo() {
     var destino = forma.getAttribute("action") || "";
+    apunta("envio_correo");
     if (destino.indexOf("http") === 0) {
       avisa("Enviando…");
       forma.submit();
@@ -204,6 +215,54 @@
       porCorreo();
     });
   }
+})();
+
+/* =========================================================================
+   Las salidas de contacto, contadas.
+
+   Analytics solo sabía cuánta gente entra. Esto le dice cuánta llega a marcar
+   el teléfono o a abrir el chat, que es lo único que se parece a una venta.
+
+   Va por delegación en el documento entero y no enlace por enlace: los del pie
+   están en las diez páginas, los del atajo de /presupuesto son otros tres, y
+   así no hay una lista que mantener cada vez que se añade uno.
+
+   Los dos botones del formulario NO se miden aquí: los cuenta el propio módulo
+   del formulario, que es quien sabe si el envío llegó a salir o se quedó en un
+   campo sin rellenar. Contar el clic desde aquí inflaría la cifra con intentos
+   fallidos.
+
+   Sin consentimiento no se pierde nada y tampoco se envía nada: «gtag» existe
+   siempre —la cabecera lo define— pero mientras no haya un sí solo apila el
+   aviso en dataLayer, que no sale del navegador.
+   ========================================================================= */
+
+(function () {
+  "use strict";
+
+  var SALIDAS = [
+    { prueba: "https://wa.me/", evento: "clic_whatsapp" },
+    { prueba: "tel:", evento: "clic_telefono" }
+  ];
+
+  document.addEventListener("click", function (ev) {
+    if (typeof gtag !== "function") return;
+
+    var enlace = ev.target.closest ? ev.target.closest("a[href]") : null;
+    if (!enlace) return;
+
+    var destino = enlace.getAttribute("href") || "";
+    for (var i = 0; i < SALIDAS.length; i++) {
+      if (destino.indexOf(SALIDAS[i].prueba) !== 0) continue;
+      /* De dónde salió el clic, para distinguir el pie de los atajos de
+         /presupuesto sin tener que declarar cada enlace. */
+      gtag("event", SALIDAS[i].evento, {
+        origen: enlace.closest(".pie") ? "pie" : "pagina",
+        pagina: location.pathname
+      });
+      return;
+    }
+  });
 })();
 
 /* =========================================================================

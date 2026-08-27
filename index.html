@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>El Escaparate · Webs para negocios que ya funcionan en la calle</title>
-<meta name="description" content="Estudio de diseño y programación web. Tres formatos —web de una página, multipágina y tienda online— y un presupuesto cerrado por escrito antes de empezar. Pega la dirección de tu web y comprueba cómo se ve desde fuera.">
+<meta name="description" content="Estudio de diseño y programación web en Madrid, para negocios de toda España. Tres formatos —web de una página, multipágina y tienda online— y un presupuesto cerrado por escrito antes de empezar.">
 <link rel="canonical" href="https://elescaparateweb.com/">
 <meta name="theme-color" content="#0b2350">
 <meta property="og:type" content="website">
@@ -12,6 +12,18 @@
 <meta property="og:title" content="El Escaparate · En la calle tienes escaparate. En internet, la persiana bajada.">
 <meta property="og:description" content="Webs para negocios que ya tienen clientes. Presupuesto cerrado por escrito y una persona al otro lado.">
 <meta property="og:url" content="https://elescaparateweb.com/">
+<meta property="og:site_name" content="El Escaparate">
+<!-- La tarjeta para compartir. Sin esto, pasar el enlace por WhatsApp daba
+     texto pelado y ninguna imagen, que es por donde llegan los clientes.
+     Es la misma en las nueve paginas a proposito: es la tarjeta de la marca,
+     no un resumen de cada pagina. 1200x630, que es lo que piden Facebook,
+     WhatsApp, LinkedIn y X. La dibuja un canvas con el logo y las tipografias
+     de la web; no hay original en Photoshop que buscar. -->
+<meta property="og:image" content="https://elescaparateweb.com/og-escaparate.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="El Escaparate. En la calle tienes escaparate. En internet, la persiana bajada.">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="icono-buscador-192.png" type="image/png" sizes="192x192">
 <link rel="stylesheet" href="assets/css/estilos.css">
 <link rel="preload" href="/assets/fuentes/bricolage-v9-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -38,6 +50,46 @@
     gtag('config', 'G-97JZNBDJE6');
   };
   try { if (localStorage.getItem("galletas") === "si") window.cargaMedicion(); } catch (e) {}
+</script>
+<!-- Datos estructurados del estudio. Solo en la portada, a proposito: Google se
+     apoya en la ficha de la pagina principal para saber quien esta detras del
+     dominio, y repetirla en las diez no anade nada.
+     No lleva direccion postal, solo la localidad, porque el domicilio no se
+     publica (decision del 07/08/2026, ver PERSONALIZAR.md). Es valido: schema
+     acepta una PostalAddress con localidad y pais.
+     Si cambia el telefono, el correo o la ciudad, cambian aqui tambien. -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": "https://elescaparateweb.com/#estudio",
+    "name": "El Escaparate",
+    "url": "https://elescaparateweb.com/",
+    "image": "https://elescaparateweb.com/og-escaparate.png",
+    "logo": "https://elescaparateweb.com/icono-buscador-192.png",
+    "description": "Estudio de diseño y programación web en Madrid, para negocios que ya tienen clientes. Tres formatos —página única, multipágina y comercio electrónico— y presupuesto cerrado por escrito antes de empezar.",
+    "telephone": "+34684082490",
+    "email": "contacto@elescaparateweb.com",
+    "inLanguage": "es-ES",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Madrid",
+      "addressRegion": "Madrid",
+      "addressCountry": "ES"
+    },
+    "areaServed": { "@type": "Country", "name": "España" },
+    "founder": {
+      "@type": "Person",
+      "name": "Darío Domínguez García"
+    },
+    "knowsAbout": [
+      "Diseño web",
+      "Desarrollo web a medida",
+      "Comercio electrónico",
+      "Accesibilidad web",
+      "Rendimiento web"
+    ]
+  }
 </script>
 </head>
 <body>
@@ -362,7 +414,7 @@
           <span>El Escaparate<span class="marca__punto">.</span></span>
         </a>
         <p style="margin-top:.75rem;max-width:22rem;color:var(--azul-suave);font-size:var(--t-s)">
-          Webs para negocios que ya funcionan en la calle. Diseño, programación y entrega con la llave en tu mano.
+          Webs para negocios que ya funcionan en la calle. Diseño, programación y entrega con la llave en tu mano. Estudio en Madrid, encargos en toda España.
         </p>
       </div>
       <div>
