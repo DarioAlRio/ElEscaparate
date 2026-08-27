@@ -107,8 +107,48 @@
 
 <main id="contenido">
 
-  <!-- BIOGRAFÍA: escríbela tú. Aquí va lo que solo tú puedes contar
-       (de dónde vienes, desde cuándo, dónde vives). Ver PERSONALIZAR.md -->
+  <!-- ===================================================================
+       BIOGRAFÍA Y RETRATO: falta lo único que no puede escribir nadie más.
+
+       Esta página cuenta cómo trabajas, que es verdad y es lo que vende, pero
+       no cuenta de dónde vienes, desde cuándo, ni por qué acabaste en esto. La
+       portada promete «una persona al otro lado» y aquí no se le ve la cara a
+       nadie.
+
+       Abajo está el bloque montado y comentado. Va comentado a propósito y no
+       con texto de relleno: un párrafo inventado sobre tu vida publicado en
+       internet es peor que un hueco. Para activarlo:
+
+         1. Deja tu foto en assets/img/ (retrato, mejor apaisada o cuadrada;
+            el marco recorta a 4:3 y ancla arriba, así que la cara no se pierde).
+         2. Sustituye la línea AQUÍ-LA-FOTO por la etiqueta de imagen. La tienes
+            escrita para copiar en PERSONALIZAR.md, apartado 8; no se deja aquí
+            porque el detector de antipatrones lee dentro de los comentarios y
+            cuenta esa etiqueta como una imagen rota. Es la trampa de la
+            sección 5 de CLAUDE.md.
+         3. Escribe los dos párrafos.
+         4. Quita este comentario de alrededor.
+
+       No estrena ni una regla de CSS: usa .bloque-servicio y .marco, que ya
+       existen. Si al verlo prefieres el marco a sangre, sin los márgenes que
+       .marco trae de la portada, son tres líneas y se piden.
+
+  <section class="franja">
+    <div class="envoltura bloque-servicio">
+      <div>
+        <div class="marco">
+          AQUÍ-LA-FOTO
+        </div>
+      </div>
+      <div>
+        <h2>Quién está detrás</h2>
+        <p class="bloque-servicio__intro">PRIMER PÁRRAFO: de dónde vienes y desde cuándo te dedicas a esto.</p>
+        <p class="apunte">SEGUNDO PÁRRAFO: por qué acabaste haciendo webs para negocios de la calle.</p>
+      </div>
+    </div>
+  </section>
+
+       =================================================================== -->
 
   <section class="franja franja--corta franja--azul">
     <div class="envoltura">
@@ -236,7 +276,7 @@
         <a class="marca" href="/">
           <span>El Escaparate<span class="marca__punto">.</span></span>
         </a>
-        <p style="margin-top:.75rem;max-width:22rem;color:var(--azul-suave);font-size:var(--t-s)">
+        <p class="pie__lema">
           Webs para negocios que ya funcionan en la calle. Diseño, programación y entrega con la llave en tu mano. Estudio en Madrid, encargos en toda España.
         </p>
       </div>

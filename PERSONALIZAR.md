@@ -1,8 +1,10 @@
 # Antes de publicar
 
-Ocho cosas. Las dos primeras son obligatorias; sin ellas la web dice cosas que
-no has decidido tú. Nombre y dominio ya están cerrados: **El Escaparate**, en
+Diez apartados. El primero es el único obligatorio; sin él la web publica plazos
+que no has decidido tú. Nombre y dominio ya están cerrados: **El Escaparate**, en
 `elescaparateweb.com`.
+
+Última revisión: 27/08/2026.
 
 ---
 
@@ -175,15 +177,31 @@ escrito; al visitante solo le queda darle a enviar. No depende de ningún
 servicio ni de que tengas el correo montado: hoy ya funciona. El número sale de
 `data-whatsapp` en la etiqueta `<form>`.
 
-**Enviar por correo.** Depende del `action`, que ahora pone
-`PENDIENTE-pon-aqui-tu-endpoint`:
+**Enviar por correo.** Va a `contacto@elescaparateweb.com` abriendo el programa
+de correo del visitante con el mensaje ya escrito. Funciona, pero pierdes
+contactos por el camino: mucha gente no tiene configurado el correo en el
+ordenador (para esos está el cartel salvavidas del apartado siguiente).
 
-- Mientras siga así, abre el programa de correo del visitante con el mensaje
-  escrito. Funciona, pero pierdes contactos por el camino: mucha gente no tiene
-  configurado el correo en el ordenador.
-- Para recibirlos en tu bandeja, date de alta en un servicio de formularios
-  (Formspree, Basin, Web3Forms; todos con plan gratuito) y pega el endpoint que
-  te den en ese `action`. A partir de ahí el botón envía de verdad.
+El `action` del formulario es ahora `mailto:contacto@elescaparateweb.com`, que
+es el camino de respaldo si el JavaScript no llega a ejecutarse. **Hasta el
+27/08/2026 ponía `PENDIENTE-pon-aqui-tu-endpoint`**, que no era la dirección de
+nada: sin JavaScript el navegador enviaba el formulario ahí y daba un 404 en tu
+propio dominio.
+
+Para que los mensajes caigan en tu bandeja pase lo que pase, sin depender del
+programa de correo del visitante, hace falta un servicio de formularios
+(Formspree, Basin, Web3Forms; todos con plan gratuito). **Eso tienes que darlo
+de alta tú**, porque exige una cuenta a tu nombre. Cuando tengas el endpoint,
+en la etiqueta `<form>` de `presupuesto.html`:
+
+```
+action="https://…el endpoint que te den…"   ← sustituye el mailto
+method="POST"                                ← se queda igual
+enctype="text/plain"                         ← esta línea se borra
+```
+
+Y ya está: el código reconoce el endpoint porque empieza por `https://` y envía
+directamente, sin tocar nada más.
 
 **Si el visitante no tiene correo configurado** —mucha gente no lo tiene, usa
 el correo dentro del navegador— un enlace `mailto:` no abre nada y el clic
@@ -196,16 +214,36 @@ Pulsar Enter dentro de un campo equivale al botón principal, el de WhatsApp.
 El campo trampa `_apellido` sigue ahí para el spam: si un robot lo rellena, el
 mensaje no sale por ninguna de las dos vías.
 
-## 8. Tu biografía
+## 8. Tu biografía y tu foto
 
 `sobre-mi.html` habla de cómo trabajas, que es verdad y es lo que vende, pero no
 cuenta nada que solo puedas contar tú: de dónde vienes, desde cuándo, dónde
-vives, por qué acabaste haciendo esto. Está marcado con
-`<!-- BIOGRAFÍA: escríbela tú -->`. Dos párrafos tuyos valen más que toda la
-página.
-
-Falta también una foto tuya. Sin ella, «detrás de esto hay una persona» es una
+vives, por qué acabaste haciendo esto. Dos párrafos tuyos valen más que toda la
+página. Y falta una foto: sin ella, «detrás de esto hay una persona» es una
 frase; con ella, es un hecho.
+
+**El bloque ya está montado y comentado** al principio del `<main>` de
+`sobre-mi.html`, desde el 27/08/2026. Va comentado y no con texto de relleno a
+propósito: un párrafo inventado sobre tu vida, publicado, es peor que un hueco.
+No estrena ni una regla de CSS —reutiliza `.bloque-servicio` y `.marco`—, así
+que mientras esté comentado no pesa nada.
+
+Para activarlo:
+
+1. Deja la foto en `assets/img/`. Mejor apaisada o cuadrada: el marco recorta a
+   4:3 y ancla arriba, así que la cara no se pierde.
+2. Sustituye la línea `AQUÍ-LA-FOTO` por esta etiqueta, con el nombre y las
+   medidas reales de tu archivo:
+
+   ```
+   <img src="/assets/img/dario.jpg" alt="Retrato de Darío Domínguez García" width="800" height="600">
+   ```
+
+   La etiqueta vive aquí y no dentro del propio comentario del HTML porque
+   `detect.mjs` lee dentro de los comentarios y la contaría como imagen rota.
+   Es la trampa que ya está apuntada en la sección 5 de `CLAUDE.md`.
+3. Escribe los dos párrafos donde pone `PRIMER PÁRRAFO` y `SEGUNDO PÁRRAFO`.
+4. Quita el comentario de alrededor.
 
 ## 9. Textos legales ✓ escritos — falta el NIF y el domicilio, por decisión tuya
 
@@ -262,6 +300,41 @@ Y una cosa que no puedo hacer yo: esto es una base sólida y honesta, no un
 dictamen jurídico. Si mueves mucho dato o algún cliente te lo exige, que un
 abogado le eche un ojo.
 
+## 10. Lo que se añadió el 27/08/2026, y qué te toca a ti de ello
+
+Cuatro cosas que ya están publicadas y no piden nada tuyo, más dos que sí.
+
+**Madrid, publicado.** La web no decía en ningún sitio dónde estás, y para quien
+vende a negocio local eso es lo que más pesa en el buscador. Ahora sale en el
+pie de las nueve páginas, en la entrada y en los sectores de `sobre-mi.html`, y
+en las etiquetas `description` de portada, servicios y estudio. Si algún día te
+mudas, búscalo como `Madrid` y aparece en los ocho sitios.
+
+**La tarjeta para compartir.** `og-escaparate.png`, en la raíz. Es lo que se ve
+cuando alguien pasa tu enlace por WhatsApp; antes no había imagen ninguna. Está
+dibujada con el logo y las tipografías de la web, así que no hay original en
+otro programa que guardar. Si algún día cambia el logo, se vuelve a generar.
+
+**La medición ya cuenta contactos, no solo visitas.** En Analytics tienes cuatro
+eventos nuevos: `envio_whatsapp` y `envio_correo` (los dos botones del
+formulario) y `clic_whatsapp` y `clic_telefono` (cualquier enlace de la web, con
+un campo `origen` que dice si fue en el pie o en el cuerpo). El formulario en
+blanco no cuenta nada: solo cuenta cuando el envío sale de verdad.
+
+**Se puede retirar el consentimiento de cookies.** Botón en `/cookies`, en el
+apartado de revocación. Antes aceptar era un botón y rechazar después era irse a
+la configuración del navegador, y el RGPD pide que cuesten lo mismo.
+
+Y las dos que sí son tuyas:
+
+- **El `www` no funciona.** `www.elescaparateweb.com` no existe: no hay registro
+  DNS. Quien lo escriba por costumbre no llega. Se arregla en Vercel
+  (*Settings → Domains → Add*), creando el `CNAME` que te indique en tu
+  proveedor del dominio y eligiendo *Redirect* al dominio a secas. No hay nada
+  que cambiar en el repositorio.
+- **Los `lastmod` del sitemap.** Hay que tocarlos cuando publiques cambios de
+  contenido. Están explicados dentro del propio `sitemap.xml`.
+
 ---
 
 ## Cómo trabajar con esto
@@ -270,8 +343,11 @@ abogado le eche un ojo.
 node _dev-servidor.js
 ```
 
-Y abre `http://localhost:5174`. También funciona abriendo `index.html` con doble
-clic: no hay build, no hay npm, no hay nada que compilar.
+Y abre `http://localhost:5174`. No hay build, no hay npm, no hay nada que
+compilar, pero **el servidor sí hace falta**: desde el 17/08/2026 los enlaces
+internos van sin extensión (`/diseno-web`, no `diseno-web.html`) y bajo `file://`
+nadie los resuelve, así que abrir `index.html` con doble clic deja la navegación
+muerta. Esta página decía lo contrario hasta el 27/08/2026.
 
 ## Las direcciones de cada página
 
@@ -287,9 +363,11 @@ clic: no hay build, no hay npm, no hay nada que compilar.
 Las antiguas (`/servicios`, `/portfolio`, `/metodo`, `/estudio`, `/contacto`)
 redirigen con un 301 permanente a la nueva, así que ningún enlace se rompe.
 
-Los archivos siguen llamándose `.html` y los enlaces del código son relativos,
-que es lo que permite abrir la web con doble clic sin servidor. **El `.html` lo
-quita el servidor**, no el código:
+Los archivos siguen llamándose `.html`, pero **los enlaces del código ya no
+llevan la extensión**: son absolutos de raíz (`/diseno-web`). Se cambió el
+17/08/2026 para ahorrarse el salto 308 que costaba cada clic del menú, y la
+contrapartida es que la web ya no se abre con doble clic. **El `.html` lo quita
+el servidor**, no el código:
 
 - **Vercel**, que es donde está la web: lo hace `vercel.json` con `cleanUrls`.
   Ese archivo tiene que subir con el resto o las direcciones limpias dan 404.
