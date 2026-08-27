@@ -123,6 +123,15 @@
 
   <section class="franja">
     <div class="envoltura">
+      <!-- Este titular no es decorativo: sin el, la pagina saltaba del h1 a los
+           cuatro h3 de las fases y dejaba un hueco en el esquema. Un lector de
+           pantalla que navega por encabezados —que es como se navega una pagina
+           larga— se encontraba cuatro subapartados colgando de nada.
+           Los h3 de las fases no se tocan: el CSS los estiliza por la etiqueta
+           (.fase h3), asi que cambiarlos por h2 los dejaria sin estilo. -->
+      <div class="titular-seccion">
+        <h2>Las cuatro fases</h2>
+      </div>
       <div class="fases">
 
         <div class="fase">
@@ -287,7 +296,7 @@
         <a class="marca" href="/">
           <span>El Escaparate<span class="marca__punto">.</span></span>
         </a>
-        <p style="margin-top:.75rem;max-width:22rem;color:var(--azul-suave);font-size:var(--t-s)">
+        <p class="pie__lema">
           Webs para negocios que ya funcionan en la calle. Diseño, programación y entrega con la llave en tu mano. Estudio en Madrid, encargos en toda España.
         </p>
       </div>

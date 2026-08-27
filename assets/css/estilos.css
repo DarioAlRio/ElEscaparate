@@ -1246,6 +1246,23 @@ img.giro__cara,
   max-width: 20ch;
 }
 
+/* El número de la página de error. Va en bermellón vivo y no en --accion-tinta
+   porque aquí el fondo es la franja azul, que es donde el vivo sí llega de
+   sobra al contraste; sobre baldosa no llegaría (§5 de CLAUDE.md).
+   El interlineado en 0,8 y el margen negativo de abajo lo pegan al titular en
+   vez de dejarlo flotando: la caja de una cifra tan grande reserva mucho más
+   aire del que ocupa el dibujo, y sin corregirlo el hueco hasta «Esta persiana
+   no abre» se lee como un despiste de maquetación. */
+.numero-error {
+  font-family: var(--letra-titular);
+  font-weight: 800;
+  font-size: clamp(5rem, 15vw, 9rem);
+  line-height: 0.8;
+  letter-spacing: -0.05em;
+  color: var(--accion);
+  margin-bottom: var(--e2);
+}
+
 .bloque-servicio {
   display: grid;
   gap: var(--e4);
@@ -1696,8 +1713,34 @@ img.giro__cara,
   font-weight: 600;
   margin-bottom: var(--e2);
 }
-.pie ul { list-style: none; padding: 0; display: grid; gap: 0.55rem; }
+/* El hueco baja de 0,55rem a 0,15rem porque los enlaces ganan relleno propio
+   justo debajo: entre los dos suman lo mismo y el pie no crece ni un pixel. */
+.pie ul { list-style: none; padding: 0; display: grid; gap: 0.15rem; }
 .pie a { color: var(--cal); text-decoration: none; }
+
+/* El lema de debajo de la marca. Estuvo con estilo en linea repetido en las
+   nueve paginas, que es justo lo que la regla 4 dice que no se hace: cuatro
+   declaraciones copiadas nueve veces y ningun sitio donde cambiarlas de una vez. */
+.pie__lema {
+  margin-top: 0.75rem;
+  max-width: 22rem;
+  color: var(--azul-suave);
+  font-size: var(--t-s);
+}
+
+/* Los enlaces del pie median 19 y 21 px de alto, medido a 390 px, y el minimo
+   que pide la WCAG 2.5.8 son 24. Estas listas son navegacion, no prosa, asi que
+   no les vale la excepcion de los enlaces dentro de una frase.
+   El «inline-block» no es decorativo: en un enlace en linea el relleno vertical
+   se pinta pero no empuja la caja, asi que el area pulsable no cambiaria.
+   Excepciones que NO lo necesitan, y por que:
+   - .pie__con-icono ya es inline-flex, que es caja de bloque por dentro.
+   - .pie__legal-enlaces es flex, y sus hijos van «blockificados» por serlo.
+   Ponerselo igual romperia el primero, porque «.pie ul a» tiene mas
+   especificidad que «.pie__con-icono» y le ganaria el display. */
+.pie ul a:not(.pie__con-icono) { display: inline-block; }
+.pie ul a,
+.pie__legal-enlaces a { padding-block: 0.2rem; }
 
 /* Los atajos de contacto del pie, con el mismo icono que en la página de
    contacto. El de presupuesto se queda como texto: no es un canal, es un sitio

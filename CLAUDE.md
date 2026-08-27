@@ -33,7 +33,9 @@ Este archivo es lo demás: cómo se trabaja aquí y qué trampas ya se han pagad
    `.html` justo para conservar el doble clic; se cambió para ahorrar el salto
    308 que costaba cada clic del menú. Si algún día vuelve a hacer falta abrirla
    sin servidor, hay que devolver la extensión a los `href` de las diez páginas.
-4. **Sin backend.** Capturas a servicios públicos, formulario a endpoint externo.
+4. **Sin backend.** Capturas a servicios públicos. El formulario sale por
+   WhatsApp o por el programa de correo del visitante; el día que haya un
+   servicio de formularios dado de alta, se cambia el `action` y ya (ver §5).
 5. **Español de España, tuteo, registro formal, sin jerga.** Se tutea, pero el
    tono es sobrio: nada de coloquialismos («vale cualquier web», «sale barato»,
    «no hay por dónde») ni de guiños. Decidido el 17/08/2026, cambiando el
@@ -87,15 +89,16 @@ están en la cabecera de `_render-modelo.html`. Nada de esto se publica.
 | `presupuesto.html` | `/presupuesto` | Formulario, WhatsApp y correo |
 | `aviso-legal.html` | `/aviso-legal` | Titular, uso, propiedad intelectual |
 | `privacidad.html` | `/privacidad` | Datos, finalidades, proveedores, derechos |
-| `cookies.html` | `/cookies` | No hay cookies; sí `localStorage` de capturas |
+| `cookies.html` | `/cookies` | Las dos de Analytics, el `localStorage` y el botón de revocación |
 | `404.html` | — | Lo sirve Vercel solo |
 
 ```
 assets/css/estilos.css    Sistema entero, 18 secciones numeradas en comentarios
 assets/js/proyectos.js    Datos del portfolio — lo único que se toca a menudo
 assets/js/escaparates.js  Motor de capturas, fichas y visor
-assets/js/sitio.js        Menú, año, .entra, formulario, varilla, cierre, giro
-                          y el aviso de cookies
+assets/js/sitio.js        Menú, año, .entra, formulario, varilla, cierre, giro,
+                          el aviso de cookies con su botón de revocación y los
+                          cuatro eventos de medición de las salidas de contacto
 assets/fuentes/*.woff2   Archivo y Bricolage, subconjunto latin. Ver §5
 assets/img/modelo-NN.webp Los 48 fotogramas de la maqueta, 00 a 47. Ver §5
 assets/img/modelo-00.png  Solo el primero, de respaldo para quien no lea WebP
@@ -106,6 +109,8 @@ vercel.json               cleanUrls + los 301 de las direcciones antiguas
 .htaccess                 Lo mismo para Apache, por si se muda
 robots.txt · sitemap.xml
 icono-buscador-192.png    El ÚNICO que enlazan las diez páginas. Ver §5
+og-escaparate.png         La tarjeta de og:image, 1200x630. La dibuja un canvas
+                          con el logo y las tipografías: no hay original fuera
 favicon.ico               16/32/48 en DIB. En la raíz, sin enlazar: solo
                           para quien lo busque por costumbre
 favicon-conborde.svg      Logo con filete. Ya no se enlaza; es el original
@@ -137,6 +142,15 @@ reglas **dentro de su sección**, no al final del archivo.
   `dataLayer` y `gtag`, tal cual los publica Google —sin traducir ni envolver
   en IIFE, porque tienen que quedar globales—, y `cargaMedicion`, que es
   nuestra y solo se llama cuando hay consentimiento.
+- **Los eventos de medición se llaman en español y en `snake_case`**, como el
+  resto del código: `envio_whatsapp`, `envio_correo`, `clic_whatsapp`,
+  `clic_telefono`. Los dos primeros los dispara el módulo del formulario y no el
+  listener general, y eso es a propósito: solo el formulario sabe si el envío
+  llegó a salir o se quedó en un campo vacío, y contar el clic desde fuera
+  inflaría la cifra con intentos fallidos.
+- **Se puede llamar a `gtag` sin comprobar si hay consentimiento.** La cabecera
+  lo define siempre; mientras no haya un sí, solo apila el aviso en `dataLayer`
+  y no sale nada del navegador.
 - **Los comentarios explican el porqué, no el qué.** Si una regla parece
   arbitraria, es que costó descubrirla: déjala documentada en el sitio.
 - **Accesibilidad no opcional:** `aria-current` en el menú, `aria-expanded` en
@@ -333,6 +347,34 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   se la come al nombrarla, aunque el identificador de la propiedad sí la lleve.
   Comprobado leyendo `document.cookie`; casi todas las políticas que se copian
   por ahí la escriben mal.
+- **`404.html` enlaza sus assets con barra inicial, y ahí no es cosmético.** El
+  hosting sirve ese archivo desde la dirección que pidió el visitante, no desde
+  la raíz. Con rutas relativas, un 404 en `/blog/algo/x` pedía
+  `/blog/algo/assets/css/estilos.css` y la página de error salía sin una sola
+  regla de estilo, en Times New Roman. Comprobado los dos lados el 27/08/2026.
+  Las otras nueve páginas siguen con ruta relativa y funcionan porque están
+  todas en la raíz; en la 404 **no le quites la barra**.
+- **Los `lastmod` del `sitemap.xml` hay que tocarlos al publicar.** Es lo único
+  del archivo que se queda viejo solo, y es la señal con la que Google decide si
+  vuelve a leer una página. Estuvieron los nueve en `2026-08-17` mientras las
+  páginas se reescribían el 26 y el 27. La fecha es la del último cambio de *su*
+  archivo, no la de hoy: ponerlas todas iguales le dice al buscador que
+  cambiaron a la vez, y a la tercera deja de hacer caso al campo.
+  `git log -1 --format=%ad --date=short -- pagina.html`
+- **El `action` del formulario es el camino sin JavaScript, no un adorno.**
+  Estuvo en `PENDIENTE-pon-aqui-tu-endpoint`, que no es la dirección de nada:
+  sin JavaScript el navegador enviaba ahí y daba un 404 en el propio dominio.
+  Ahora es un `mailto` de verdad, y `porCorreo()` distingue el endpoint por que
+  empiece por `http`, no por una palabra clave dentro del atributo. Si algún día
+  entra un servicio de formularios, se cambia el `action` y se quita el
+  `enctype="text/plain"`; el código no necesita nada más.
+- **El relleno vertical de un enlace en línea no agranda el área pulsable.** Los
+  del pie median 19 px y la WCAG 2.5.8 pide 24. Hace falta `inline-block` para
+  que el `padding-block` empuje la caja. Dos excepciones que ya son caja de
+  bloque y a las que **no** hay que ponérselo: `.pie__con-icono`, que es
+  `inline-flex`, y los de `.pie__legal-enlaces`, que van blockificados por ser
+  hijos de un flex. Ponérselo rompería el primero, porque `.pie ul a` tiene más
+  especificidad que `.pie__con-icono` y le ganaría el `display`.
 - **El recuadro del aviso va en `--azul-hondo` y con filete, no en `--azul`.**
   Aparece sobre la portada, que ya es una franja azul: del mismo color se funde
   con el fondo y lo único que lo despega es la sombra, que sobre azul no se ve.
@@ -357,6 +399,11 @@ afirmar que se ha comprobado.
 4. Navegación comprobada con `node _dev-servidor.js`, no abriendo el archivo.
 5. Si has cambiado precios, plazos, contacto o condiciones, actualiza también
    `PERSONALIZAR.md`; si has cambiado el sistema visual, `DESIGN.md`.
+6. Si has cambiado el contenido de una página, ponle su `lastmod` de hoy en
+   `sitemap.xml`. Es lo único del sitio que no se actualiza solo.
+7. Si has tocado las seis preguntas de `/diseno-web`, cambia también su
+   `FAQPage`: Google descarta el bloque entero cuando el texto no coincide
+   palabra por palabra con lo que ve el visitante.
 
 ## 8. Cómo responder a Dario
 

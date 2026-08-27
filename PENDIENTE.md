@@ -5,7 +5,7 @@ que reconstruirlas de memoria en la sesión siguiente. Lo que te falta por
 **rellenar** (plazos, precios, textos, portfolio) no está aquí: está en
 `PERSONALIZAR.md`, y ahí sigue.
 
-Última revisión: 26/08/2026.
+Última revisión: 27/08/2026, después del barrido de toda la web.
 
 ---
 
@@ -33,12 +33,20 @@ trampas del toldo, la máscara `left bottom`, la especificidad de los numerales
 **Recomendación: quedarse en 98.** No está decidido; si prefieres el punto, se
 hace en una sesión.
 
-### El nombre del menú: «Qué monto»
+### El `www` y la foto
 
-Se propuso volver a **«Servicios»**, que es lo que espera cualquiera y lo que
-buscan los buscadores. Nunca se llegó a responder, así que sigue «Qué monto».
-Cambiarlo son diez páginas y `aria-current`; el archivo y la dirección
-(`/diseno-web`) no se tocan.
+Dos cosas que solo puedes hacer tú y que están explicadas en `PERSONALIZAR.md`:
+dar de alta `www.elescaparateweb.com` en Vercel —ahora mismo no resuelve, así
+que quien lo escriba por costumbre no llega— y mandar una foto tuya para el
+bloque de biografía de `sobre-mi.html`, que está montado y comentado esperando.
+
+### El portfolio y sus dominios
+
+Siete de las nueve fichas apuntan a `*.vercel.app` bajo el titular «Trabajos
+entregados», y un cliente lee eso como pruebas, no como encargos. Preguntado el
+27/08/2026 y **decidido dejarlo así**: el plan es sustituir las fichas conforme
+entren encargos con dominio propio, no cambiar el titular. Si en unos meses el
+reparto sigue igual, vuelve a mirarse.
 
 ### El repositorio de GitHub es público
 
@@ -71,6 +79,9 @@ sección 5 de `CLAUDE.md`.
 | Apretar más los fotogramas de la maqueta | Lo que pesa es el canal alfa. Se gana quitando fotogramas, no comprimiendo |
 | Subir la compresión del hosting | Vercel usa brotli de calidad 3 y no se configura desde el repositorio |
 | El botón «Añadir a fuentes preferidas» de Google | Ver abajo |
+| Bajar el registro de `/sobre-mi` y `/como-trabajo` | Preguntado el 27/08/2026: es el tono que Dario quiere para esas dos páginas, aunque suene más de despacho que la portada |
+| Una Content-Security-Policy | Habría que listar Analytics y los tres servicios de capturas, y olvidar uno deja el portfolio en blanco. Las otras tres cabeceras sí están puestas |
+| Un `<label>` de casilla obligatoria en el formulario | Se decidió el aviso enlazado sin casilla: el envío por WhatsApp o correo ya es un acto voluntario, y la casilla resta envíos |
 
 ### El botón de fuentes preferidas de Google
 
@@ -113,3 +124,27 @@ con fecha, la cuenta cambia y se vuelve a mirar.
 - El registro de los textos: se tutea, pero sobrio.
 
 De 89 a 98 en móvil, y de ahí no se sube sin tocar la regla 1 o la 6.
+
+## 4. El barrido del 27/08/2026
+
+Repaso de las diez páginas, del hosting y de la documentación. Lo que salió y
+se arregló el mismo día:
+
+**Estaba roto y publicado.** La `description` de `/cookies` seguía diciendo que
+la web no instala cookies ni tiene aviso, un mes después de poner Analytics. La
+página de error salía sin una sola regla de estilo en cualquier dirección con
+carpetas, porque enlazaba sus assets con ruta relativa. Y el formulario apuntaba
+a `PENDIENTE-pon-aqui-tu-endpoint`, que sin JavaScript daba un 404.
+
+**Faltaba y se puso.** Imagen para compartir en las nueve páginas, datos
+estructurados del estudio y de las seis preguntas, Madrid en ocho sitios, cuatro
+eventos de medición, botón para retirar el consentimiento, aviso del artículo 13
+en el formulario, tres cabeceras de seguridad, y los `lastmod` del sitemap al
+día.
+
+**Higiene.** Los enlaces del pie pasan de 19 a 25 px de alto (WCAG 2.5.8 pide
+24), `/como-trabajo` deja de saltar de `h1` a `h3`, y el lema del pie deja de
+ir con estilo en línea repetido nueve veces.
+
+**Se decidió no tocar**: el registro de `/sobre-mi` y `/como-trabajo`, y el
+titular del portfolio. Están arriba, en su sitio.
