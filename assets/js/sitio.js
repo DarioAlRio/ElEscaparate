@@ -400,6 +400,11 @@
    La decisión se guarda en localStorage, no en una cookie: una cookie para
    recordar que no quieres cookies es una contradicción que hay que explicar
    en la política, y aquí no hace falta.
+
+   Y se puede cambiar de idea. El artículo 7.3 del RGPD pide que retirar el
+   consentimiento sea tan fácil como darlo, y hasta el 27/08/2026 darlo era un
+   botón y retirarlo era irse a la configuración del navegador. El control vive
+   en /cookies, en su apartado de revocación; aquí está el motor.
    ========================================================================= */
 
 (function () {
@@ -426,6 +431,24 @@
       document.cookie = nombre + "=; max-age=0; path=/";
       document.cookie = nombre + "=; max-age=0; path=/; domain=" + dominio;
       document.cookie = nombre + "=; max-age=0; path=/; domain=." + dominio;
+    });
+  }
+
+  function olvida() {
+    try { localStorage.removeItem(LLAVE); } catch (e) {}
+  }
+
+  /* El botón de /cookies. Recarga en vez de limpiar sobre la marcha, y no es
+     pereza: si la medición estaba aceptada, el archivo de Google ya está
+     cargado en esta página y no hay forma de descargarlo desde aquí. Volviendo
+     a pedir la página se entra sin decisión, sin cookies y sin medición, y el
+     aviso sale de nuevo por sí solo. */
+  var revoca = document.querySelector("[data-olvida-galletas]");
+  if (revoca) {
+    revoca.addEventListener("click", function () {
+      olvida();
+      caduca();
+      location.reload();
     });
   }
 

@@ -1962,6 +1962,22 @@ html.sin-js .entra { opacity: 1; transform: none; }
   .galletas { left: var(--e4); bottom: var(--e4); right: auto; width: 27rem; }
 }
 
+/* El control de revocación de /cookies. Va dentro de un texto legal, que es
+   prosa de una columna, así que se separa con aire arriba y abajo en vez de
+   con un recuadro: un recuadro ahí dentro parecería otra sección. */
+.revoca-galletas {
+  margin: var(--e4) 0;
+  padding-left: var(--e3);
+  border-left: 3px solid var(--accion);
+}
+
+.revoca-galletas .campo__ayuda { margin-top: var(--e2); }
+
+/* Sin JavaScript el botón no haría nada, y un botón muerto en una página legal
+   es peor que no ponerlo: quedan los tres procedimientos de navegador, que no
+   dependen de nada. Misma clase que usa el resto del sitio para lo mismo. */
+.sin-js .revoca-galletas { display: none; }
+
 /* --- 18. Impresión ------------------------------------------------------ */
 
 @media print {
