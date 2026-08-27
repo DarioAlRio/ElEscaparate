@@ -166,9 +166,16 @@
   }
 
   /* Salida 2: correo. Con un endpoint de verdad se envía a la bandeja; sin él,
-     se abre el programa de correo del visitante con todo escrito. */
+     se abre el programa de correo del visitante con todo escrito.
+
+     Lo que distingue un caso del otro es que el «action» empiece por http, no
+     una palabra clave dentro de él. Antes se buscaba el texto «PENDIENTE», y
+     eso obligaba a que el respaldo fuera una dirección falsa: sin JavaScript,
+     el navegador la enviaba y daba un 404 en el propio dominio. Ahora el
+     respaldo es un «mailto» de verdad y la comprobación sigue siendo una línea. */
   function porCorreo() {
-    if (forma.getAttribute("action").indexOf("PENDIENTE") === -1) {
+    var destino = forma.getAttribute("action") || "";
+    if (destino.indexOf("http") === 0) {
       avisa("Enviando…");
       forma.submit();
       return;
