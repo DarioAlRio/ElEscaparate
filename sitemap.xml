@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  LOS «lastmod» HAY QUE TOCARLOS AL PUBLICAR. Es lo único de este archivo que
+  se queda viejo solo, y viejo no sirve de nada: es la señal con la que Google
+  decide si merece la pena volver a leer una página. Estuvieron los nueve en
+  2026-08-17 mientras las páginas se reescribían el 26 y el 27.
+
+  La fecha de cada uno es la del último cambio de SU archivo, no la de hoy:
+  poner la misma en las nueve le dice al buscador que cambiaron todas a la vez,
+  y a la tercera vez que eso no es verdad deja de hacer caso al campo.
+
+  Para saber cuál toca:  git log -1 --format=%ad --date=short -- pagina.html
+
+  «changefreq» y «priority» los ignora Google desde 2023. Se quedan porque otros
+  buscadores todavía los leen y no cuestan nada.
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <!--  Página de inicio  -->
   <url>
     <loc>https://elescaparateweb.com/</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -12,7 +27,7 @@
   <!--  Servicios y precios  -->
   <url>
     <loc>https://elescaparateweb.com/diseno-web</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -20,7 +35,7 @@
   <!--  Trabajos  -->
   <url>
     <loc>https://elescaparateweb.com/trabajos</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -28,7 +43,7 @@
   <!--  Contacto y presupuesto  -->
   <url>
     <loc>https://elescaparateweb.com/presupuesto</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -36,7 +51,7 @@
   <!--  Cómo trabajo  -->
   <url>
     <loc>https://elescaparateweb.com/como-trabajo</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -44,7 +59,7 @@
   <!--  El estudio  -->
   <url>
     <loc>https://elescaparateweb.com/sobre-mi</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -52,7 +67,7 @@
   <!--  Aviso legal  -->
   <url>
     <loc>https://elescaparateweb.com/aviso-legal</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -60,7 +75,7 @@
   <!--  Política de privacidad  -->
   <url>
     <loc>https://elescaparateweb.com/privacidad</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -68,7 +83,7 @@
   <!--  Política de cookies  -->
   <url>
     <loc>https://elescaparateweb.com/cookies</loc>
-    <lastmod>2026-08-17</lastmod>
+    <lastmod>2026-08-27</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.2</priority>
   </url>

@@ -175,10 +175,29 @@
           de justificación, por cualquiera de estos procedimientos:
         </p>
         <ul class="lista-marcada">
+          <li><span><strong>Desde esta misma página</strong>, con el botón que hay aquí debajo. Es la vía inmediata y no requiere tocar la configuración de nada.</span></li>
           <li><span>Eliminar los datos de este sitio desde la configuración del navegador. Esa acción borra también la decisión registrada, por lo que el aviso volverá a mostrarse en la siguiente visita.</span></li>
           <li><span>Bloquear las cookies de este dominio en esa misma configuración, con efecto para visitas sucesivas.</span></li>
           <li><span>Instalar el <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer">complemento de inhabilitación de Google Analytics</a>, que desactiva la medición en todos los sitios que la utilicen.</span></li>
         </ul>
+
+        <!-- El control de revocación. Lo pide el artículo 7.3 del RGPD: retirar
+             el consentimiento tiene que ser tan fácil como darlo, y hasta ahora
+             darlo era un botón y retirarlo era irse a la configuración del
+             navegador. Lo mueve «sitio.js»; sin JavaScript no haría nada, así
+             que el CSS lo esconde con la clase «sin-js» y quedan los tres
+             procedimientos de arriba, que no dependen de nada. -->
+        <div class="revoca-galletas">
+          <button type="button" class="boton boton--azul" data-olvida-galletas>
+            Cambiar mi decisión sobre las cookies
+          </button>
+          <p class="campo__ayuda">
+            Borra la decisión guardada, caduca las dos cookies si las hubiera y
+            recarga la página para que la medición deje de estar en marcha. El
+            aviso volverá a aparecer para que elijas de nuevo.
+          </p>
+        </div>
+
         <p>
           Al rechazar desde el aviso, las cookies que pudieran existir de una
           visita anterior se eliminan de forma inmediata.

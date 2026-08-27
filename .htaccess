@@ -47,7 +47,20 @@ ErrorDocument 404 /404.html
   ExpiresByType text/html "access plus 0 seconds"
 </IfModule>
 <IfModule mod_headers.c>
-  <FilesMatch "\.(css|js|svg|png|ico)$">
+  # Cabeceras de seguridad. Las mismas tres que pone vercel.json, y por el mismo
+  # motivo: no cambian nada visible y son lo primero que mira cualquier revisión.
+  # nosniff impide que el navegador adivine el tipo de un archivo y lo ejecute
+  # como si fuera otra cosa; Referrer-Policy deja de mandar la dirección
+  # completa de la página a los servicios de capturas, que solo necesitan saber
+  # el dominio; Permissions-Policy apaga cámara, micrófono, ubicación, pagos y
+  # USB, que esta web no usa y así no puede usarlos nada incrustado.
+  # No hay Content-Security-Policy a proposito: habria que listar Analytics y
+  # los tres servicios de capturas, y olvidar uno deja el portfolio en blanco.
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+
+  <FilesMatch "\.(css|js|svg|png|ico|webp)$">
     Header set Cache-Control "public, max-age=0, must-revalidate"
   </FilesMatch>
   # Las fuentes son la excepción, y por eso llevan la versión en el nombre
