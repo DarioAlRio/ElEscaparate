@@ -686,13 +686,16 @@ body {
   object-position: 50% 0;
 }
 
-/* El marco del retrato de /sobre-mi. No fija proporción: la imagen ya se
-   conoce y no hay captura que esperar, así que manda ella y no el 4:3 que el
-   escaparate necesita para reservar el hueco. Y sin los márgenes que .marco
-   trae de la portada, que allí separan el marco del borde del escaparate y
-   aquí solo descuadran la columna. */
-.marco--retrato { margin: 0; aspect-ratio: auto; }
-.marco--retrato img { height: auto; }
+/* La ilustración de /sobre-mi va sin marco: ni filete, ni fondo, ni recorte.
+   Estuvo en un .marco--retrato y se retiró el 01/09/2026, porque lo que se
+   pide de ella es que se funda con la franja y un marco es justo lo contrario.
+   Lo que la funde no es CSS: es que el fondo del archivo se aplanó al valor
+   exacto de --azul (#0b2350). Ver §5. */
+.ilustracion {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
 /* La persiana cubre el marco hasta que hay algo que enseñar. */
 .persiana {
