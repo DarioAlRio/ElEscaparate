@@ -108,7 +108,8 @@ assets/img/codigofoto.webp El fondo de la cabecera de /diseno-web. 1200x800,
 assets/img/fotobarrio.webp El fondo de la portada: el barrio isometrico.
                           1800x829, 137 KB. Ver §5
 assets/img/fotoyo.webp    La ilustración del escritorio, en la cabecera de
-                          /sobre-mi. 1100x733, 46 KB
+                          /sobre-mi. 1100x733, 49 KB. Fondo aplanado a --azul
+                          para que no se le vea el borde. Ver §5
 _fotobarrio-original.jfif Los originales de las dos anteriores, 2,6 MB y 2,0 MB.
 _fotoyo-original.png      Se versionan pero no se publican. Ver §5
 _modelo-caseta.glb        El modelo 3D del que salen. No se publica
@@ -357,6 +358,20 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   se la come al nombrarla, aunque el identificador de la propiedad sí la lleve.
   Comprobado leyendo `document.cookie`; casi todas las políticas que se copian
   por ahí la escriben mal.
+- **La ilustración de /sobre-mi se funde con la franja por el archivo, no por
+  CSS.** El fondo del WebP está aplanado al valor exacto de `--azul` (#0b2350):
+  67 % de los píxeles, con una rampa de 14 a 28 de distancia para los bordes
+  antidentado. Así el rectángulo no tiene canto que ver y no hace falta ni
+  marco ni máscara. Las dos alternativas se probaron y las dos fallan:
+  `mix-blend-mode: lighten` casa el fondo al píxel —es más oscuro que la franja
+  en los tres canales— pero toca el 30 % del dibujo y aplana los oscuros de la
+  silla y de la torre; y un desvanecido por máscara no cabe, porque la peana del
+  diorama llega al 98 % del alto y se la comería.
+  **El codificador WebP no devuelve el color que le das:** con destino #0b2350
+  el borde decodifica a ±1 por canal, y compensar el desvío a mano (#0c234f) lo
+  empeora a ±2. Se deja el valor exacto; ±1 sobre 255 no se ve.
+  Si algún día cambia `--azul`, hay que volver a generar el archivo: el fondo
+  está cocido dentro y no lo sigue ninguna variable.
 - **`404.html` enlaza sus assets con barra inicial, y ahí no es cosmético.** El
   hosting sirve ese archivo desde la dirección que pidió el visitante, no desde
   la raíz. Con rutas relativas, un 404 en `/blog/algo/x` pedía
