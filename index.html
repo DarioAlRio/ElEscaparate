@@ -107,9 +107,10 @@
   STORY: el visitante entiende que hay una persona que monta webs por formatos
   y cierra el precio por escrito antes de empezar, se lo cree porque ve capturas
   reales generadas delante de él, y pide presupuesto.
-  FIRST VIEWPORT: a la izquierda el titular a sangre sobre azul y dos acciones,
-  la bermellón primero; a la derecha un escaparate con su toldo, un campo para
-  pegar una dirección y la persiana bajada con el cartel CERRADO.
+  FIRST VIEWPORT: la pantalla entera es el barrio, en una ilustración a sangre
+  velada de azul; encima, a la izquierda, el titular y dos acciones, la
+  bermellón primero, y a la derecha la maqueta de la caseta, que queda plantada
+  en medio de la calle que enseña el fondo.
   FORM: fachada de comercio con escaparate, primera de siete candidatas frente a
   la retícula de agencia. Un solo momento animado: la persiana sube al pedir una
   captura.
@@ -171,8 +172,18 @@
 <main id="contenido">
 
   <!-- ===== Portada ===== -->
-  <section class="portada">
-    <div class="envoltura portada__rejilla">
+  <section class="portada cabecera-foto">
+
+    <!-- El barrio de fondo. Es la misma pieza que la cabecera de /diseno-web,
+         de ahí que comparta clases: foto a sangre, velo encima y el contenido
+         por delante. alt vacío a propósito, que no cuenta nada que no diga ya
+         el titular. Del original se recortó la franja de arriba, que traía
+         incrustada una cabecera con su menú y su toldo: por debajo de la
+         cabecera de verdad se veía el menú dos veces. -->
+    <img class="cabecera-foto__imagen" src="assets/img/fotobarrio.webp" alt=""
+         width="1800" height="829" fetchpriority="high" decoding="async">
+
+    <div class="envoltura portada__rejilla cabecera-foto__texto">
 
       <div class="portada__texto">
         <h1>En la calle tienes escaparate.<br><em>En internet, la persiana bajada.</em></h1>
