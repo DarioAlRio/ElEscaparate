@@ -272,51 +272,6 @@ button, input, select, textarea {
   background-size: 44px 44px;
 }
 
-/* Marca de agua: un solo logo, nítido, grande y quieto en el centro, detrás de
-   todo.
-
-   Va en el ::before del body y no en el HTML porque son diez páginas y el nodo
-   no dice nada: así no hay que repetirlo ni acordarse de él al añadir otra.
-
-   El z-index negativo la pinta justo encima del color del lienzo —el fondo del
-   body, que se propaga a la raíz— y por debajo de cualquier franja con color.
-   En los tramos azules y en el bermellón no se ve, y así debe ser: el logo va
-   detrás del contenido, no encima. Cuidado si algún día el body pasa a tener
-   position, opacity, transform o filter: cualquiera de esos crea contexto de
-   apilamiento y la marca se iría por debajo del lienzo, o sea, desaparecería.
-
-   «fixed» y no «absolute»: el navegador la sube a su propia capa y no la vuelve
-   a pintar en cada scroll, y de paso las franjas le pasan por delante como el
-   marco de un escaparate. No se mueve nunca, no hay transición que la toque.
-
-   La opacidad no está puesta a ojo: es el techo medido. Quien manda es el
-   bermellón de texto, --accion-tinta, que sobre la baldosa limpia ya va justo
-   (5,09:1). Con el logo detrás su punto más oscuro deja el suelo en #dce1e6 y
-   esos enlaces —los de .texto-legal, que caen justo en las páginas donde más
-   se ve la marca— se quedan en 4,50:1. Medido pintando el logo sobre la
-   baldosa en un canvas y pasando la fórmula WCAG píxel a píxel. El techo no
-   depende del tamaño: por muy grande que se ponga, el píxel más oscuro es el
-   mismo, así que agrandarla es gratis en contraste.
-   Y no hay truco que lo suba: el color más claro del logo es la misma cal del
-   fondo, así que la marca solo puede oscurecer.
-
-   Nítida, no desenfocada. Con desenfoque y a esta opacidad no se veía: era una
-   nube gris sin bordes. Lo que hace legible un logo tan tenue son sus cantos,
-   que es lo primero que se lleva el blur. */
-body::before {
-  content: "";
-  position: fixed;
-  z-index: -1;
-  top: 50%;
-  left: 50%;
-  width: min(96vmin, 980px);
-  aspect-ratio: 1;
-  transform: translate(-50%, -50%);
-  background: url("../../favicon.svg") center / contain no-repeat;
-  opacity: 0.06;
-  pointer-events: none;
-}
-
 /* --- 4. Estructura ------------------------------------------------------ */
 
 .envoltura {
@@ -710,6 +665,14 @@ body::before {
   object-fit: cover;
   object-position: 50% 0;
 }
+
+/* El marco del retrato de /sobre-mi. No fija proporción: la imagen ya se
+   conoce y no hay captura que esperar, así que manda ella y no el 4:3 que el
+   escaparate necesita para reservar el hueco. Y sin los márgenes que .marco
+   trae de la portada, que allí separan el marco del borde del escaparate y
+   aquí solo descuadran la columna. */
+.marco--retrato { margin: 0; aspect-ratio: auto; }
+.marco--retrato img { height: auto; }
 
 /* La persiana cubre el marco hasta que hay algo que enseñar. */
 .persiana {
@@ -2171,8 +2134,6 @@ html.sin-js .entra { opacity: 1; transform: none; }
 /* --- 18. Impresión ------------------------------------------------------ */
 
 @media print {
-  /* La marca de agua es tinta gastada en una hoja: en papel no aporta nada. */
-  body::before { display: none; }
   .cabecera, .pie, .visor, .escaparate-vivo, .cierre-fachada, .galletas { display: none; }
   body { background: #fff; color: #000; }
 }

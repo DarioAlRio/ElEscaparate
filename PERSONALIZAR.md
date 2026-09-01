@@ -214,13 +214,16 @@ Pulsar Enter dentro de un campo equivale al botón principal, el de WhatsApp.
 El campo trampa `_apellido` sigue ahí para el spam: si un robot lo rellena, el
 mensaje no sale por ninguna de las dos vías.
 
-## 8. Tu biografía y tu foto
+## 8. Tu biografía ✓ la foto ya está — faltan los dos párrafos
 
 `sobre-mi.html` habla de cómo trabajas, que es verdad y es lo que vende, pero no
 cuenta nada que solo puedas contar tú: de dónde vienes, desde cuándo, dónde
 vives, por qué acabaste haciendo esto. Dos párrafos tuyos valen más que toda la
-página. Y falta una foto: sin ella, «detrás de esto hay una persona» es una
-frase; con ella, es un hecho.
+página.
+
+Desde el 01/09/2026 la cabecera de esta página lleva la ilustración del
+escritorio (`assets/img/fotoyo.webp`), así que la cara del estudio ya está
+puesta. Lo que sigue faltando son **los dos párrafos**.
 
 **El bloque ya está montado y comentado** al principio del `<main>` de
 `sobre-mi.html`, desde el 27/08/2026. Va comentado y no con texto de relleno a
@@ -230,10 +233,12 @@ que mientras esté comentado no pesa nada.
 
 Para activarlo:
 
-1. Deja la foto en `assets/img/`. Mejor apaisada o cuadrada: el marco recorta a
-   4:3 y ancla arriba, así que la cara no se pierde.
-2. Sustituye la línea `AQUÍ-LA-FOTO` por esta etiqueta, con el nombre y las
-   medidas reales de tu archivo:
+1. Escribe los dos párrafos donde pone `PRIMER PÁRRAFO` y `SEGUNDO PÁRRAFO`.
+2. Si algún día tienes un retrato de verdad, déjalo en `assets/img/` —mejor
+   apaisado o cuadrado, que el marco recorta a 4:3 y ancla arriba— y sustituye
+   la línea `AQUÍ-LA-FOTO` por esta etiqueta, con el nombre y las medidas
+   reales de tu archivo. Si no lo tienes, borra ese `div` entero: el bloque
+   funciona a una columna.
 
    ```
    <img src="/assets/img/dario.jpg" alt="Retrato de Darío Domínguez García" width="800" height="600">
@@ -242,8 +247,7 @@ Para activarlo:
    La etiqueta vive aquí y no dentro del propio comentario del HTML porque
    `detect.mjs` lee dentro de los comentarios y la contaría como imagen rota.
    Es la trampa que ya está apuntada en la sección 5 de `CLAUDE.md`.
-3. Escribe los dos párrafos donde pone `PRIMER PÁRRAFO` y `SEGUNDO PÁRRAFO`.
-4. Quita el comentario de alrededor.
+3. Quita el comentario de alrededor.
 
 ## 9. Textos legales ✓ escritos — falta el NIF y el domicilio, por decisión tuya
 

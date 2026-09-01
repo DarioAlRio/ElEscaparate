@@ -119,19 +119,23 @@
        con texto de relleno: un párrafo inventado sobre tu vida publicado en
        internet es peor que un hueco. Para activarlo:
 
-         1. Deja tu foto en assets/img/ (retrato, mejor apaisada o cuadrada;
-            el marco recorta a 4:3 y ancla arriba, así que la cara no se pierde).
-         2. Sustituye la línea AQUÍ-LA-FOTO por la etiqueta de imagen. La tienes
-            escrita para copiar en PERSONALIZAR.md, apartado 8; no se deja aquí
+         1. Escribe los dos párrafos donde pone PRIMER PÁRRAFO y SEGUNDO.
+         2. Si tienes un retrato de verdad, déjalo en assets/img/ y sustituye
+            la línea AQUÍ-LA-FOTO por la etiqueta de imagen, que la tienes
+            escrita para copiar en PERSONALIZAR.md, apartado 8. No se deja aquí
             porque el detector de antipatrones lee dentro de los comentarios y
             cuenta esa etiqueta como una imagen rota. Es la trampa de la
-            sección 5 de CLAUDE.md.
-         3. Escribe los dos párrafos.
-         4. Quita este comentario de alrededor.
+            sección 5 de CLAUDE.md. Si no lo tienes, borra ese div entero: el
+            bloque funciona a una columna.
+         3. Quita este comentario de alrededor.
+
+       Lo de la foto ya no es urgente: desde el 01/09/2026 la cabecera de esta
+       página lleva la ilustración del escritorio, así que la cara del estudio
+       ya está puesta. Lo que sigue faltando son los dos párrafos, que es lo
+       único que no puede escribir nadie más.
 
        No estrena ni una regla de CSS: usa .bloque-servicio y .marco, que ya
-       existen. Si al verlo prefieres el marco a sangre, sin los márgenes que
-       .marco trae de la portada, son tres líneas y se piden.
+       existen.
 
   <section class="franja">
     <div class="envoltura bloque-servicio">
@@ -151,16 +155,29 @@
        =================================================================== -->
 
   <section class="franja franja--corta franja--azul">
-    <div class="envoltura">
-      <h1 class="titulo-pagina">Trato directo y compromiso profesional</h1>
-      <p class="portada__entrada">
-        Mi nombre es Darío Domínguez García y estoy al frente de El Escaparate,
-        un estudio de diseño y programación web con sede en Madrid.
-        El interlocutor que atiende tu primera consulta es el mismo profesional
-        responsable del diseño visual, el desarrollo del código y el soporte técnico
-        posterior. Este modelo prescinde de intermediarios comerciales y garantiza
-        coherencia entre lo acordado y el resultado final.
-      </p>
+    <div class="envoltura bloque-servicio">
+      <div>
+        <h1 class="titulo-pagina">Trato directo y compromiso profesional</h1>
+        <p class="portada__entrada">
+          Mi nombre es Darío Domínguez García y estoy al frente de El Escaparate,
+          un estudio de diseño y programación web con sede en Madrid.
+          El interlocutor que atiende tu primera consulta es el mismo profesional
+          responsable del diseño visual, el desarrollo del código y el soporte técnico
+          posterior. Este modelo prescinde de intermediarios comerciales y garantiza
+          coherencia entre lo acordado y el resultado final.
+        </p>
+      </div>
+
+      <!-- El marco lleva su modificador porque esta ilustración ya se conoce y
+           no hay captura que esperar: manda su proporción y no la del 4:3 que
+           .marco fija para el escaparate. Su azul de fondo no es el de la
+           franja —#0b163c contra #0b2350—, y por eso lleva filete: sin él, el
+           rectángulo se leería como un descuadre en vez de como un cuadro. -->
+      <div class="marco marco--retrato">
+        <img src="assets/img/fotoyo.webp"
+             alt="Ilustración del estudio: una persona programando en su escritorio ante tres pantallas, con la torre del ordenador en la mesa de al lado."
+             width="1100" height="733" fetchpriority="high" decoding="async">
+      </div>
     </div>
   </section>
 

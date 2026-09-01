@@ -95,12 +95,15 @@ lectura acotada a 34–44rem según el bloque.
   —48 % en ancho, 72 % en alto— y solo abre después, para que la última línea
   no se quede sin suelo. En ancho abre hacia la derecha, que es donde está la
   maqueta y donde el barrio tiene que verse; en estrecho, hacia abajo.
-  Son las dos únicas fotos del sitio; todo lo demás son motivos de CSS,
-  la maqueta o capturas de webs de verdad.
+  Las imágenes del sitio son tres, y las tres son ilustraciones 3D de la
+  misma familia que la maqueta: el barrio de la portada, el código de
+  Servicios y el escritorio de la cabecera de El estudio, esta última dentro
+  de un `.marco--retrato`. Todo lo demás son motivos de CSS o capturas de
+  webs de verdad.
 
 ## Los motivos
 
-Cuatro. Los tres primeros son CSS puro, sin imágenes; el cuarto es el logo:
+Tres, y los tres son CSS, sin imágenes:
 
 1. **Toldo** (`.toldo`): franjas verticales con el borde inferior festoneado
    mediante dos capas de `mask` (círculos repetidos abajo, rectángulo arriba).
@@ -117,22 +120,6 @@ Cuatro. Los tres primeros son CSS puro, sin imágenes; el cuarto es el logo:
    marco hasta que hay algo que enseñar.
 3. **Reflejo** (`.escaparate__lienzo::after`): una diagonal clara que barre el
    cristal al pasar el ratón.
-4. **Marca de agua** (`body::before`): un solo logo del estudio, nítido, grande
-   —`min(96vmin, 980px)`— y quieto en el centro de la pantalla, detrás de todo
-   el contenido de las diez páginas. Es el único motivo que no es CSS puro:
-   dibuja `favicon.svg`, el mismo logo de la cabecera.
-   La capa va `fixed` con `z-index: -1`: se pinta sobre el color del lienzo y
-   **por debajo de cualquier franja con color**, así que solo asoma en los
-   tramos de baldosa y las franjas azules le pasan por delante al desplazar,
-   como el marco de un escaparate. No se mueve nunca ni tiene transición. En
-   impresión no sale.
-   La opacidad, 0,06, es un techo medido y no una preferencia: el bermellón de
-   texto (`--accion-tinta`) sobre la baldosa limpia ya va justo, en 5,09:1, y
-   con el logo detrás se queda en 4,51:1. El techo no depende del tamaño —el
-   píxel más oscuro es el mismo—, así que agrandarla es gratis en contraste.
-   **Nítida y no desenfocada a propósito**: a esta opacidad lo que hace legible
-   el logo son sus cantos, y el desenfoque es justo lo que se los lleva. La
-   primera versión iba borrosa y no se veía.
 
 ## La llamada de la portada
 

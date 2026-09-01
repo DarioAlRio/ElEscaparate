@@ -106,8 +106,10 @@ assets/img/codigofoto.webp El fondo de la cabecera de /diseno-web. 1200x800,
                           50 KB
 assets/img/fotobarrio.webp El fondo de la portada: el barrio isometrico.
                           1800x829, 137 KB. Ver §5
-_fotobarrio-original.jfif El original de la anterior, 2832x1504 y 2,6 MB. Se
-                          versiona pero no se publica. Ver §5
+assets/img/fotoyo.webp    La ilustración del escritorio, en la cabecera de
+                          /sobre-mi. 1100x733, 46 KB
+_fotobarrio-original.jfif Los originales de las dos anteriores, 2,6 MB y 2,0 MB.
+_fotoyo-original.png      Se versionan pero no se publican. Ver §5
 _modelo-caseta.glb        El modelo 3D del que salen. No se publica
 _render-modelo.html       El taller que saca los fotogramas. Instrucciones dentro
 _render-servidor.js       Lo sirve y recoge lo que manda el navegador
@@ -120,8 +122,7 @@ og-escaparate.png         La tarjeta de og:image, 1200x630. La dibuja un canvas
 favicon.ico               16/32/48 en DIB. En la raíz, sin enlazar: solo
                           para quien lo busque por costumbre
 favicon-conborde.svg      Logo con filete. Ya no se enlaza; es el original
-favicon.svg               El mismo sin filete. Ninguna página lo enlaza, pero
-                          el CSS lo usa de marca de agua del fondo: no borrar
+favicon.svg               El mismo sin filete, para fondos oscuros
 tres/ · utils/            three.js para el taller. Ni se versiona ni se publica
 _fotogramas/              Salida en crudo del taller. Ni se versiona ni se publica
 _dev-servidor.js          No se sube al hosting
@@ -385,56 +386,12 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
 - **El recuadro del aviso va en `--azul-hondo` y con filete, no en `--azul`.**
   Aparece sobre la portada, que ya es una franja azul: del mismo color se funde
   con el fondo y lo único que lo despega es la sombra, que sobre azul no se ve.
-- **La marca de agua del fondo depende de que el `body` no cree contexto de
-  apilamiento.** Es un `body::before` con `z-index: -1`: se pinta encima del
-  color del lienzo —que es el fondo del body, propagado a la raíz porque el
-  `html` no tiene ninguno— y debajo de todo lo demás. En cuanto el `body` reciba
-  un `position`, `opacity`, `transform`, `filter` o `isolation`, pasa a ser el
-  contexto de apilamiento y la marca se va por debajo de su propio fondo: no se
-  ve nada y no hay error que lo diga. Si algún día hace falta, la salida es
-  mover el color de fondo del `body` al `html`.
-- **La opacidad de la marca de agua del fondo es un techo medido, no un gusto.**
-  0,06. Quien manda es `--accion-tinta`, el bermellón de texto, que sobre la
-  baldosa limpia ya va justo en 5,09:1; con el logo detrás baja a 4,51 y por
-  encima de 0,062 suspende. Y no hay truco que lo suba: el color más claro del
-  logo es la misma cal del fondo, así que la marca solo puede oscurecer. **El
-  techo no depende del tamaño**: por muy grande que se ponga el logo, el píxel
-  más oscuro es el mismo, así que agrandarla sale gratis en contraste. Si algún
-  día se quiere más, el paso previo es oscurecer `--accion-tinta`: a `#a32d0c`
-  el techo sube a 0,153 y ahí ya manda `--tinta-suave`.
-- **Nítida, no desenfocada, y eso es lo que la hace visible.** La primera
-  versión fue un solo logo grande y **desenfocado** a esta misma opacidad, y no
-  se veía: sin cantos era una nube gris. Se probó a subirla, a saturarla y a
-  aclararla con `brightness`, y todo topaba con el mismo techo. Lo que hace
-  legible un logo tan tenue son sus bordes, que es justo lo primero que se
-  lleva el blur. Hubo también una versión en trama, con el logo repetido cada
-  200 px; se descartó por decisión de Dario, que la quiere de una sola pieza y
-  grande. No volver a poner blur ahí.
-- **Sobre el azul la marca no puede verse, y no es por el logo.** El techo en
-  `--azul` es 0,042, peor que en la baldosa, porque `--accion` (#ff5c3a) sobre
-  `--azul` ya está en **4,6:1**: es el par de colores más apretado del sitio y
-  cualquier cosa que aclare ese azul lo tumba. Por eso la marca vive detrás de
-  las franjas y no encima. No perder el tiempo intentándolo otra vez.
-- **La foto de la portada venía con una cabecera falsa incrustada.** El original
-  (`_fotobarrio-original.jfif`) es la captura de una maqueta, no una foto: trae
-  dibujados dentro el toldo, el menú entero y el botón de presupuesto. Puesta a
-  sangre bajo la cabecera de verdad, el menú se veía dos veces. Lo publicado
-  sale de recortarle los 200 primeros píxeles de alto. Si algún día se vuelve a
-  generar desde el original, **hay que volver a recortar esa franja**.
-- **El velo del hero es una variable por instancia, y no hay un número que
-  sirva para las dos fotos.** `--velo-cerca` donde hay texto y `--velo-lejos`
-  donde no. La de /diseno-web es código en pantalla, casi negra, y va en
-  0,9 / 0,6; la de la portada es una ilustración a plena luz y va en
-  0,86 / 0,22 — con el velo de la otra el barrio se quedaba en un azul liso.
-  Las paradas del degradado, 48 % en ancho y 72 % en alto, tampoco son a ojo:
-  con las primeras, 34 y 55, los sellos de la portada caían dentro de la rampa
-  y bajaban a 4,3 y 4,55. Todo medido componiendo el velo sobre la foto en un
-  canvas y pasando la fórmula WCAG píxel a píxel bajo cada bloque de texto.
-- **La portada usa `.portada.cabecera-foto`, con las dos clases, a propósito.**
-  `.cabecera-foto` se define en la §11 bis del CSS, más abajo que la §7 de la
-  portada: con una sola clase le gana por orden y las dos variables del velo no
-  llegan a aplicarse. Pasó, y en pantalla no se ve como un fallo, se ve como
-  que la foto casi no está.
+- **`--accion` (#ff5c3a) sobre `--azul` está en 4,6:1: es el par más apretado
+  de toda la paleta.** Cualquier cosa que aclare ese azul —un velo, una trama,
+  una foto que asome— tumba los enlaces bermellón de las franjas azules. Se
+  midió al probar una marca de agua de fondo: sobre la baldosa el techo salía
+  en 0,06 de opacidad y sobre el azul en 0,042, y quien mandaba no era el
+  dibujo, era este par. Tenlo presente antes de poner nada detrás del texto.
 
 ## 6. Cómo verificar
 
