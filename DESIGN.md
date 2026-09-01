@@ -85,6 +85,20 @@ lectura acotada a 34–44rem según el bloque.
   iguales estaba descartada desde el principio.
 - El portfolio sí es rejilla, porque ahí las fichas son escaparates de una calle
   y esa repetición es el contenido. La primera ocupa el ancho completo.
+- **Los bloques de lectura son paneles, no renglones entre filetes.** Los pasos
+  del método (`.fase`), las preguntas frecuentes (`.desplegable`) y las fichas de
+  datos (`.datos`) llevan fondo propio, filete de 1 px, `--radio-g` y un hueco de
+  `--e2` entre uno y otro. En claro el relleno es `--cal`, el mismo color del
+  papel: lo que despega el panel no es el tono sino tapar la baldosa que corre
+  por debajo. Sobre azul el panel lleva **el otro azul de los dos** —sobre
+  `--azul` baja a `--azul-hondo` y sobre `--azul-hondo` sube a `--azul`—; con un
+  solo valor para los dos, en la franja honda el panel salía exactamente del
+  color de su fondo. Como los dos son colores de franja, todo lo que se escribe
+  encima ya está medido y un bloque puede cambiar de sección sin revisar nada.
+- **El turquesa (`--azulejo-claro`) es el color secundario, y solo vive sobre
+  azul.** Lo llevan los rótulos pequeños en versalitas de las franjas oscuras:
+  el `dt` de `.datos` y el plazo de cada fase. Sobre `--cal` se queda en 2,12:1 y
+  no llega ni al umbral de grafismo; sobre `--azul` da 8,97:1.
 - **Hero a pantalla completa con foto** (`.cabecera-foto`): lo llevan la
   portada y la cabecera de Servicios. La foto va a sangre, de alto la pantalla
   entera menos la cabecera, con un velo de `--azul-hondo` encima y el texto por
@@ -103,7 +117,7 @@ lectura acotada a 34–44rem según el bloque.
 
 ## Los motivos
 
-Tres, y los tres son CSS, sin imágenes:
+Cinco, y los cinco son CSS, sin imágenes:
 
 1. **Toldo** (`.toldo`): franjas verticales con el borde inferior festoneado
    mediante dos capas de `mask` (círculos repetidos abajo, rectángulo arriba).
@@ -116,9 +130,27 @@ Tres, y los tres son CSS, sin imágenes:
    único que va **dentro** y no colgando: entre festón y festón se ve el propio
    azul del bloque, que es lo que se busca. Colgando, se vería la baldosa de la
    sección y parecería roto.
-2. **Persiana** (`.persiana`): lamas en `repeating-linear-gradient`. Cubre el
-   marco hasta que hay algo que enseñar.
-3. **Reflejo** (`.escaparate__lienzo::after`): una diagonal clara que barre el
+2. **Festón de franja** (`.franja--azul::after`): el mismo remate del toldo, pero
+   colgando del borde inferior de cada franja azul, con paso de 32 px y 16 px de
+   caída. Cuelga **por fuera** de la sección, en un pseudoelemento con
+   `top: 100%`, y no como máscara de la propia sección: la máscara recortaría
+   también las últimas líneas de texto. Al colgar por fuera se pinta sobre la
+   sección siguiente y se recorta contra la baldosa.
+   Lo lleva toda `.franja--azul` y `.franja--hondo` **menos** `.cabecera-foto`, que
+   ya gasta su `::after` en el velo de la imagen.
+3. **Baldosa** (`body`): retícula de 44 px en
+   `rgba(185, 196, 210, 0.3)`, el suelo de todas las páginas. Va en el `body` y
+   no en cada sección clara: el fondo de una caja empieza en su propio borde, así
+   que una regla por sección haría reempezar la cuadrícula en cada una y se vería
+   la costura. Las franjas azules la tapan solas, porque llevan fondo opaco.
+   El 0,3 de alfa es un techo medido: la línea sale #dce2e8 y el bermellón de
+   texto aguanta 4,51:1 justo encima de ella. Por encima de 0,314 suspende.
+4. **Persiana** (`.persiana`): lamas en `repeating-linear-gradient`. Cubre el
+   marco hasta que hay algo que enseñar, y baja también en el pie
+   (`.pie::before`), que es el cierre del día. En el pie las lamas van en claro
+   y no en oscuro: sobre el azul hondo ya no queda margen para oscurecer, y lo
+   que dibuja una lama sobre fondo oscuro es la luz de su canto, no su sombra.
+5. **Reflejo** (`.escaparate__lienzo::after`): una diagonal clara que barre el
    cristal al pasar el ratón.
 
 ## La llamada de la portada
@@ -191,8 +223,15 @@ el ancho y de frente ocupa dos tercios: eso es lo que hace un plato giratorio.
 Es la respuesta a la única acción que importa en el espejo.
 
 Lo demás son transiciones de estado cortas (0.16–0.25 s) en botones, filas y
-fichas. El giro de la portada no lleva transición: la lleva dentro. No hay animación de entrada por
-sección: solo la rejilla del portfolio usa `.entra`, una vez.
+fichas. El giro de la portada no lleva transición: la lleva dentro.
+
+**La entrada por desplazamiento** (`.entra`) es 28 px de subida y un fundido, con
+`--salida` en 0.8 s. La clase la reparte `sitio.js` al arrancar sobre
+`.titular-seccion`, `.fase`, `.desplegable`, `.bloque-servicio` y `.datos`, y no
+está escrita en el HTML: así la lleva también lo que se añada después. Solo la
+reciben los bloques que empiezan **por debajo del primer pantallazo** —arriba un
+fundido no se lee como gesto, se lee como una página que tarda— y nunca dos
+anidados, que manda siempre el de fuera.
 
 `prefers-reduced-motion: reduce` anula transiciones, animaciones y el
 desplazamiento suave. La maqueta ya no arranca sola bajo ninguna preferencia; lo

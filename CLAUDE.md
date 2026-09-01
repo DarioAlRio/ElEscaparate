@@ -96,7 +96,8 @@ están en la cabecera de `_render-modelo.html`. Nada de esto se publica.
 assets/css/estilos.css    Sistema entero, 18 secciones numeradas en comentarios
 assets/js/proyectos.js    Datos del portfolio — lo único que se toca a menudo
 assets/js/escaparates.js  Motor de capturas, fichas y visor
-assets/js/sitio.js        Menú, año, .entra, formulario, varilla, cierre, giro,
+assets/js/sitio.js        Menú, año, el reparto y disparo de .entra, formulario,
+                          varilla, cierre, giro,
                           el aviso de cookies con su botón de revocación y los
                           cuatro eventos de medición de las salidas de contacto
 assets/fuentes/*.woff2   Archivo y Bricolage, subconjunto latin. Ver §5
@@ -248,11 +249,12 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   (`font-optical-sizing: auto`) y es lo que aprieta los titulares: sin él el
   titular de portada mide 1967 px en vez de 1803, un 9 % más ancho, y se
   descompone la portada. Los 36 KB no compensan.
-- **Lo que cuestan los comentarios del CSS en el cable: 6,2 KB, el 41 %.**
-  Medido el 19/08/2026, y corrige lo que decía antes esta misma línea («el coste
-  no está en los bytes»): sí lo está. La hoja son 53.980 bytes en crudo, 13.657
-  de ellos comentarios; Vercel la sirve en **15.377** y sin comentarios serían
-  **9.111**. La prosa comprime mucho peor que el CSS repetido, por eso pesa más
+- **Lo que cuestan los comentarios del CSS en el cable: 11,2 KB, el 53 %.**
+  Medido el 01/09/2026, y corrige lo que decía antes esta misma línea («el coste
+  no está en los bytes»): sí lo está, y cada vez más. La hoja son 71.224 bytes
+  en crudo, 26.334 de ellos comentarios; Vercel la sirve en **21.537** y sin
+  comentarios serían **10.111**. El 19/08/2026 eran 53.980 en crudo y 15.377 en
+  el cable: la documentación crece más deprisa que las reglas. La prosa comprime mucho peor que el CSS repetido, por eso pesa más
   de lo que hace pensar su cuarta parte del archivo. Aun así **no se minifica**:
   la única forma es un paso de compilación (regla 1) o borrar la documentación
   del sistema, y esa decisión es de Dario, no del que edita. Para el JS la
@@ -383,6 +385,37 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   `inline-flex`, y los de `.pie__legal-enlaces`, que van blockificados por ser
   hijos de un flex. Ponérselo rompería el primero, porque `.pie ul a` tiene más
   especificidad que `.pie__con-icono` y le ganaría el `display`.
+- **Un elemento tiene un solo `::after`, y dos reglas que lo pidan se mezclan.**
+  El festón que cuelga de las franjas azules y el velo de `.cabecera-foto` iban
+  los dos al `::after` de la misma sección en `/diseno-web`. No gana una regla
+  entera: gana propiedad a propiedad, así que el velo se quedaba con su fondo y
+  el festón con su alto y su máscara, y el degradado de la foto se reducía a una
+  tira de 16 px. Por eso el festón lleva `:not(.cabecera-foto)`. Si mañana hace
+  falta el festón ahí, tiene que ser en otro elemento, no en otro pseudoelemento.
+- **La baldosa va en el `body`, no en cada franja clara.** El fondo de una caja
+  empieza a contarse en su propio borde: con una regla por sección la retícula
+  reempieza en cada una y se ve la costura donde se tocan. Desde el `body` la
+  cuadrícula es una sola de arriba abajo y las franjas azules la tapan solas.
+  El alfa, 0,3, es un techo medido y no un gusto: por encima de 0,314 el
+  bermellón de los enlaces baja de 4,5:1 sobre la línea.
+- **Las lamas de la persiana están dibujadas para fondo claro.** Sobre el azul
+  hondo del pie, tal cual, no se ven: por debajo de ese azul ya no queda margen
+  para oscurecer. La persiana del pie va en claro —blanco a 0,055 en el canto—
+  porque lo que dibuja una lama sobre fondo oscuro es la luz que le rebota, no
+  su sombra. Se intentó primero con las lamas oscuras y opacidad; no daba nada.
+- **El panel sobre azul lleva el otro azul de los dos.** Un solo relleno para
+  `.franja--azul` y `.franja--hondo` deja el panel de la franja honda
+  exactamente del color de su fondo: filete y nada más. Sobre `--azul` baja a
+  `--azul-hondo` y sobre `--azul-hondo` sube a `--azul`, que además son los dos
+  colores de franja y por tanto ya tienen medido todo lo que se escribe encima.
+- **`.entra` la reparte `sitio.js`, no el HTML.** La clase llevaba meses escrita
+  en el CSS y puesta en **un solo** elemento de todo el sitio, así que al
+  desplazarse no se movía nada. Se marca desde el script, que va con `defer` y
+  corre con el DOM hecho y antes de la primera pintura: por eso no se ve el
+  bloque opaco y luego a cero. Solo se marca lo que empieza por debajo del
+  primer pantallazo, y nunca un bloque dentro de otro ya marcado —los `.datos`
+  viven dentro de un `.bloque-servicio`— o el hijo se funde dentro de un padre
+  que también se está fundiendo.
 - **El recuadro del aviso va en `--azul-hondo` y con filete, no en `--azul`.**
   Aparece sobre la portada, que ya es una franja azul: del mismo color se funde
   con el fondo y lo único que lo despega es la sombra, que sobre azul no se ve.

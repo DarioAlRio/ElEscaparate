@@ -254,7 +254,10 @@ button, input, select, textarea {
    continuo a cualquier tamaño. */
 .toldo--fino { --alto-toldo: 18px; --franja: 22px; }
 
-/* Persiana: lamas horizontales. */
+/* Persiana: lamas horizontales. La usa el pie (§15), que es el cierre del día
+   y el sitio donde la metáfora cae sola. Se aplica con opacidad baja desde
+   allí, no con estos valores a pelo: aquí las lamas están calculadas para
+   verse sobre un fondo claro. */
 .persiana-textura {
   background-image: repeating-linear-gradient(
     180deg,
@@ -264,13 +267,9 @@ button, input, select, textarea {
   );
 }
 
-/* Azulejo: retícula de baldosa. */
-.azulejo-textura {
-  background-image:
-    linear-gradient(var(--cal-linea) 1px, transparent 1px),
-    linear-gradient(90deg, var(--cal-linea) 1px, transparent 1px);
-  background-size: 44px 44px;
-}
+/* La retícula de baldosa estuvo aquí como .azulejo-textura y no la usaba
+   ninguna página. Ahora la lleva el body y sirve de suelo a todo el sitio; la
+   clase se retiró para no tener el mismo motivo escrito en dos sitios. */
 
 /* --- 4. Estructura ------------------------------------------------------ */
 
@@ -296,6 +295,66 @@ button, input, select, textarea {
   background: var(--accion);
   color: var(--tinta);
 }
+
+/* El suelo de las páginas es una baldosa, no un color liso: la misma retícula
+   de 44 px que ya estaba escrita en .azulejo-textura y que no usaba ninguna
+   página. Es el motivo de la casa y estaba muerto en la hoja.
+
+   Va en el body y no en cada franja clara a propósito: el fondo de una caja
+   empieza a contarse en su propio borde, así que con una regla por sección la
+   retícula reempieza en cada una y se ve la costura donde se tocan. Desde el
+   body la cuadrícula es una sola de arriba abajo, y las franjas azules, que sí
+   llevan fondo opaco, la tapan solas sin tener que excluirlas.
+
+   El tono no es --cal-linea a pelo: sobre una línea de ese color el bermellón
+   de texto se queda en 3,36:1 y suspende. A 0,30 de alfa la línea sale #dce2e8
+   y --accion-tinta aguanta 4,51:1; --tinta-suave, 5,34. Es un techo medido, no
+   un gusto: por encima de 0,314 tumba los enlaces de las páginas legales. */
+body {
+  background-image:
+    linear-gradient(rgba(185, 196, 210, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(185, 196, 210, 0.3) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* Las franjas azules no acaban en línea recta: rematan en festón, como el
+   faldón de un toldo. Es el motivo de la casa y es lo que le quita a las
+   páginas largas la sensación de bloques apilados.
+
+   Cuelga por fuera en un ::after con top:100%, y no es una máscara sobre la
+   propia sección: la máscara recortaría también las últimas líneas de texto.
+   Al colgar por fuera se pinta sobre el fondo de la sección siguiente —los
+   fondos de bloque van antes que los posicionados—, que es justo lo que hace
+   falta para que el festón se recorte contra la baldosa.
+
+   «left top», no «top»: por defecto el patrón se centra al 50 % y, como el
+   ancho de la pantalla no es múltiplo del paso, las lunas salen partidas. Es
+   la misma trampa que ya tiene apuntada .toldo.
+   El radio horizontal va a 0,56 del paso y no a la mitad: con la mitad justa
+   dos lunas solo se rozan en un punto y debajo se abre un pico. Misma cuenta
+   que el toldo, mismo motivo. */
+.franja--azul,
+.franja--hondo { position: relative; }
+
+/* Fuera la cabecera con foto: ese elemento ya gasta su ::after en el velo que
+   oscurece la imagen, y un elemento solo tiene uno. Sin el :not(), las dos
+   reglas se mezclan en la cascada —el velo se queda con el fondo y el festón
+   con el alto y la máscara— y el degradado entero se reduce a una tira de
+   16 px al pie de la foto. */
+.franja--azul:not(.cabecera-foto)::after,
+.franja--hondo:not(.cabecera-foto)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  height: 16px;
+  pointer-events: none;
+  background: var(--azul);
+  -webkit-mask: radial-gradient(ellipse 17.92px 16px at 50% 0, #000 17.17px, transparent 17.92px) left top / 32px 16px repeat-x;
+  mask: radial-gradient(ellipse 17.92px 16px at 50% 0, #000 17.17px, transparent 17.92px) left top / 32px 16px repeat-x;
+}
+.franja--hondo:not(.cabecera-foto)::after { background: var(--azul-hondo); }
 
 .franja--azul a:not(.boton),
 .franja--hondo a:not(.boton) { color: var(--accion); }
@@ -1483,18 +1542,47 @@ img.giro__cara,
 
 .fases {
   display: grid;
-  gap: 0;
+  gap: var(--e2);
   counter-reset: fase;
 }
+
+/* Cada paso es una tarjeta, no un renglón entre dos filetes. El relleno de
+   --cal no es redundante con el del body aunque sea el mismo color: por debajo
+   está la baldosa, y es taparla lo que despega el panel del papel. Por eso el
+   fondo va aquí aunque «no se note» leyendo la regla suelta.
+
+   La sombra es la del sistema y no una propia: son cuatro paneles seguidos en
+   /como-trabajo y con --sombra-alta el bloque entero se ensucia. */
 .fase {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: var(--e3);
-  padding-block: var(--e4);
-  border-top: 1px solid var(--cal-linea);
+  padding: var(--e4) clamp(var(--e3), 3vw, var(--e4));
+  background: var(--cal);
+  border: 1px solid var(--cal-linea);
+  border-radius: var(--radio-g);
+  box-shadow: 0 1px 2px rgba(6, 21, 47, 0.06), 0 10px 24px -16px rgba(6, 21, 47, 0.4);
 }
-.fase:last-child { border-bottom: 1px solid var(--cal-linea); }
-.franja--azul .fase { border-color: var(--azul-linea); }
+
+/* Sobre las franjas oscuras el panel lleva el otro azul de los dos, no un tono
+   nuevo: sobre --azul se hunde a --azul-hondo y sobre --azul-hondo sube a
+   --azul. Con un solo valor para las dos, en la franja honda el panel salía
+   exactamente del color de su fondo y no se veía. Y como los dos son colores de
+   franja, todo lo que se escribe encima ya está medido —incluido el bermellón
+   sobre --azul, que es el par más justo de la paleta con 4,6:1— y no hay que
+   revisar nada al mover un bloque de una sección a otra.
+   Sin sombra: sobre azul no se ve y solo ensucia el canto. */
+.franja--azul .fase,
+.franja--hondo .fase {
+  border-color: var(--azul-linea);
+  box-shadow: none;
+}
+.franja--azul .fase,
+.franja--azul .desplegable,
+.franja--azul .datos { background: var(--azul-hondo); }
+.franja--hondo .fase,
+.franja--hondo .desplegable,
+.franja--hondo .datos { background: var(--azul); }
 
 /* Con la clase repetida: si no, `.fase p` gana por especificidad y el numeral
    se queda del color del texto secundario. */
@@ -1522,7 +1610,8 @@ img.giro__cara,
   text-transform: uppercase;
   color: var(--tinta-suave);
 }
-.franja--azul .fase__plazo { color: var(--azul-suave); }
+.franja--azul .fase__plazo,
+.franja--hondo .fase__plazo { color: var(--azulejo-claro); }
 
 /* --- 13. Listas y detalles ---------------------------------------------- */
 
@@ -1589,10 +1678,13 @@ img.giro__cara,
   display: grid;
   gap: var(--e3);
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
-  border-top: 1px solid var(--cal-linea);
-  padding-top: var(--e3);
+  padding: var(--e3) clamp(var(--e3), 3vw, var(--e4));
+  background: var(--cal);
+  border: 1px solid var(--cal-linea);
+  border-radius: var(--radio-g);
 }
-.franja--azul .datos { border-color: var(--azul-linea); }
+.franja--azul .datos,
+.franja--hondo .datos { border-color: var(--azul-linea); }
 .datos dt {
   font-size: var(--t-xs);
   letter-spacing: 0.09em;
@@ -1600,7 +1692,11 @@ img.giro__cara,
   color: var(--tinta-suave);
   margin-bottom: 0.3rem;
 }
-.franja--azul .datos dt { color: var(--azul-suave); }
+/* El turquesa era un color declarado y sin usar. Va aquí, en los rótulos
+   pequeños de las franjas azules, y solo ahí: sobre --cal se queda en 2,12:1 y
+   no llega ni al umbral de grafismo, mientras que sobre --azul da 8,97:1. */
+.franja--azul .datos dt,
+.franja--hondo .datos dt { color: var(--azulejo-claro); }
 .datos dd {
   margin: 0;
   font-family: var(--letra-titular);
@@ -1617,12 +1713,18 @@ img.giro__cara,
   margin-bottom: 0;
 }
 
+/* Igual que .fase: panel en vez de renglón. El relleno lateral tiene que ser
+   el mismo en summary y en p o el texto de la respuesta se desalinea de su
+   pregunta al abrir. */
 .desplegable {
-  border-bottom: 1px solid var(--cal-linea);
+  background: var(--cal);
+  border: 1px solid var(--cal-linea);
+  border-radius: var(--radio-g);
+  margin-bottom: var(--e2);
 }
 .desplegable summary {
   cursor: pointer;
-  padding-block: var(--e3);
+  padding: var(--e3) clamp(var(--e3), 3vw, var(--e4));
   font-family: var(--letra-titular);
   font-weight: 700;
   font-size: var(--t-l);
@@ -1643,9 +1745,13 @@ img.giro__cara,
 .franja--azul .desplegable summary::after,
 .franja--hondo .desplegable summary::after { color: var(--accion); }
 .desplegable[open] summary::after { content: "–"; }
-.desplegable p { padding-bottom: var(--e3); color: var(--tinta-suave); max-width: 44rem; }
+.desplegable p {
+  padding: 0 clamp(var(--e3), 3vw, var(--e4)) var(--e3);
+  color: var(--tinta-suave);
+  max-width: 44rem;
+}
 .franja--azul .desplegable,
-.franja--hondo .desplegable { border-bottom-color: var(--azul-linea); }
+.franja--hondo .desplegable { border-color: var(--azul-linea); }
 .franja--azul .desplegable p,
 .franja--hondo .desplegable p { color: var(--azul-suave); }
 
@@ -1792,10 +1898,33 @@ img.giro__cara,
 }
 
 .pie {
+  position: relative;
   background: var(--azul-hondo);
   color: var(--cal);
   padding-block: var(--e5) var(--e3);
 }
+
+/* La persiana bajada del pie: el mismo paso de 9 px que .persiana-textura, pero
+   en claro. Las lamas de aquella están dibujadas en oscuro, para fondo claro, y
+   sobre el azul hondo no se ven: por debajo de ese azul ya no queda margen para
+   oscurecer. Lo que dibuja la lama sobre oscuro es la luz que rebota en su
+   canto, no su sombra.
+   El canto es 0,055 de blanco: sube el fondo a #14223a y ahí lo más justo del
+   pie, que es el bermellón del enlace de contacto, aguanta 5,19:1. El resto va
+   de 8,31 para arriba. */
+.pie::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.055) 0 1px,
+    rgba(255, 255, 255, 0.02) 1px 3px,
+    rgba(0, 0, 0, 0) 3px 9px
+  );
+}
+.pie > * { position: relative; z-index: 1; }
 /* Las columnas van fijadas a mano y no con auto-fit. Motivo medido: la última
    columna lleva la dirección de correo, que en una sola línea ocupa 277 px, y
    el reparto automático le daba entre 209 y 276 px en casi toda la escala de
@@ -1896,14 +2025,17 @@ img.giro__cara,
 
 /* --- 16. Motivo de entrada (un solo momento) ---------------------------- */
 
+/* 14 px de recorrido no se leían como movimiento, se leían como un fundido con
+   ruido. A 28 px el gesto se ve y sigue sin desmontar la maqueta: el elemento
+   nunca sale de su hueco, que ya está reservado. */
 .entra {
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(28px);
 }
 .entra[data-visto="si"] {
   opacity: 1;
   transform: none;
-  transition: opacity 0.6s ease, transform 0.7s var(--salida);
+  transition: opacity 0.5s ease, transform 0.8s var(--salida);
 }
 html.sin-js .entra { opacity: 1; transform: none; }
 
