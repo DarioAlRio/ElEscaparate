@@ -85,6 +85,14 @@ lectura acotada a 34–44rem según el bloque.
   iguales estaba descartada desde el principio.
 - El portfolio sí es rejilla, porque ahí las fichas son escaparates de una calle
   y esa repetición es el contenido. La primera ocupa el ancho completo.
+- **Cabecera de página con foto** (`.cabecera-foto`): la de Servicios lleva el
+  texto a la izquierda y una foto a la derecha, en dos columnas desiguales —el
+  texto se lleva algo más, que es quien manda en una cabecera—. Corta en 62rem,
+  el mismo punto que la rejilla de la portada, y por debajo la foto baja bajo
+  el texto. La foto va con el marco del escaparate en vivo, filete de
+  `--azul-linea` y esquina `--radio-g`: es azul oscura y sobre la franja azul
+  se quedaría sin canto. Es la única foto del sitio; todo lo demás son motivos
+  de CSS o capturas de webs de verdad.
 
 ## Los motivos
 

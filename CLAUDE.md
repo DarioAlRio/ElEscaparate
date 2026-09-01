@@ -104,6 +104,8 @@ assets/img/modelo-NN.webp Los 48 fotogramas de la maqueta, 00 a 47. Ver §5
 assets/img/modelo-00.png  Solo el primero, de respaldo para quien no lea WebP
 assets/img/fondo-logo.svg La baldosa de la marca de agua: dos logos en medio
                           salto. El hueco entre ellos va dentro. Ver §5
+assets/img/codigofoto.webp La foto de la cabecera de /diseno-web. 1200x800,
+                          50 KB. Es la unica foto del sitio
 _modelo-caseta.glb        El modelo 3D del que salen. No se publica
 _render-modelo.html       El taller que saca los fotogramas. Instrucciones dentro
 _render-servidor.js       Lo sirve y recoge lo que manda el navegador
