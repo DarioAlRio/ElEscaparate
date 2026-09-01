@@ -112,8 +112,15 @@ lectura acotada a 34–44rem según el bloque.
   Las imágenes del sitio son tres, y las tres son ilustraciones 3D de la
   misma familia que la maqueta: el barrio de la portada, el código de
   Servicios y el escritorio de la cabecera de El estudio, esta última dentro
-  de un `.marco--retrato`. Todo lo demás son motivos de CSS o capturas de
+  sin marco de ninguna clase. Todo lo demás son motivos de CSS o capturas de
   webs de verdad.
+
+- **La ilustración de El estudio no lleva marco: se funde con la franja.** El
+  fondo del propio archivo está aplanado al valor exacto de `--azul` (#0b2350),
+  así que el rectángulo de la imagen no tiene borde que ver. No es un
+  `mix-blend-mode` ni una máscara: probados los dos, el primero se come los
+  oscuros del dibujo —la silla y la torre— y la segunda no vale porque la peana
+  del diorama llega al 98 % del alto y un desvanecido por abajo se la corta.
 
 ## Los motivos
 
