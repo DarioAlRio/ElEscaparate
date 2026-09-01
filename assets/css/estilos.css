@@ -1287,30 +1287,71 @@ img.giro__cara,
   max-width: 20ch;
 }
 
-/* Cabecera de página con foto al lado. El corte va en 62rem, el mismo que la
-   rejilla de la portada: por debajo la foto baja bajo el texto, que es donde
-   tiene sentido, porque a una columna la imagen no puede competir con el
-   titular. Las dos columnas no van al 50 %: el texto se lleva algo más, que
-   es quien manda en una cabecera.
-   El marco es el mismo que el del escaparate en vivo —filete de --azul-linea
-   y esquina --radio-g—, y no es decoración: la foto es azul oscura y sobre la
-   franja azul se quedaría sin canto. El recorte lo hace el propio
-   border-radius del img, sin envoltorio que lo corte. */
+/* Cabecera de página a pantalla completa, con la foto de fondo a sangre.
+
+   La altura descuenta la cabecera porque es pegajosa y sí reserva sitio: sin
+   restarla, la primera pantalla sería la cabecera más un hero de alto entero y
+   el pie de la foto se quedaría siempre por debajo del corte. Las 4,25rem son
+   el min-height de .cabecera__fila (§5 del CSS): si aquella cambia, esta tiene
+   que cambiar con ella. El toldo no cuenta, que cuelga por fuera y no reserva.
+   svh y no vh: en móvil vh mide con la barra de direcciones escondida, así que
+   el hero se pasa de largo justo al cargar, que es cuando la barra está. La
+   línea de vh que va delante es el respaldo para quien no entienda svh.
+
+   La foto es un <img> y no un background: así el navegador la descubre en el
+   primer barrido del HTML y le vale el fetchpriority. Va absoluta y con
+   object-fit para que recorte por el centro en vez de deformarse; el texto se
+   pone por encima con z-index, y no al revés, porque un absoluto sin z-index
+   ya se pinta por encima del contenido en línea de su propio contenedor. */
 .cabecera-foto {
+  position: relative;
   display: grid;
-  gap: clamp(var(--e4), 5vw, var(--e5));
-  grid-template-columns: 1fr;
   align-items: center;
-}
-@media (min-width: 62rem) {
-  .cabecera-foto { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); }
+  min-height: calc(100vh - 4.25rem);
+  min-height: calc(100svh - 4.25rem);
 }
 
 .cabecera-foto__imagen {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  border: 1px solid var(--azul-linea);
-  border-radius: var(--radio-g);
-  box-shadow: var(--sombra-alta);
+  height: 100%;
+  object-fit: cover;
+}
+
+/* El velo. Es ::after y no ::before a propósito: los dos son hijos posicionados
+   sin z-index, así que manda el orden del DOM, y ::before se pintaría por
+   debajo de la foto en vez de encima.
+   El degradado está medido sobre la propia foto, no puesto a ojo: ver la nota
+   del velo más abajo. */
+.cabecera-foto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 21, 47, 0.9) 0%,
+    rgba(6, 21, 47, 0.82) 100%
+  );
+}
+
+@media (min-width: 62rem) {
+  /* En ancho el texto solo ocupa la mitad izquierda, así que el velo se abre
+     hacia la derecha y deja ver la foto donde no hay nada escrito. */
+  .cabecera-foto::after {
+    background: linear-gradient(
+      to right,
+      rgba(6, 21, 47, 0.9) 0%,
+      rgba(6, 21, 47, 0.88) 38%,
+      rgba(6, 21, 47, 0.62) 68%,
+      rgba(6, 21, 47, 0.5) 100%
+    );
+  }
+}
+
+.cabecera-foto__texto {
+  position: relative;
+  z-index: 1;
 }
 
 /* El número de la página de error. Va en bermellón vivo y no en --accion-tinta
