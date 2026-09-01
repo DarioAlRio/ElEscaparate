@@ -334,11 +334,19 @@ body {
    caerle hacia el párrafo. */
 .junto { white-space: nowrap; }
 
+/* El margen izquierdo era 1,4em cuando la etiqueta colgaba de «más», una
+   palabra corta al final del titular. Desde el 02/09/2026 cuelga de
+   «formatos» y son 0,6em: el dibujo empieza casi en el borde del SVG —el pico
+   de la tarjeta cae a 0,11em de él—, así que el margen es el hueco entero que
+   se ve. Y hay una segunda razón que no es de gusto: .junto no parte línea,
+   así que «formatos» y la etiqueta son un solo trozo indivisible. Con 1,4em
+   ese trozo medía 353 px en una columna de 354 a 390 px de ancho, un píxel de
+   margen; con 0,6em quedan 32. Si vuelve a crecer, se mide otra vez a 390. */
 .colgante {
   display: inline-block;
   width: 3.6em;   /* proporción del viewBox: 158 / 110 */
   height: 2.5em;
-  margin-left: 1.4em;
+  margin-left: 0.6em;
   vertical-align: -0.4em;
   overflow: visible;
   pointer-events: none;
