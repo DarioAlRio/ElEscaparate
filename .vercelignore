@@ -28,5 +28,10 @@ _fotogramas/
 _fotobarrio-original.jfif
 _fotoyo-original.png
 
+# El original de assets/img/portapapeles.webp: 740x740 sobre fondo blanco y con
+# su sombra. El recorte se hizo sobre él, así que es de donde habría que partir
+# si algún día se quiere otro encuadre.
+_portapapeles-original.avif
+
 # Reglas de Apache, por si algún día se muda; aquí manda vercel.json
 .htaccess

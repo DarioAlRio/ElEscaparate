@@ -108,13 +108,24 @@
 <main id="contenido">
 
   <section class="franja franja--corta franja--azul">
-    <div class="envoltura">
-      <h1 class="titulo-pagina">Cuéntame tu proyecto</h1>
-      <p class="portada__entrada">
-        No hace falta que sepas qué formato quieres ni cómo se llama cada cosa.
-        Con saber a qué te dedicas y qué quieres conseguir, me basta para
-        contestarte con un número.
-      </p>
+    <div class="envoltura bloque-servicio">
+      <div>
+        <h1 class="titulo-pagina">Cuéntame tu proyecto</h1>
+        <p class="portada__entrada">
+          No hace falta que sepas qué formato quieres ni cómo se llama cada cosa.
+          Con saber a qué te dedicas y qué quieres conseguir, me basta para
+          contestarte con un número.
+        </p>
+      </div>
+
+      <!-- La ilustración viene recortada de fábrica: el original estaba sobre
+           blanco y con su sombra, y aquí se apoya en la franja azul sin marco
+           ni fondo. El recorte está en el canal alfa del archivo, no en el CSS,
+           igual que el fondo aplanado de la ilustración de /sobre-mi. Ver §5 de
+           CLAUDE.md. -->
+      <img class="ilustracion ilustracion--recortada" src="assets/img/portapapeles.webp"
+           alt="Ilustración de un portapapeles con una hoja escrita sujeta por la pinza."
+           width="460" height="576" fetchpriority="high" decoding="async">
     </div>
   </section>
 
