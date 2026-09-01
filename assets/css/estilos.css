@@ -317,45 +317,6 @@ body {
   background-size: 44px 44px;
 }
 
-/* Las franjas azules no acaban en línea recta: rematan en festón, como el
-   faldón de un toldo. Es el motivo de la casa y es lo que le quita a las
-   páginas largas la sensación de bloques apilados.
-
-   Cuelga por fuera en un ::after con top:100%, y no es una máscara sobre la
-   propia sección: la máscara recortaría también las últimas líneas de texto.
-   Al colgar por fuera se pinta sobre el fondo de la sección siguiente —los
-   fondos de bloque van antes que los posicionados—, que es justo lo que hace
-   falta para que el festón se recorte contra la baldosa.
-
-   «left top», no «top»: por defecto el patrón se centra al 50 % y, como el
-   ancho de la pantalla no es múltiplo del paso, las lunas salen partidas. Es
-   la misma trampa que ya tiene apuntada .toldo.
-   El radio horizontal va a 0,56 del paso y no a la mitad: con la mitad justa
-   dos lunas solo se rozan en un punto y debajo se abre un pico. Misma cuenta
-   que el toldo, mismo motivo. */
-.franja--azul,
-.franja--hondo { position: relative; }
-
-/* Fuera la cabecera con foto: ese elemento ya gasta su ::after en el velo que
-   oscurece la imagen, y un elemento solo tiene uno. Sin el :not(), las dos
-   reglas se mezclan en la cascada —el velo se queda con el fondo y el festón
-   con el alto y la máscara— y el degradado entero se reduce a una tira de
-   16 px al pie de la foto. */
-.franja--azul:not(.cabecera-foto)::after,
-.franja--hondo:not(.cabecera-foto)::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 100%;
-  height: 16px;
-  pointer-events: none;
-  background: var(--azul);
-  -webkit-mask: radial-gradient(ellipse 17.92px 16px at 50% 0, #000 17.17px, transparent 17.92px) left top / 32px 16px repeat-x;
-  mask: radial-gradient(ellipse 17.92px 16px at 50% 0, #000 17.17px, transparent 17.92px) left top / 32px 16px repeat-x;
-}
-.franja--hondo:not(.cabecera-foto)::after { background: var(--azul-hondo); }
-
 .franja--azul a:not(.boton),
 .franja--hondo a:not(.boton) { color: var(--accion); }
 
