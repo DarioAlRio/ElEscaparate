@@ -394,8 +394,10 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   original y sobre el azul se ven como una orla clara. Comprobado después:
   cero píxeles de borde con el canal mínimo por encima de 235.
   El archivo se recorta luego a la caja del dibujo con 8 px de aire, que es de
-  donde salen los 460x576. Por eso el CSS le pone techo de ancho: estirado a
-  la columna de escritorio, que pasa de 540, se emborrona.
+  donde salen los 460x576. El CSS no lo mide por el ancho sino por el alto
+  —11rem, que es lo que mide el texto de al lado—, y para eso **tiene que
+  llevar `width: auto`**: `.ilustracion` pone `width: 100 %`, y con el ancho
+  fijado el `max-height` no reduce la imagen, la aplasta.
 - **`404.html` enlaza sus assets con barra inicial, y ahí no es cosmético.** El
   hosting sirve ese archivo desde la dirección que pidió el visitante, no desde
   la raíz. Con rutas relativas, un 404 en `/blog/algo/x` pedía
