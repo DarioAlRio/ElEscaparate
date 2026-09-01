@@ -117,7 +117,7 @@ lectura acotada a 34–44rem según el bloque.
 
 ## Los motivos
 
-Cinco, y los cinco son CSS, sin imágenes:
+Cuatro, y los cuatro son CSS, sin imágenes:
 
 1. **Toldo** (`.toldo`): franjas verticales con el borde inferior festoneado
    mediante dos capas de `mask` (círculos repetidos abajo, rectángulo arriba).
@@ -130,27 +130,19 @@ Cinco, y los cinco son CSS, sin imágenes:
    único que va **dentro** y no colgando: entre festón y festón se ve el propio
    azul del bloque, que es lo que se busca. Colgando, se vería la baldosa de la
    sección y parecería roto.
-2. **Festón de franja** (`.franja--azul::after`): el mismo remate del toldo, pero
-   colgando del borde inferior de cada franja azul, con paso de 32 px y 16 px de
-   caída. Cuelga **por fuera** de la sección, en un pseudoelemento con
-   `top: 100%`, y no como máscara de la propia sección: la máscara recortaría
-   también las últimas líneas de texto. Al colgar por fuera se pinta sobre la
-   sección siguiente y se recorta contra la baldosa.
-   Lo lleva toda `.franja--azul` y `.franja--hondo` **menos** `.cabecera-foto`, que
-   ya gasta su `::after` en el velo de la imagen.
-3. **Baldosa** (`body`): retícula de 44 px en
+2. **Baldosa** (`body`): retícula de 44 px en
    `rgba(185, 196, 210, 0.3)`, el suelo de todas las páginas. Va en el `body` y
    no en cada sección clara: el fondo de una caja empieza en su propio borde, así
    que una regla por sección haría reempezar la cuadrícula en cada una y se vería
    la costura. Las franjas azules la tapan solas, porque llevan fondo opaco.
    El 0,3 de alfa es un techo medido: la línea sale #dce2e8 y el bermellón de
    texto aguanta 4,51:1 justo encima de ella. Por encima de 0,314 suspende.
-4. **Persiana** (`.persiana`): lamas en `repeating-linear-gradient`. Cubre el
+3. **Persiana** (`.persiana`): lamas en `repeating-linear-gradient`. Cubre el
    marco hasta que hay algo que enseñar, y baja también en el pie
    (`.pie::before`), que es el cierre del día. En el pie las lamas van en claro
    y no en oscuro: sobre el azul hondo ya no queda margen para oscurecer, y lo
    que dibuja una lama sobre fondo oscuro es la luz de su canto, no su sombra.
-5. **Reflejo** (`.escaparate__lienzo::after`): una diagonal clara que barre el
+4. **Reflejo** (`.escaparate__lienzo::after`): una diagonal clara que barre el
    cristal al pasar el ratón.
 
 ## La llamada de la portada

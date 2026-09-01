@@ -390,8 +390,10 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   los dos al `::after` de la misma sección en `/diseno-web`. No gana una regla
   entera: gana propiedad a propiedad, así que el velo se quedaba con su fondo y
   el festón con su alto y su máscara, y el degradado de la foto se reducía a una
-  tira de 16 px. Por eso el festón lleva `:not(.cabecera-foto)`. Si mañana hace
-  falta el festón ahí, tiene que ser en otro elemento, no en otro pseudoelemento.
+  tira de 16 px. El festón se retiró luego —los cortes de franja van rectos por
+  decisión de Dario, 01/09/2026—, pero el aviso vale igual: si mañana algo tiene
+  que colgar de una `.cabecera-foto`, va en otro elemento, no en otro
+  pseudoelemento.
 - **La baldosa va en el `body`, no en cada franja clara.** El fondo de una caja
   empieza a contarse en su propio borde: con una regla por sección la retícula
   reempieza en cada una y se ve la costura donde se tocan. Desde el `body` la
