@@ -117,24 +117,22 @@ Cuatro. Los tres primeros son CSS puro, sin imágenes; el cuarto es el logo:
    marco hasta que hay algo que enseñar.
 3. **Reflejo** (`.escaparate__lienzo::after`): una diagonal clara que barre el
    cristal al pasar el ratón.
-4. **Marca de agua** (`body::before`): el logo del estudio repetido en trama,
-   nítido y quieto, detrás de todo el contenido de las diez páginas. Es el
-   único motivo que no es CSS puro: la baldosa es `assets/img/fondo-logo.svg`,
-   200×200 con dos logos de 64 en medio salto, que teje una retícula diagonal
-   en vez de una cuadrícula de sellos alineados. El hueco entre logos va dentro
-   del SVG porque la celda de un `background` repetido mide lo que mida
-   `background-size` y el dibujo la llena entera.
-   La capa va `fixed`, cubriendo el viewport, con `z-index: -1`: se pinta sobre
-   el color del lienzo y **por debajo de cualquier franja con color**, así que
-   solo asoma en los tramos de baldosa y las franjas azules le pasan por
-   delante al desplazar, como el marco de un escaparate. No se mueve nunca ni
-   tiene transición. En impresión no sale.
+4. **Marca de agua** (`body::before`): un solo logo del estudio, nítido, grande
+   —`min(96vmin, 980px)`— y quieto en el centro de la pantalla, detrás de todo
+   el contenido de las diez páginas. Es el único motivo que no es CSS puro:
+   dibuja `favicon.svg`, el mismo logo de la cabecera.
+   La capa va `fixed` con `z-index: -1`: se pinta sobre el color del lienzo y
+   **por debajo de cualquier franja con color**, así que solo asoma en los
+   tramos de baldosa y las franjas azules le pasan por delante al desplazar,
+   como el marco de un escaparate. No se mueve nunca ni tiene transición. En
+   impresión no sale.
    La opacidad, 0,06, es un techo medido y no una preferencia: el bermellón de
    texto (`--accion-tinta`) sobre la baldosa limpia ya va justo, en 5,09:1, y
-   con la trama detrás se queda en 4,50:1. Lo que da presencia con ese techo no
-   es la opacidad, es la repetición: el ojo lee la trama aunque cada píxel
-   apenas se despegue del fondo. La primera versión era un solo logo grande y
-   desenfocado y a la misma opacidad no se veía; por eso se cambió.
+   con el logo detrás se queda en 4,51:1. El techo no depende del tamaño —el
+   píxel más oscuro es el mismo—, así que agrandarla es gratis en contraste.
+   **Nítida y no desenfocada a propósito**: a esta opacidad lo que hace legible
+   el logo son sus cantos, y el desenfoque es justo lo que se los lleva. La
+   primera versión iba borrosa y no se veía.
 
 ## La llamada de la portada
 

@@ -272,7 +272,8 @@ button, input, select, textarea {
   background-size: 44px 44px;
 }
 
-/* Marca de agua: el logo del estudio repetido, nítido y quieto, detrás de todo.
+/* Marca de agua: un solo logo, nítido, grande y quieto en el centro, detrás de
+   todo.
 
    Va en el ::before del body y no en el HTML porque son diez páginas y el nodo
    no dice nada: así no hay que repetirlo ni acordarse de él al añadir otra.
@@ -288,27 +289,30 @@ button, input, select, textarea {
    a pintar en cada scroll, y de paso las franjas le pasan por delante como el
    marco de un escaparate. No se mueve nunca, no hay transición que la toque.
 
-   El hueco entre logos vive dentro de fondo-logo.svg, no aquí: la celda de un
-   background repetido mide exactamente lo que mida background-size y el dibujo
-   la llena entera, así que con el logo suelto los sellos saldrían pegados.
-
    La opacidad no está puesta a ojo: es el techo medido. Quien manda es el
    bermellón de texto, --accion-tinta, que sobre la baldosa limpia ya va justo
    (5,09:1). Con el logo detrás su punto más oscuro deja el suelo en #dce1e6 y
    esos enlaces —los de .texto-legal, que caen justo en las páginas donde más
-   se ve la marca— se quedan en 4,50:1; --tinta-suave, en 5,33. Medido pintando
-   la baldosa en un canvas y pasando la fórmula WCAG píxel a píxel.
+   se ve la marca— se quedan en 4,50:1. Medido pintando el logo sobre la
+   baldosa en un canvas y pasando la fórmula WCAG píxel a píxel. El techo no
+   depende del tamaño: por muy grande que se ponga, el píxel más oscuro es el
+   mismo, así que agrandarla es gratis en contraste.
    Y no hay truco que lo suba: el color más claro del logo es la misma cal del
-   fondo, así que la marca solo puede oscurecer. Lo que da presencia con este
-   techo no es la opacidad, es la repetición: el ojo lee la trama aunque cada
-   píxel apenas se despegue del fondo. Por eso se abandonó la versión anterior,
-   un solo logo grande y desenfocado, que a la misma opacidad no se veía. */
+   fondo, así que la marca solo puede oscurecer.
+
+   Nítida, no desenfocada. Con desenfoque y a esta opacidad no se veía: era una
+   nube gris sin bordes. Lo que hace legible un logo tan tenue son sus cantos,
+   que es lo primero que se lleva el blur. */
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
   z-index: -1;
-  background: url("../img/fondo-logo.svg") 0 0 / 200px 200px repeat;
+  top: 50%;
+  left: 50%;
+  width: min(96vmin, 980px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  background: url("../../favicon.svg") center / contain no-repeat;
   opacity: 0.06;
   pointer-events: none;
 }
