@@ -109,11 +109,11 @@ lectura acotada a 34–44rem según el bloque.
   —48 % en ancho, 72 % en alto— y solo abre después, para que la última línea
   no se quede sin suelo. En ancho abre hacia la derecha, que es donde está la
   maqueta y donde el barrio tiene que verse; en estrecho, hacia abajo.
-  Las imágenes del sitio son tres, y las tres son ilustraciones 3D de la
+  Las imágenes del sitio son cuatro, y las cuatro son ilustraciones 3D de la
   misma familia que la maqueta: el barrio de la portada, el código de
-  Servicios y el escritorio de la cabecera de El estudio, esta última dentro
-  sin marco de ninguna clase. Todo lo demás son motivos de CSS o capturas de
-  webs de verdad.
+  Servicios, el escritorio de la cabecera de El estudio —esta última dentro
+  sin marco de ninguna clase— y el portapapeles de Contacto. Todo lo demás son
+  motivos de CSS o capturas de webs de verdad.
 
 - **La ilustración de El estudio no lleva marco: se funde con la franja.** El
   fondo del propio archivo está aplanado al valor exacto de `--azul` (#0b2350),
@@ -121,6 +121,14 @@ lectura acotada a 34–44rem según el bloque.
   `mix-blend-mode` ni una máscara: probados los dos, el primero se come los
   oscuros del dibujo —la silla y la torre— y la segunda no vale porque la peana
   del diorama llega al 98 % del alto y un desvanecido por abajo se la corta.
+
+- **El portapapeles de Contacto tampoco lleva marco, pero por el otro camino:
+  va recortado.** El objeto vive en el canal alfa del archivo y detrás no hay
+  nada, así que se apoya en la franja azul sin rectángulo que disimular. Es la
+  primera imagen del sitio que no es un cuadro. Lleva dos techos de ancho, 13
+  rem en estrecho y 21 en ancho: sin el primero se comía una pantalla entera
+  de móvil antes del formulario, y sin el segundo se estiraba por encima de
+  sus 460 px nativos.
 
 ## Los motivos
 
