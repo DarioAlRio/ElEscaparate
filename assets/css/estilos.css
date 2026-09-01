@@ -699,19 +699,23 @@ body {
 
 /* La del formulario, en cambio, va recortada: el archivo lleva el objeto en el
    canal alfa y nada detrás, así que se apoya en la franja sin fondo que casar.
-   Los dos techos de ancho no son decorativos. En móvil hay una sola columna, y
-   sin techo la ilustración salía a 336 px de ancho por 421 de alto: una
-   pantalla entera de portapapeles entre la entradilla y el formulario, que es
-   a lo que se viene. En escritorio el techo es el otro: su lado nativo son
-   460 px y la columna pasa de 540, así que estirada se emborrona.
-   El punto de corte es el mismo en el que .bloque-servicio abre las dos
-   columnas; si aquel cambia, este va detrás. */
+
+   Aquí manda el alto y no el ancho, al revés que en el resto del sitio: la
+   ilustración se mide contra el texto que tiene al lado, que en ancho ocupa
+   169 px a 1440 y 230 justo al abrir las dos columnas. Las 11rem la dejan a la
+   altura del primero y por debajo del segundo, que es donde tiene que estar:
+   acompaña al titular, no lo tapa. De paso arregla el móvil, donde sin techo
+   salía a 336x421 y se comía una pantalla entera entre la entradilla y el
+   formulario, que es a lo que se viene.
+
+   El width: auto no es de adorno y no se puede quitar. .ilustracion pone
+   width: 100 %, y con el ancho fijado el max-height no reduce la imagen: la
+   aplasta, porque el navegador ya no tiene por dónde recuperar la proporción. */
 .ilustracion--recortada {
-  max-width: 13rem;
+  width: auto;
+  max-width: 100%;
+  max-height: 11rem;
   margin-inline: auto;
-}
-@media (min-width: 58rem) {
-  .ilustracion--recortada { max-width: 21rem; }
 }
 
 /* La persiana cubre el marco hasta que hay algo que enseñar. */
