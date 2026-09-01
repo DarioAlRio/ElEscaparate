@@ -1287,6 +1287,32 @@ img.giro__cara,
   max-width: 20ch;
 }
 
+/* Cabecera de página con foto al lado. El corte va en 62rem, el mismo que la
+   rejilla de la portada: por debajo la foto baja bajo el texto, que es donde
+   tiene sentido, porque a una columna la imagen no puede competir con el
+   titular. Las dos columnas no van al 50 %: el texto se lleva algo más, que
+   es quien manda en una cabecera.
+   El marco es el mismo que el del escaparate en vivo —filete de --azul-linea
+   y esquina --radio-g—, y no es decoración: la foto es azul oscura y sobre la
+   franja azul se quedaría sin canto. El recorte lo hace el propio
+   border-radius del img, sin envoltorio que lo corte. */
+.cabecera-foto {
+  display: grid;
+  gap: clamp(var(--e4), 5vw, var(--e5));
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+@media (min-width: 62rem) {
+  .cabecera-foto { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); }
+}
+
+.cabecera-foto__imagen {
+  width: 100%;
+  border: 1px solid var(--azul-linea);
+  border-radius: var(--radio-g);
+  box-shadow: var(--sombra-alta);
+}
+
 /* El número de la página de error. Va en bermellón vivo y no en --accion-tinta
    porque aquí el fondo es la franja azul, que es donde el vivo sí llega de
    sobra al contraste; sobre baldosa no llegaría (§5 de CLAUDE.md).
