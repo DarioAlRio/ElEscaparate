@@ -102,6 +102,8 @@ assets/js/sitio.js        Menú, año, .entra, formulario, varilla, cierre, giro
 assets/fuentes/*.woff2   Archivo y Bricolage, subconjunto latin. Ver §5
 assets/img/modelo-NN.webp Los 48 fotogramas de la maqueta, 00 a 47. Ver §5
 assets/img/modelo-00.png  Solo el primero, de respaldo para quien no lea WebP
+assets/img/fondo-logo.svg La baldosa de la marca de agua: dos logos en medio
+                          salto. El hueco entre ellos va dentro. Ver §5
 _modelo-caseta.glb        El modelo 3D del que salen. No se publica
 _render-modelo.html       El taller que saca los fotogramas. Instrucciones dentro
 _render-servidor.js       Lo sirve y recoge lo que manda el navegador
@@ -114,8 +116,7 @@ og-escaparate.png         La tarjeta de og:image, 1200x630. La dibuja un canvas
 favicon.ico               16/32/48 en DIB. En la raíz, sin enlazar: solo
                           para quien lo busque por costumbre
 favicon-conborde.svg      Logo con filete. Ya no se enlaza; es el original
-favicon.svg               El mismo sin filete. Ninguna página lo enlaza, pero
-                          el CSS lo usa de marca de agua del fondo: no borrar
+favicon.svg               El mismo sin filete, para fondos oscuros
 tres/ · utils/            three.js para el taller. Ni se versiona ni se publica
 _fotogramas/              Salida en crudo del taller. Ni se versiona ni se publica
 _dev-servidor.js          No se sube al hosting
@@ -387,14 +388,22 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   contexto de apilamiento y la marca se va por debajo de su propio fondo: no se
   ve nada y no hay error que lo diga. Si algún día hace falta, la salida es
   mover el color de fondo del `body` al `html`.
-- **La opacidad de la marca de agua es un techo medido, no un gusto.** 0,065.
-  Quien manda es `--accion-tinta`, el bermellón de texto, que sobre la baldosa
-  limpia ya va justo en 5,09:1; con el logo detrás baja a 4,52 y a 0,07 cae a
-  4,47, que ya suspende. Y no hay truco que lo suba: el color más claro del
-  logo es la misma cal del fondo, así que la marca solo puede oscurecer. Más
-  desenfoque permite algo más de opacidad —a 60 px, 0,093— porque reparte la
-  misma caída de luz en más superficie, pero entonces es una mancha y no un
-  logo. Si se quiere más presencia, hay que oscurecer `--accion-tinta` primero.
+- **La opacidad de la marca de agua del fondo es un techo medido, no un gusto.**
+  0,06. Quien manda es `--accion-tinta`, el bermellón de texto, que sobre la
+  baldosa limpia ya va justo en 5,09:1; con la trama detrás baja a 4,50 y por
+  encima de 0,062 suspende. Y no hay truco que lo suba: el color más claro del
+  logo es la misma cal del fondo, así que la marca solo puede oscurecer. **Lo
+  que le da presencia no es la opacidad, es la repetición.** La primera versión
+  fue un solo logo grande y desenfocado, a esa misma opacidad, y sencillamente
+  no se veía; se probó a subirla, a saturarla y a aclararla con `brightness`, y
+  todo topaba con el mismo techo. Con la trama se ve sin tocar un solo número.
+  Si algún día se quiere más, el paso previo es oscurecer `--accion-tinta`: a
+  `#a32d0c` el techo sube a 0,153 y ahí ya manda `--tinta-suave`.
+- **Sobre el azul la marca no puede verse, y no es por el logo.** El techo en
+  `--azul` es 0,042, peor que en la baldosa, porque `--accion` (#ff5c3a) sobre
+  `--azul` ya está en **4,6:1**: es el par de colores más apretado del sitio y
+  cualquier cosa que aclare ese azul lo tumba. Por eso la marca vive detrás de
+  las franjas y no encima. No perder el tiempo intentándolo otra vez.
 
 ## 6. Cómo verificar
 

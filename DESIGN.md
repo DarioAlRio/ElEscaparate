@@ -105,19 +105,24 @@ Cuatro. Los tres primeros son CSS puro, sin imágenes; el cuarto es el logo:
    marco hasta que hay algo que enseñar.
 3. **Reflejo** (`.escaparate__lienzo::after`): una diagonal clara que barre el
    cristal al pasar el ratón.
-4. **Marca de agua** (`body::before`): el logo del estudio, desenfocado 26 px y
-   quieto, detrás de todo el contenido de las diez páginas. Es el único motivo
-   que no es CSS puro: usa `favicon.svg` de fondo. Va `fixed` y centrado, de
-   `min(86vmin, 760px)`, con `z-index: -1`, así que se pinta sobre el color del
-   lienzo y **por debajo de cualquier franja con color**: solo asoma en los
-   tramos de baldosa, y las franjas azules le pasan por delante al desplazar,
-   como el marco de un escaparate. No se mueve nunca ni tiene transición.
-   La opacidad, 0,065, es un techo medido y no una preferencia: el bermellón de
+4. **Marca de agua** (`body::before`): el logo del estudio repetido en trama,
+   nítido y quieto, detrás de todo el contenido de las diez páginas. Es el
+   único motivo que no es CSS puro: la baldosa es `assets/img/fondo-logo.svg`,
+   200×200 con dos logos de 64 en medio salto, que teje una retícula diagonal
+   en vez de una cuadrícula de sellos alineados. El hueco entre logos va dentro
+   del SVG porque la celda de un `background` repetido mide lo que mida
+   `background-size` y el dibujo la llena entera.
+   La capa va `fixed`, cubriendo el viewport, con `z-index: -1`: se pinta sobre
+   el color del lienzo y **por debajo de cualquier franja con color**, así que
+   solo asoma en los tramos de baldosa y las franjas azules le pasan por
+   delante al desplazar, como el marco de un escaparate. No se mueve nunca ni
+   tiene transición. En impresión no sale.
+   La opacidad, 0,06, es un techo medido y no una preferencia: el bermellón de
    texto (`--accion-tinta`) sobre la baldosa limpia ya va justo, en 5,09:1, y
-   con la marca detrás se queda en 4,52:1. A 0,07 cae a 4,47 y suspende. Subir
-   el desenfoque deja subir algo la opacidad, pero la caída de luz máxima es la
-   misma: solo se reparte en más superficie y el logo pasa a ser una mancha.
-   En impresión no sale.
+   con la trama detrás se queda en 4,50:1. Lo que da presencia con ese techo no
+   es la opacidad, es la repetición: el ojo lee la trama aunque cada píxel
+   apenas se despegue del fondo. La primera versión era un solo logo grande y
+   desenfocado y a la misma opacidad no se veía; por eso se cambió.
 
 ## La llamada de la portada
 
