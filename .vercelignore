@@ -21,5 +21,10 @@ tres/
 utils/
 _fotogramas/
 
+# El original del que sale assets/img/fotobarrio.webp: 2,6 MB y 2832x1504.
+# Se versiona porque es de donde habría que volver a sacarla si algún día se
+# quiere a otro tamaño, pero no lo pide ninguna página.
+_fotobarrio-original.jfif
+
 # Reglas de Apache, por si algún día se muda; aquí manda vercel.json
 .htaccess

@@ -104,8 +104,12 @@ assets/img/modelo-NN.webp Los 48 fotogramas de la maqueta, 00 a 47. Ver §5
 assets/img/modelo-00.png  Solo el primero, de respaldo para quien no lea WebP
 assets/img/fondo-logo.svg La baldosa de la marca de agua: dos logos en medio
                           salto. El hueco entre ellos va dentro. Ver §5
-assets/img/codigofoto.webp La foto de la cabecera de /diseno-web. 1200x800,
-                          50 KB. Es la unica foto del sitio
+assets/img/codigofoto.webp El fondo de la cabecera de /diseno-web. 1200x800,
+                          50 KB
+assets/img/fotobarrio.webp El fondo de la portada: el barrio isometrico.
+                          1800x829, 137 KB. Ver §5
+_fotobarrio-original.jfif El original de la anterior, 2832x1504 y 2,6 MB. Se
+                          versiona pero no se publica. Ver §5
 _modelo-caseta.glb        El modelo 3D del que salen. No se publica
 _render-modelo.html       El taller que saca los fotogramas. Instrucciones dentro
 _render-servidor.js       Lo sirve y recoge lo que manda el navegador
@@ -406,6 +410,26 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   `--azul` ya está en **4,6:1**: es el par de colores más apretado del sitio y
   cualquier cosa que aclare ese azul lo tumba. Por eso la marca vive detrás de
   las franjas y no encima. No perder el tiempo intentándolo otra vez.
+- **La foto de la portada venía con una cabecera falsa incrustada.** El original
+  (`_fotobarrio-original.jfif`) es la captura de una maqueta, no una foto: trae
+  dibujados dentro el toldo, el menú entero y el botón de presupuesto. Puesta a
+  sangre bajo la cabecera de verdad, el menú se veía dos veces. Lo publicado
+  sale de recortarle los 200 primeros píxeles de alto. Si algún día se vuelve a
+  generar desde el original, **hay que volver a recortar esa franja**.
+- **El velo del hero es una variable por instancia, y no hay un número que
+  sirva para las dos fotos.** `--velo-cerca` donde hay texto y `--velo-lejos`
+  donde no. La de /diseno-web es código en pantalla, casi negra, y va en
+  0,9 / 0,6; la de la portada es una ilustración a plena luz y va en
+  0,86 / 0,22 — con el velo de la otra el barrio se quedaba en un azul liso.
+  Las paradas del degradado, 48 % en ancho y 72 % en alto, tampoco son a ojo:
+  con las primeras, 34 y 55, los sellos de la portada caían dentro de la rampa
+  y bajaban a 4,3 y 4,55. Todo medido componiendo el velo sobre la foto en un
+  canvas y pasando la fórmula WCAG píxel a píxel bajo cada bloque de texto.
+- **La portada usa `.portada.cabecera-foto`, con las dos clases, a propósito.**
+  `.cabecera-foto` se define en la §11 bis del CSS, más abajo que la §7 de la
+  portada: con una sola clase le gana por orden y las dos variables del velo no
+  llegan a aplicarse. Pasó, y en pantalla no se ve como un fallo, se ve como
+  que la foto casi no está.
 
 ## 6. Cómo verificar
 
