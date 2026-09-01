@@ -110,8 +110,11 @@ assets/img/fotobarrio.webp El fondo de la portada: el barrio isometrico.
 assets/img/fotoyo.webp    La ilustración del escritorio, en la cabecera de
                           /sobre-mi. 1100x733, 49 KB. Fondo aplanado a --azul
                           para que no se le vea el borde. Ver §5
-_fotobarrio-original.jfif Los originales de las dos anteriores, 2,6 MB y 2,0 MB.
-_fotoyo-original.png      Se versionan pero no se publican. Ver §5
+assets/img/portapapeles.webp El portapapeles de la cabecera de /presupuesto.
+                          460x576, 15 KB, recortado en el canal alfa. Ver §5
+_fotobarrio-original.jfif Los originales de las tres anteriores: 2,6 MB, 2,0 MB
+_fotoyo-original.png      y 6 KB. Se versionan pero no se publican. Ver §5
+_portapapeles-original.avif
 _modelo-caseta.glb        El modelo 3D del que salen. No se publica
 _render-modelo.html       El taller que saca los fotogramas. Instrucciones dentro
 _render-servidor.js       Lo sirve y recoge lo que manda el navegador
@@ -372,6 +375,27 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   empeora a ±2. Se deja el valor exacto; ±1 sobre 255 no se ve.
   Si algún día cambia `--azul`, hay que volver a generar el archivo: el fondo
   está cocido dentro y no lo sigue ninguna variable.
+- **El portapapeles de /presupuesto va recortado en el alfa, y el recorte tiene
+  dos números que costaron encontrarlos.** El original (`_portapapeles-original
+  .avif`, 740x740) viene sobre blanco puro y con su sombra proyectada. El
+  recorte es un relleno por inundación desde el borde, y **el techo es 20**:
+  con 24 el relleno se cuela dentro de la hoja por el pico de abajo a la
+  izquierda —ahí el papel casi toca el fondo— y se come 11.000 píxeles de
+  hoja. Se probó taparlo con un cierre morfológico (dilatar 16, rellenar
+  huecos, erosionar 16): sí tapa la fuga, pero el cierre añade material donde
+  dos bordes se acercan y deja un bulto redondeado en ese mismo pico.
+  Con techo 20 la sombra se queda opaca, así que va aparte: **se corta por
+  columnas, todo lo que hay por debajo del último píxel con color de cada
+  columna**. Vale porque el tablero es naranja saturado hasta abajo y la
+  sombra es gris; con un umbral de claridad no se separaría, que la hoja es
+  tan clara como ella.
+  Y **el último anillo del objeto hay que repintarlo con el color de dentro**
+  (tres pasadas de vecinos): esos píxeles vienen mezclados con el blanco del
+  original y sobre el azul se ven como una orla clara. Comprobado después:
+  cero píxeles de borde con el canal mínimo por encima de 235.
+  El archivo se recorta luego a la caja del dibujo con 8 px de aire, que es de
+  donde salen los 460x576. Por eso el CSS le pone techo de ancho: estirado a
+  la columna de escritorio, que pasa de 540, se emborrona.
 - **`404.html` enlaza sus assets con barra inicial, y ahí no es cosmético.** El
   hosting sirve ese archivo desde la dirección que pidió el visitante, no desde
   la raíz. Con rutas relativas, un 404 en `/blog/algo/x` pedía

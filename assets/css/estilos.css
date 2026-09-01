@@ -697,6 +697,23 @@ body {
   height: auto;
 }
 
+/* La del formulario, en cambio, va recortada: el archivo lleva el objeto en el
+   canal alfa y nada detrás, así que se apoya en la franja sin fondo que casar.
+   Los dos techos de ancho no son decorativos. En móvil hay una sola columna, y
+   sin techo la ilustración salía a 336 px de ancho por 421 de alto: una
+   pantalla entera de portapapeles entre la entradilla y el formulario, que es
+   a lo que se viene. En escritorio el techo es el otro: su lado nativo son
+   460 px y la columna pasa de 540, así que estirada se emborrona.
+   El punto de corte es el mismo en el que .bloque-servicio abre las dos
+   columnas; si aquel cambia, este va detrás. */
+.ilustracion--recortada {
+  max-width: 13rem;
+  margin-inline: auto;
+}
+@media (min-width: 58rem) {
+  .ilustracion--recortada { max-width: 21rem; }
+}
+
 /* La persiana cubre el marco hasta que hay algo que enseñar. */
 .persiana {
   position: absolute;
