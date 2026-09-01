@@ -169,8 +169,16 @@
 
 <main id="contenido">
 
-  <section class="franja franja--corta franja--azul">
-    <div class="envoltura cabecera-foto">
+  <section class="franja franja--corta franja--azul cabecera-foto">
+
+    <!-- alt vacío a propósito: la foto no cuenta nada que no diga ya el
+         titular, así que describirla solo alargaría el recorrido del lector de
+         pantalla. Va con width y height puestos aunque los estire object-fit:
+         son los que le dicen al navegador la proporción antes de descargarla. -->
+    <img class="cabecera-foto__imagen" src="assets/img/codigofoto.webp" alt=""
+         width="1200" height="800" fetchpriority="high" decoding="async">
+
+    <div class="envoltura cabecera-foto__texto">
       <div>
         <h1 class="titulo-pagina">Servicios de diseño y desarrollo web</h1>
         <p class="portada__entrada">
@@ -185,13 +193,6 @@
           <a class="boton" href="/presupuesto">Solicitar presupuesto</a>
         </div>
       </div>
-
-      <!-- alt vacío a propósito: la foto no cuenta nada que no diga ya el
-           titular, así que describirla solo alarga el recorrido del lector de
-           pantalla. Va con width y height puestos para que el hueco quede
-           reservado antes de que llegue el archivo y no salte la maquetación. -->
-      <img class="cabecera-foto__imagen" src="assets/img/codigofoto.webp" alt=""
-           width="1200" height="800" fetchpriority="high" decoding="async">
     </div>
   </section>
 
