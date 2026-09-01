@@ -600,6 +600,20 @@ body::before {
   padding-block: clamp(var(--e4), 6vw, var(--e6)) clamp(var(--e5), 8vw, var(--e7));
 }
 
+/* La portada lleva la misma pieza de foto a sangre que la cabecera de
+   /diseno-web (§11 bis), pero su foto es una ilustración de barrio a plena luz
+   y no código casi negro: con el velo de la otra se quedaba en un azul liso.
+   Donde no hay texto se abre casi del todo, que es justo donde está la maqueta
+   y donde el barrio tiene que verse.
+
+   Las dos clases juntas no son un adorno: .cabecera-foto se define en la §11
+   bis, o sea más abajo que esta sección, y con una sola clase le ganaría por
+   orden y estos dos valores no llegarían a aplicarse. Pasó. */
+.portada.cabecera-foto {
+  --velo-cerca: 0.86;
+  --velo-lejos: 0.22;
+}
+
 .portada__rejilla {
   display: grid;
   gap: clamp(var(--e4), 5vw, var(--e5));
@@ -1309,6 +1323,10 @@ img.giro__cara,
   align-items: center;
   min-height: calc(100vh - 4.25rem);
   min-height: calc(100svh - 4.25rem);
+
+  /* La foto de /diseno-web es codigo en pantalla, casi negra. */
+  --velo-cerca: 0.9;
+  --velo-lejos: 0.6;
 }
 
 .cabecera-foto__imagen {
@@ -1322,16 +1340,33 @@ img.giro__cara,
 /* El velo. Es ::after y no ::before a propósito: los dos son hijos posicionados
    sin z-index, así que manda el orden del DOM, y ::before se pintaría por
    debajo de la foto en vez de encima.
-   El degradado está medido sobre la propia foto, no puesto a ojo: ver la nota
-   del velo más abajo. */
+
+   Las dos opacidades son variables por instancia porque cada foto pide la suya
+   y no hay un número que sirva para las dos: la de /diseno-web es código en
+   pantalla, casi negra, y aguanta poco velo; la de la portada es una ilustración
+   de barrio a plena luz, y con el velo de la otra desaparecía del todo. Los
+   valores de cada una están medidos componiendo el velo sobre su propia foto
+   en un canvas y pasando la fórmula WCAG píxel a píxel bajo cada bloque de
+   texto. En el peor píxel: portada 11,7 el titular, 4,5 el bermellón del
+   titular, 7,0 el párrafo y 7,0 los sellos; /diseno-web 11,3 y 7,9. Medido a
+   1440 y a 390, que dan cifras parecidas.
+
+   --velo-cerca es donde está el texto y --velo-lejos donde no hay nada escrito.
+   El degradado mantiene «cerca» plano hasta pasado el texto y solo abre después:
+   si empezara a aclarar desde el primer píxel, la última línea del párrafo se
+   quedaría sin suelo. Las paradas —48 % en ancho, 72 % en alto— no son redondas
+   por gusto: con las primeras, 34 y 55, los sellos de la portada caían dentro
+   de la rampa y se quedaban en 4,3 y 4,55. Si algún día crece el texto del
+   hero, hay que volver a medir y correrlas. */
 .cabecera-foto::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(6, 21, 47, 0.9) 0%,
-    rgba(6, 21, 47, 0.82) 100%
+    rgba(6, 21, 47, var(--velo-cerca)) 0%,
+    rgba(6, 21, 47, var(--velo-cerca)) 72%,
+    rgba(6, 21, 47, var(--velo-lejos)) 100%
   );
 }
 
@@ -1341,10 +1376,10 @@ img.giro__cara,
   .cabecera-foto::after {
     background: linear-gradient(
       to right,
-      rgba(6, 21, 47, 0.9) 0%,
-      rgba(6, 21, 47, 0.88) 38%,
-      rgba(6, 21, 47, 0.62) 68%,
-      rgba(6, 21, 47, 0.5) 100%
+      rgba(6, 21, 47, var(--velo-cerca)) 0%,
+      rgba(6, 21, 47, var(--velo-cerca)) 48%,
+      rgba(6, 21, 47, var(--velo-lejos)) 86%,
+      rgba(6, 21, 47, var(--velo-lejos)) 100%
     );
   }
 }
