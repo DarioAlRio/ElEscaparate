@@ -125,10 +125,10 @@ lectura acotada a 34–44rem según el bloque.
 - **El portapapeles de Contacto tampoco lleva marco, pero por el otro camino:
   va recortado.** El objeto vive en el canal alfa del archivo y detrás no hay
   nada, así que se apoya en la franja azul sin rectángulo que disimular. Es la
-  primera imagen del sitio que no es un cuadro. Lleva dos techos de ancho, 13
-  rem en estrecho y 21 en ancho: sin el primero se comía una pantalla entera
-  de móvil antes del formulario, y sin el segundo se estiraba por encima de
-  sus 460 px nativos.
+  primera imagen del sitio que no es un cuadro. Y la única que se mide por el
+  alto: 11rem de techo, que es lo que mide el texto que tiene al lado —169 px
+  a 1440—. Acompaña al titular en vez de competir con él, y de paso no se come
+  una pantalla de móvil antes del formulario, que es a lo que se viene.
 
 ## Los motivos
 
