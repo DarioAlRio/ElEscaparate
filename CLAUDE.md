@@ -114,7 +114,8 @@ og-escaparate.png         La tarjeta de og:image, 1200x630. La dibuja un canvas
 favicon.ico               16/32/48 en DIB. En la raíz, sin enlazar: solo
                           para quien lo busque por costumbre
 favicon-conborde.svg      Logo con filete. Ya no se enlaza; es el original
-favicon.svg               El mismo sin filete, para fondos oscuros
+favicon.svg               El mismo sin filete. Ninguna página lo enlaza, pero
+                          el CSS lo usa de marca de agua del fondo: no borrar
 tres/ · utils/            three.js para el taller. Ni se versiona ni se publica
 _fotogramas/              Salida en crudo del taller. Ni se versiona ni se publica
 _dev-servidor.js          No se sube al hosting
@@ -378,6 +379,22 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
 - **El recuadro del aviso va en `--azul-hondo` y con filete, no en `--azul`.**
   Aparece sobre la portada, que ya es una franja azul: del mismo color se funde
   con el fondo y lo único que lo despega es la sombra, que sobre azul no se ve.
+- **La marca de agua del fondo depende de que el `body` no cree contexto de
+  apilamiento.** Es un `body::before` con `z-index: -1`: se pinta encima del
+  color del lienzo —que es el fondo del body, propagado a la raíz porque el
+  `html` no tiene ninguno— y debajo de todo lo demás. En cuanto el `body` reciba
+  un `position`, `opacity`, `transform`, `filter` o `isolation`, pasa a ser el
+  contexto de apilamiento y la marca se va por debajo de su propio fondo: no se
+  ve nada y no hay error que lo diga. Si algún día hace falta, la salida es
+  mover el color de fondo del `body` al `html`.
+- **La opacidad de la marca de agua es un techo medido, no un gusto.** 0,065.
+  Quien manda es `--accion-tinta`, el bermellón de texto, que sobre la baldosa
+  limpia ya va justo en 5,09:1; con el logo detrás baja a 4,52 y a 0,07 cae a
+  4,47, que ya suspende. Y no hay truco que lo suba: el color más claro del
+  logo es la misma cal del fondo, así que la marca solo puede oscurecer. Más
+  desenfoque permite algo más de opacidad —a 60 px, 0,093— porque reparte la
+  misma caída de luz en más superficie, pero entonces es una mancha y no un
+  logo. Si se quiere más presencia, hay que oscurecer `--accion-tinta` primero.
 
 ## 6. Cómo verificar
 
