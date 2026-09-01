@@ -39,6 +39,31 @@
 
   /* --- Entrada de secciones (un solo gesto, no uno por elemento) -------- */
 
+  /* La clase .entra estaba escrita en el CSS y puesta en un solo elemento de
+     todo el sitio, asi que al desplazarse no se movia nada. En vez de repartirla
+     a mano por diez archivos, se marcan aqui los bloques que ya existen: asi la
+     lleva tambien lo que se anada manana sin acordarse de ponerla.
+
+     Se marca desde un script con defer, que corre con el DOM hecho y antes de
+     la primera pintura, de modo que nadie ve el bloque opaco y luego a cero.
+
+     Solo lo que empieza por debajo del primer pantallazo. Lo de arriba se ve al
+     abrir y ahi un fundido no es un gesto: es la pagina tardando en aparecer.
+     Las medidas se leen todas seguidas y sin escribir nada por medio, que es lo
+     que evita el recalculo forzado de la §5. */
+  var QUE_ENTRA = ".titular-seccion, .fase, .desplegable, .bloque-servicio, .datos";
+  var candidatos = document.querySelectorAll(QUE_ENTRA);
+  var alto = window.innerHeight;
+  var lejanos = [];
+  candidatos.forEach(function (nodo) {
+    /* Los .datos viven dentro de un .bloque-servicio. Si entran los dos, el hijo
+       se funde dentro de un padre que a su vez se esta fundiendo y el bloque
+       tarda el doble en verse. Manda siempre el de fuera. */
+    if (nodo.parentElement && nodo.parentElement.closest(QUE_ENTRA)) return;
+    if (nodo.getBoundingClientRect().top > alto) lejanos.push(nodo);
+  });
+  lejanos.forEach(function (nodo) { nodo.classList.add("entra"); });
+
   var entrantes = document.querySelectorAll(".entra");
   if (entrantes.length) {
     if (!("IntersectionObserver" in window) ||
