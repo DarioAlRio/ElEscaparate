@@ -182,11 +182,14 @@ de correo del visitante con el mensaje ya escrito. Funciona, pero pierdes
 contactos por el camino: mucha gente no tiene configurado el correo en el
 ordenador (para esos está el cartel salvavidas del apartado siguiente).
 
-El `action` del formulario es ahora `mailto:contacto@elescaparateweb.com`, que
-es el camino de respaldo si el JavaScript no llega a ejecutarse. **Hasta el
-27/08/2026 ponía `PENDIENTE-pon-aqui-tu-endpoint`**, que no era la dirección de
-nada: sin JavaScript el navegador enviaba el formulario ahí y daba un 404 en tu
-propio dominio.
+El formulario **no tiene `action`**, y eso es a propósito. Llevó un `mailto`
+cinco días, como camino de respaldo para quien no ejecute JavaScript, y salía
+caro: Chrome llama «formulario mixto» al que vive en una página `https` y envía
+a un destino que no lo es —y `mailto:` no lo es—, así que **apagaba el
+autocompletado** justo en los campos donde más se agradece (nombre, negocio,
+correo y teléfono) y avisaba al visitante de que el formulario no era seguro.
+Quien no tenga JavaScript tiene igualmente el WhatsApp y la dirección de correo
+como enlaces sueltos, ahí mismo debajo del formulario, y esos no disparan nada.
 
 Para que los mensajes caigan en tu bandeja pase lo que pase, sin depender del
 programa de correo del visitante, hace falta un servicio de formularios
@@ -195,13 +198,13 @@ de alta tú**, porque exige una cuenta a tu nombre. Cuando tengas el endpoint,
 en la etiqueta `<form>` de `presupuesto.html`:
 
 ```
-action="https://…el endpoint que te den…"   ← sustituye el mailto
-method="POST"                                ← se queda igual
-enctype="text/plain"                         ← esta línea se borra
+action="https://…el endpoint que te den…"   ← esta línea se añade
+method="POST"                                ← ya está puesta, se queda
 ```
 
 Y ya está: el código reconoce el endpoint porque empieza por `https://` y envía
-directamente, sin tocar nada más.
+directamente, sin tocar nada más. Al ser `https`, tampoco vuelve el aviso de
+Chrome.
 
 **Si el visitante no tiene correo configurado** —mucha gente no lo tiene, usa
 el correo dentro del navegador— un enlace `mailto:` no abre nada y el clic

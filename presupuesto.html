@@ -127,24 +127,32 @@
         <!-- FORMULARIO: dos salidas, WhatsApp y correo. El correo va siempre a
              contacto@elescaparateweb.com.
 
-             El «action» es el camino de respaldo, el que usa el navegador si el
-             JavaScript no llega a ejecutarse: un «mailto» al correo del estudio.
-             Antes ponía PENDIENTE-pon-aqui-tu-endpoint, que no era una dirección
-             de nada: sin JavaScript ese envío daba un 404 en el propio dominio.
+             Este formulario NO lleva «action», y es a propósito. Llevó un
+             «mailto» del 27/08/2026 al 01/09/2026, como camino de respaldo para
+             quien no ejecute JavaScript, y salía caro: Chrome llama «formulario
+             mixto» al que está en una página https y envía a un destino que no
+             lo es —y «mailto» no lo es—, así que apagaba el autocompletado en
+             los cuatro campos que más falta le hace (nombre, negocio, correo y
+             teléfono) y avisaba de que el formulario no era seguro. Encima, al
+             enviar sin JavaScript, enseñaba una pantalla entera de advertencia.
+             El respaldo lo cubren los enlaces de aquí abajo, que son «mailto» y
+             WhatsApp sueltos y no disparan nada de eso. Ver §5 de CLAUDE.md.
+
+             El «method» sí se queda, aunque sin «action» no envíe a ninguna
+             parte: sin él, un envío sin JavaScript sería un GET y los datos del
+             visitante acabarían escritos en la barra de direcciones.
 
              Con JavaScript —que es lo normal— manda «sitio.js»: valida, redacta
              el mensaje ordenado y lo saca por WhatsApp o por el programa de
              correo. Si algún día das de alta un servicio de formularios
-             (Formspree, Basin, Web3Forms), se cambian estas tres líneas por
-             action="https://…" method="POST" y se quita el enctype: el código ya
-             reconoce el endpoint por el «https://» y envía directamente a tu
-             bandeja, sin depender de que el visitante tenga correo configurado.
-             Ver PERSONALIZAR.md -->
+             (Formspree, Basin, Web3Forms), se le pone aquí su
+             action="https://…": el código ya reconoce el endpoint por el
+             «https://» y envía directamente a tu bandeja, sin depender de que
+             el visitante tenga correo configurado. Al ser https, tampoco vuelve
+             el aviso de Chrome. Ver PERSONALIZAR.md -->
         <form class="forma" data-forma-presupuesto novalidate
               aria-labelledby="titulo-formulario"
-              action="mailto:contacto@elescaparateweb.com"
               method="POST"
-              enctype="text/plain"
               data-correo="contacto@elescaparateweb.com"
               data-whatsapp="34684082490">
 

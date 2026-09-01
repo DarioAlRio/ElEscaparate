@@ -206,8 +206,11 @@
      Lo que distingue un caso del otro es que el «action» empiece por http, no
      una palabra clave dentro de él. Antes se buscaba el texto «PENDIENTE», y
      eso obligaba a que el respaldo fuera una dirección falsa: sin JavaScript,
-     el navegador la enviaba y daba un 404 en el propio dominio. Ahora el
-     respaldo es un «mailto» de verdad y la comprobación sigue siendo una línea. */
+     el navegador la enviaba y daba un 404 en el propio dominio.
+     Desde el 01/09/2026 el formulario no lleva «action» ninguno —lo apagaba el
+     autocompletado de Chrome, ver §5—, así que aquí «destino» es cadena vacía y
+     siempre se toma la salida del programa de correo. La comprobación se queda
+     igual porque es la que reconocerá el endpoint el día que lo haya. */
   function porCorreo() {
     var destino = forma.getAttribute("action") || "";
     apunta("envio_correo");

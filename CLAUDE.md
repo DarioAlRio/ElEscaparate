@@ -35,7 +35,7 @@ Este archivo es lo demás: cómo se trabaja aquí y qué trampas ya se han pagad
    sin servidor, hay que devolver la extensión a los `href` de las diez páginas.
 4. **Sin backend.** Capturas a servicios públicos. El formulario sale por
    WhatsApp o por el programa de correo del visitante; el día que haya un
-   servicio de formularios dado de alta, se cambia el `action` y ya (ver §5).
+   servicio de formularios dado de alta, se le pone el `action` y ya (ver §5).
 5. **Español de España, tuteo, registro formal, sin jerga.** Se tutea, pero el
    tono es sobrio: nada de coloquialismos («vale cualquier web», «sale barato»,
    «no hay por dónde») ni de guiños. Decidido el 17/08/2026, cambiando el
@@ -386,13 +386,26 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   archivo, no la de hoy: ponerlas todas iguales le dice al buscador que
   cambiaron a la vez, y a la tercera deja de hacer caso al campo.
   `git log -1 --format=%ad --date=short -- pagina.html`
-- **El `action` del formulario es el camino sin JavaScript, no un adorno.**
-  Estuvo en `PENDIENTE-pon-aqui-tu-endpoint`, que no es la dirección de nada:
-  sin JavaScript el navegador enviaba ahí y daba un 404 en el propio dominio.
-  Ahora es un `mailto` de verdad, y `porCorreo()` distingue el endpoint por que
-  empiece por `http`, no por una palabra clave dentro del atributo. Si algún día
-  entra un servicio de formularios, se cambia el `action` y se quita el
-  `enctype="text/plain"`; el código no necesita nada más.
+- **El formulario no lleva `action`, y quitarlo fue el arreglo, no un descuido.**
+  Chrome llama «formulario mixto» al que está en una página `https` y envía a un
+  destino que no lo es, y `mailto:` no lo es: apaga el autocompletado de todo el
+  formulario —«este formulario no es seguro»— y, al enviar sin JavaScript, mete
+  una pantalla entera de advertencia. Lo pagaba el 100 % de las visitas con
+  Chrome, y justo en los cuatro campos que el navegador sabe rellenar solo
+  (nombre, negocio, correo y teléfono), para cubrir un camino de respaldo que no
+  usa casi nadie. Ese respaldo ya lo dan los enlaces de `mailto:` y de `wa.me`
+  que están sueltos debajo del formulario, y esos no disparan nada.
+  Antes el `action` estuvo en `PENDIENTE-pon-aqui-tu-endpoint`, que no es la
+  dirección de nada: sin JavaScript el navegador enviaba ahí y daba un 404 en el
+  propio dominio. Las dos veces es la misma lección por lados distintos: **ese
+  atributo no es decorativo**; o apunta a algo `https` de verdad, o no está.
+  **El `method="POST"` sí se queda**, aunque sin `action` no envíe a ninguna
+  parte: sin él un envío sin JavaScript sería un GET y los datos personales del
+  visitante acabarían escritos en la barra de direcciones.
+  `porCorreo()` distingue el endpoint por que empiece por `http`, no por una
+  palabra clave dentro del atributo, así que sin atributo lee cadena vacía y sale
+  por el programa de correo. El día que entre un servicio de formularios se le
+  pone su `action="https://…"` y ya; el código no necesita nada más.
 - **El relleno vertical de un enlace en línea no agranda el área pulsable.** Los
   del pie median 19 px y la WCAG 2.5.8 pide 24. Hace falta `inline-block` para
   que el `padding-block` empuje la caja. Dos excepciones que ya son caja de
