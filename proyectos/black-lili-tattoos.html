@@ -165,10 +165,14 @@
           </div>
         </figure>
 
+        <!-- La espera de esta web vale para TODAS sus paginas, no solo para la
+             portada: sin ella el servicio dispara antes de que pinte la galeria y
+             la captura sale con el menu sobre negro. Comprobado el 02/09/2026. -->
         <figure class="vista">
           <figcaption class="vista__pie">El portfolio</figcaption>
           <div class="vista__marco" data-captura
                data-url="https://blacklilitattoos.com/portfolio-tatuajes-linea-fina-madrid"
+               data-espera="10"
                data-alt="La página de portfolio de Black Lili Tattoos, con la galería de trabajos.">
             <noscript>
               <p class="apunte">La captura se pide en el momento y necesita JavaScript.
