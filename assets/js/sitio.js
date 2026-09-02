@@ -1011,3 +1011,79 @@
      pierde el foco: el cartel ya no pinta nada y se retira solo. */
   window.addEventListener("blur", esconde);
 })();
+
+/* =========================================================================
+   Botones magnéticos.
+
+   Los botones grandes se dejan tirar un poco hacia el cursor cuando pasa
+   cerca, como si tuvieran imán. Van al final del archivo a propósito: los
+   que crea este mismo script —«Subir la persiana» del cierre, los de las
+   cookies— ya existen en el documento cuando esto se ejecuta, y no hace
+   falta volver a buscarlos después.
+
+   Solo con puntero fino y sin «prefers-reduced-motion»: en un táctil no hay
+   cursor que se acerque, y el tirón es justo el tipo de movimiento que esa
+   preferencia pide quitar. Los pequeños —los de las cookies, el de la
+   cabecera— se quedan fuera: son botones de paso, no la llamada a la acción
+   de la página, y tirar de un botón que ya está pegado al borde de la
+   ventana solo lo saca de sitio.
+
+   No hace falta transición nueva: «.boton» ya transiciona «transform» en
+   0.18s, así que el mismo tiempo que suaviza el «hover» de siempre suaviza
+   también el tirón. */
+(function () {
+  "use strict";
+
+  if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  var imanes = document.querySelectorAll(".boton:not(.boton--pequeno)");
+  if (!imanes.length) return;
+
+  var RADIO = 60;    /* px más allá del propio botón donde ya empieza a tirar */
+  var FUERZA = 0.35; /* fracción del desplazamiento que se seguía */
+  var TOPE = 10;      /* px máximos de desplazamiento, o el texto se despega del borde */
+
+  var x = -9999;
+  var y = -9999;
+  var pendiente = false;
+
+  function actualiza() {
+    pendiente = false;
+    imanes.forEach(function (boton) {
+      var caja = boton.getBoundingClientRect();
+      var cx = caja.left + caja.width / 2;
+      var cy = caja.top + caja.height / 2;
+      var dx = x - cx;
+      var dy = y - cy;
+
+      /* Distancia al rectángulo, no al centro: si no, un botón ancho
+         empezaría a tirar antes por los lados que por arriba y por abajo. */
+      var fuera = Math.max(Math.abs(dx) - caja.width / 2, Math.abs(dy) - caja.height / 2, 0);
+      if (fuera > RADIO) {
+        if (boton.style.transform) boton.style.transform = "";
+        return;
+      }
+
+      var mx = Math.max(-TOPE, Math.min(TOPE, dx * FUERZA));
+      var my = Math.max(-TOPE, Math.min(TOPE, dy * FUERZA));
+      boton.style.transform = "translate(" + mx.toFixed(1) + "px, " + my.toFixed(1) + "px)";
+    });
+  }
+
+  function pide() {
+    if (pendiente) return;
+    pendiente = true;
+    requestAnimationFrame(actualiza);
+  }
+
+  document.addEventListener("pointermove", function (ev) {
+    x = ev.clientX;
+    y = ev.clientY;
+    pide();
+  }, { passive: true });
+
+  /* Si la página se desplaza sin que el ratón se mueva, un botón puede
+     quedarse tirando de un cursor que ya no tiene al lado. */
+  window.addEventListener("scroll", pide, { passive: true });
+})();
