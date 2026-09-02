@@ -467,6 +467,14 @@ body {
 
 .cabecera__acciones { display: flex; align-items: center; gap: var(--e2); }
 
+/* «Pedir presupuesto» y «Ir al formulario» —el mismo botón, pero con su
+   texto propio en /presupuesto— no miden lo mismo: 167,8px frente a 141,3px.
+   «.cabecera__fila» reparte con «space-between», así que ese ancho de más
+   empujaba el menú entero un poco a la izquierda al entrar en esa página en
+   concreto. Con un mínimo que cubre al más largo de los dos, el botón centra
+   su texto dentro y el menú ya no se mueve de sitio de una página a otra. */
+.cabecera .boton--pequeno { min-width: 10.75rem; }
+
 .abre-nav {
   display: none;
   align-items: center;
