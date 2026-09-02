@@ -215,19 +215,38 @@ Son cuatro sitios y no uno. El enlace de la miniatura sale solo; el archivo no:
 Y dentro del archivo copiado, dos cosas que **no** salen de `proyectos.js` y hay
 que cambiar a mano:
 
-- **Las direcciones de los bloques.** Cada `<figure class="vista">` lleva su
-  `data-url`. La de la portada y la del móvil son la misma; la de «otra página»
-  solo la pones si el trabajo tiene una segunda página de verdad. Si esa página
-  tarda en pintarse —una ruta de hash, un canvas—, añádele `data-espera="5"`.
-  **Y si el trabajo tiene `espera` en `proyectos.js`, esa espera vale para todas
-  sus páginas, no solo para la portada.** Le pasó al portfolio de Black Lili el
-  02/09/2026: sin espera, la captura salía con el menú sobre un fondo negro
-  porque el servicio disparaba antes de que pintase la galería.
+- **Las capturas.** Cada `<figure class="vista">` lleva una `<img>` que apunta a
+  un archivo de `assets/img/webs/`. Hay que sacarlas y guardarlas antes: no se
+  generan solas. Cómo, en el apartado de aquí abajo.
 - **Los seis colores de la paleta.** Van escritos en el `<li>`, dos veces cada
   uno: en `style="--tono:#xxxxxx"` y en el `<code>`. Sácalos de la hoja de
   estilos de la web del cliente, no a ojo de la captura.
 
 Si pones el campo `ficha` sin crear el archivo, la miniatura enlaza a un 404.
+
+### Cómo se saca una captura nueva
+
+Las capturas del portfolio son archivos, no peticiones a nadie: viven en
+`assets/img/webs/` y se llaman como el trabajo (`cabo-azul.webp`), con
+`-movil` detrás para la del teléfono. Las medidas son **1280x800** las de
+escritorio y **390x780** las de móvil, siempre las mismas.
+
+Para sacar una hace falta pedirla a un servicio de capturas y convertirla. Lo
+hizo Claude el 02/09/2026 y lo puede repetir; si quieres hacerlo tú, el camino
+corto es pedirle la imagen a Microlink con la dirección de la web, el ancho y
+el alto de arriba, y guardarla. Tres avisos que costaron descubrirlos:
+
+- **Míralas antes de darlas por buenas.** De las diecisiete primeras, tres
+  salieron mal y ninguna dio error: dos con el aviso de cookies del cliente
+  tapando un tercio de la imagen, y una con la página a medio pintar.
+- **Si la web tiene animación de entrada, hay que darle segundos.** Y esa
+  espera vale para todas sus páginas, no solo para la portada.
+- **El aviso de cookies se puede ocultar** al pedir la captura, pasándole el
+  selector de su caja.
+
+Mientras un trabajo no tenga su archivo, quítale el campo `imagen` de
+`proyectos.js`: la miniatura se pedirá en directo, como antes, y así se ve
+desde el primer día aunque todavía no le hayas guardado la captura.
 
 ### Si no te convence y quieres volver atrás
 

@@ -77,8 +77,10 @@ página, ni en los filtros del portfolio, ni en el formulario.
 
 - **Sin build.** HTML + CSS + JS a pelo. Se abre el archivo y funciona; se
   publica arrastrando la carpeta. El Node del equipo es el 16.10.
-- **Sin backend.** Las capturas se piden a servicios públicos de screenshots y
-  el formulario sale por un servicio externo de formularios.
+- **Sin backend.** El escaparate en directo pide las capturas a servicios
+  públicos de screenshots, y el formulario sale por un servicio externo de
+  formularios. Las capturas del portfolio, en cambio, son archivos guardados
+  en `assets/img/webs/` desde el 02/09/2026: no dependen de nadie.
 - **Español (es-ES), tuteo, registro formal.** Sin jerga técnica y sin
   coloquialismos en la parte visible. Decisión del 17/08/2026: se mantiene el
   tuteo, que acerca, pero se sube el tono, que antes era demasiado campechano

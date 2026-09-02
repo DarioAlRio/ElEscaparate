@@ -1602,15 +1602,16 @@ img.giro__cara,
   color: var(--tinta-suave);
 }
 
-/* El hueco de la captura. La proporción va puesta de antemano, y es la misma
-   con la que se le pide al servicio: así la página no da un salto cuando llega
-   la imagen, que viene de fuera y tarda segundos. El recorte va anclado arriba
-   porque si el servicio devuelve un alto distinto al pedido, lo que sobra es
-   siempre por abajo. */
-.vista__marco {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 1280 / 800;
+/* La captura es un archivo guardado en assets/img/webs/, no una imagen que se
+   pida a un servicio al abrir la página. Por eso el marco va en la propia
+   <img> y no en una caja aparte: ya no hay nada que enseñar mientras llega.
+   Las medidas van en los atributos width y height del HTML, que es lo que
+   reserva el hueco antes de la descarga; aquí solo se dice que el ancho manda
+   y que el alto lo siga. */
+.vista__captura {
+  display: block;
+  width: 100%;
+  height: auto;
   border: 1px solid var(--cal-linea);
   border-radius: var(--radio-g);
   background: var(--azul-alto);
@@ -1620,21 +1621,10 @@ img.giro__cara,
 /* La vista de móvil no depende del ancho de quien mira: es un bloque más, y se
    ve igual en el teléfono que en el escritorio. Va estrecha y centrada para que
    se lea como lo que es, un teléfono, y no como una captura mal encuadrada. */
-.vista__marco[data-vista="movil"] {
-  aspect-ratio: 390 / 780;
+.vista--movil .vista__captura {
   max-width: 15rem;
   margin-inline: auto;
 }
-
-.vista__captura {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-}
-
-.vista__marco .escaparate__vacio { border-radius: inherit; }
 
 /* La paleta son los colores declarados en la hoja de estilos del propio
    cliente, ordenados por las veces que aparecen en ella. No es una

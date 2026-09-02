@@ -146,10 +146,11 @@ lectura acotada a 34–44rem según el bloque.
   debajo de una imagen de 800 px nadie lo lee antes que la imagen, que es justo
   cuando hace falta saber qué se está mirando. Se reordenan moviendo el
   `<figure>` de sitio, sin tocar ni el CSS ni el JS.
-  Las capturas llevan la proporción puesta de antemano —8:5 la de escritorio,
-  1:2 la de móvil— para que la página no dé un salto cuando lleguen, que vienen
-  de fuera y tardan segundos. La de móvil va a 15rem y centrada, igual en el
-  teléfono que en el escritorio: es un bloque más, no una versión de la página.
+  Las capturas son archivos guardados en `assets/img/webs/`, con sus medidas en
+  los atributos `width` y `height`: así el hueco está reservado antes de que
+  baje la imagen y la página no da ningún salto. La de móvil va a 15rem y
+  centrada, igual en el teléfono que en el escritorio: es un bloque más de la
+  ficha, no una versión de la página.
   La paleta son los colores declarados en la hoja de estilos del propio cliente,
   ordenados por las veces que aparecen en ella, copiados a mano en el HTML.
   Seis por ficha, en muestras de 3:2 con su hexadecimal debajo.
