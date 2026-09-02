@@ -1552,10 +1552,10 @@ img.giro__cara,
 /* --- La ficha de un proyecto -------------------------------------------- */
 
 /* Dos columnas: el texto a la izquierda, quieto, y la captura de la web a la
-   derecha, que es la que se desplaza. El texto es corto y la captura mide
-   miles de píxeles de alto, así que sin el sticky la columna izquierda se
-   quedaría arriba del todo y el visitante recorrería cuatro pantallas de
-   captura sin saber de quién es la web que está mirando.
+   derecha, que es la que se desplaza. El texto es corto y la pila de vistas
+   es larga, así que sin el sticky la columna izquierda se quedaría arriba del
+   todo y el visitante recorrería tres o cuatro pantallas de capturas sin
+   saber de quién es la web que está mirando.
 
    El ancho de la columna de texto es fijo y no una fracción: lo que lleva son
    dos párrafos cortos y una lista de datos, y a media pantalla se quedaría en
@@ -1579,33 +1579,91 @@ img.giro__cara,
   margin-bottom: var(--e3);
 }
 
-/* El hueco de la captura. La altura mínima está puesta a propósito: la imagen
-   llega de fuera y no se sabe cuánto mide hasta que llega, así que sin ella la
-   página daría un salto de varias pantallas al aparecer. Se queda corta a
-   posta —60vh, no el alto real— porque lo que se evita es el salto brusco, no
-   el crecimiento. */
-.ficha__vista {
+/* La columna de la derecha es una pila de bloques y el orden lo manda el HTML:
+   la portada, otra página de la misma web, el móvil y la paleta. Se montó así
+   —y no como una sola captura de la web entera, que es lo que hubo durante unas
+   horas el 02/09/2026— porque una tira de seis mil píxeles obliga a recorrer la
+   web ajena de arriba abajo para ver tres cosas, y pesa 23 MB descodificada.
+   Con bloques, cada uno dice qué se está mirando y se reordenan moviendo el
+   <figure> de sitio, sin tocar ni el CSS ni el JS. */
+.ficha__vistas {
+  display: grid;
+  gap: var(--e4);
+}
+
+.vista { margin: 0; }
+
+/* El rótulo va ARRIBA —el <figcaption> es el primer hijo— y eso es a propósito:
+   debajo de una imagen de 800 px de alto nadie lo lee antes que la imagen, que
+   es justo cuando hace falta saber qué se está mirando. */
+.vista__pie {
+  margin-bottom: var(--e1);
+  font-weight: 600;
+  color: var(--tinta-suave);
+}
+
+/* El hueco de la captura. La proporción va puesta de antemano, y es la misma
+   con la que se le pide al servicio: así la página no da un salto cuando llega
+   la imagen, que viene de fuera y tarda segundos. El recorte va anclado arriba
+   porque si el servicio devuelve un alto distinto al pedido, lo que sobra es
+   siempre por abajo. */
+.vista__marco {
   position: relative;
   overflow: hidden;
+  aspect-ratio: 1280 / 800;
   border: 1px solid var(--cal-linea);
   border-radius: var(--radio-g);
   background: var(--azul-alto);
   box-shadow: var(--sombra-alta);
 }
-.ficha__vista[data-estado="cargando"],
-.ficha__vista[data-estado="sin"] { min-height: 60vh; }
 
-/* La captura va entera y a lo largo, sin marco con desplazamiento propio.
-   Se probó meterla en una caja con overflow para acortar la página, y en el
-   teléfono el dedo se queda atrapado dentro de la caja: se desplaza la
-   captura y no la página. Vale más una página larga. */
-.ficha__captura {
-  display: block;
-  width: 100%;
-  height: auto;
+/* La vista de móvil no depende del ancho de quien mira: es un bloque más, y se
+   ve igual en el teléfono que en el escritorio. Va estrecha y centrada para que
+   se lea como lo que es, un teléfono, y no como una captura mal encuadrada. */
+.vista__marco[data-vista="movil"] {
+  aspect-ratio: 390 / 780;
+  max-width: 15rem;
+  margin-inline: auto;
 }
 
-.ficha__vista .escaparate__vacio { border-radius: inherit; }
+.vista__captura {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.vista__marco .escaparate__vacio { border-radius: inherit; }
+
+/* La paleta son los colores declarados en la hoja de estilos del propio
+   cliente, ordenados por las veces que aparecen en ella. No es una
+   interpretación ni un muestreo de la captura: está copiada a mano en el HTML
+   de cada ficha, así que si algún día se rehace una de esas webs, aquí se queda
+   el color viejo hasta que alguien lo cambie. */
+.paleta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+  gap: var(--e2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.paleta li { display: grid; gap: 0.4rem; }
+.paleta li::before {
+  content: "";
+  display: block;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radio);
+  border: 1px solid var(--cal-linea);
+  background: var(--tono);
+}
+.paleta code {
+  font: inherit;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
+  color: var(--tinta-suave);
+}
 
 /* --- 12. Método --------------------------------------------------------- */
 

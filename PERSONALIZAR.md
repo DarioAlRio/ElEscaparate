@@ -190,8 +190,15 @@ Para rellenarlo, abre el archivo (por ejemplo `proyectos/cabo-azul.html`), busca
 quita las marcas de comentario de la línea que ya trae el párrafo montado.
 
 Mientras tanto, lo que sí sale de verdad en cada ficha es todo lo que ya está
-en `proyectos.js`: el nombre, el año, el sector, el formato contratado, el
-enlace a la web del cliente y la captura de esa web entera.
+en `proyectos.js` —el nombre, el año, el sector, el formato contratado y el
+enlace a la web del cliente— más los bloques de la derecha: la captura de la
+portada, la de otra página del mismo sitio donde la hay, la paleta de colores y
+la vista de móvil.
+
+Los cuatro trabajos de una sola página (Nova Strike, Cabo Azul, Casilla 03 y
+Regleta) no tienen bloque de «otra página», y no es un olvido: los servicios de
+capturas devuelven la misma imagen para `/` que para `/#tarifas`, así que no hay
+segunda pantalla que pedir. Ahí el segundo bloque es el teléfono.
 
 ### Si añades un trabajo nuevo con ficha
 
@@ -204,6 +211,17 @@ Son cuatro sitios y no uno. El enlace de la miniatura sale solo; el archivo no:
    direcciones de arriba (`canonical` y `og:url`).
 3. Su bloque en `sitemap.xml`, al final, con los demás de `/proyectos/`.
 4. El párrafo de contexto, aquí arriba.
+
+Y dentro del archivo copiado, dos cosas que **no** salen de `proyectos.js` y hay
+que cambiar a mano:
+
+- **Las direcciones de los bloques.** Cada `<figure class="vista">` lleva su
+  `data-url`. La de la portada y la del móvil son la misma; la de «otra página»
+  solo la pones si el trabajo tiene una segunda página de verdad. Si esa página
+  tarda en pintarse —una ruta de hash, un canvas—, añádele `data-espera="5"`.
+- **Los seis colores de la paleta.** Van escritos en el `<li>`, dos veces cada
+  uno: en `style="--tono:#xxxxxx"` y en el `<code>`. Sácalos de la hoja de
+  estilos de la web del cliente, no a ojo de la captura.
 
 Si pones el campo `ficha` sin crear el archivo, la miniatura enlaza a un 404.
 

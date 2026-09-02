@@ -145,17 +145,49 @@
         </dl>
       </div>
 
-      <!-- La captura de la pagina entera la pide el motor al llegar aqui: no
-           hay archivo que enlazar, se genera fuera. Por eso el hueco esta
-           vacio en el HTML y es el CSS el que le da altura, para que la
-           pagina no pegue un salto cuando llegue la imagen. -->
-      <div class="ficha__vista" data-ficha-vista
-           data-url="https://regletaescalada.vercel.app/"
-           data-nombre="Regleta">
-        <noscript>
-          <p class="apunte">La captura se pide en el momento y necesita JavaScript.
-            <a href="https://regletaescalada.vercel.app/" target="_blank" rel="noopener noreferrer">Abre Regleta en una pestaña nueva</a> para verla.</p>
-        </noscript>
+      <!-- La columna de la derecha. Cada bloque es un <figure> suelto: para
+           cambiar el orden basta con moverlo de sitio, y para quitar uno,
+           borrarlo. Las capturas no son archivos, las pide el motor a un
+           servicio al cargar la pagina; los colores de la paleta si estan
+           escritos aqui, sacados de la hoja de estilos del cliente. -->
+      <div class="ficha__vistas">
+
+        <figure class="vista">
+          <figcaption class="vista__pie">La portada</figcaption>
+          <div class="vista__marco" data-captura
+               data-url="https://regletaescalada.vercel.app/"
+               data-alt="La portada de Regleta, vista en un ordenador.">
+            <noscript>
+              <p class="apunte">La captura se pide en el momento y necesita JavaScript.
+                <a href="https://regletaescalada.vercel.app/" target="_blank" rel="noopener noreferrer">Ábrela en una pestaña nueva</a> para verla.</p>
+            </noscript>
+          </div>
+        </figure>
+
+        <figure class="vista">
+          <figcaption class="vista__pie">En el móvil</figcaption>
+          <div class="vista__marco" data-captura
+               data-vista="movil"
+               data-url="https://regletaescalada.vercel.app/"
+               data-alt="La portada de Regleta, vista en un teléfono.">
+            <noscript>
+              <p class="apunte">La captura se pide en el momento y necesita JavaScript.
+                <a href="https://regletaescalada.vercel.app/" target="_blank" rel="noopener noreferrer">Ábrela en una pestaña nueva</a> para verla.</p>
+            </noscript>
+          </div>
+        </figure>
+
+        <figure class="vista">
+          <figcaption class="vista__pie">La paleta</figcaption>
+          <ul class="paleta">
+            <li style="--tono:#1c1512"><code>#1c1512</code></li>
+            <li style="--tono:#f4ede1"><code>#f4ede1</code></li>
+            <li style="--tono:#f2c230"><code>#f2c230</code></li>
+            <li style="--tono:#63c04a"><code>#63c04a</code></li>
+            <li style="--tono:#35c2d9"><code>#35c2d9</code></li>
+            <li style="--tono:#ea4a80"><code>#ea4a80</code></li>
+          </ul>
+        </figure>
       </div>
     </div>
   </section>
