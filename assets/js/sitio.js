@@ -1050,6 +1050,14 @@
 
   function actualiza() {
     pendiente = false;
+
+    /* Un imán solo, el más cercano: dos botones pegados —el de «Ver
+       trabajos» junto al principal— no pueden tirar los dos a la vez, o el
+       cursor tira de los dos y ninguno queda claro como destino. */
+    var elegido = null;
+    var distanciaElegido = Infinity;
+    var medidas = [];
+
     imanes.forEach(function (boton) {
       var caja = boton.getBoundingClientRect();
       var cx = caja.left + caja.width / 2;
@@ -1060,14 +1068,21 @@
       /* Distancia al rectángulo, no al centro: si no, un botón ancho
          empezaría a tirar antes por los lados que por arriba y por abajo. */
       var fuera = Math.max(Math.abs(dx) - caja.width / 2, Math.abs(dy) - caja.height / 2, 0);
-      if (fuera > RADIO) {
-        if (boton.style.transform) boton.style.transform = "";
+      medidas.push({ boton: boton, dx: dx, dy: dy, fuera: fuera });
+      if (fuera <= RADIO && fuera < distanciaElegido) {
+        distanciaElegido = fuera;
+        elegido = boton;
+      }
+    });
+
+    medidas.forEach(function (medida) {
+      if (medida.boton !== elegido) {
+        if (medida.boton.style.transform) medida.boton.style.transform = "";
         return;
       }
-
-      var mx = Math.max(-TOPE, Math.min(TOPE, dx * FUERZA));
-      var my = Math.max(-TOPE, Math.min(TOPE, dy * FUERZA));
-      boton.style.transform = "translate(" + mx.toFixed(1) + "px, " + my.toFixed(1) + "px)";
+      var mx = Math.max(-TOPE, Math.min(TOPE, medida.dx * FUERZA));
+      var my = Math.max(-TOPE, Math.min(TOPE, medida.dy * FUERZA));
+      medida.boton.style.transform = "translate(" + mx.toFixed(1) + "px, " + my.toFixed(1) + "px)";
     });
   }
 
