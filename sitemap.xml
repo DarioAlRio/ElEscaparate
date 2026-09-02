@@ -9,7 +9,12 @@
   poner la misma en las nueve le dice al buscador que cambiaron todas a la vez,
   y a la tercera vez que eso no es verdad deja de hacer caso al campo.
 
-  Para saber cuál toca:  git log -1 --format=%ad --date=short -- pagina.html
+  Para saber cuál toca, pregúntale a git la fecha del último commit de esa
+  página. El comando exacto está en la sección 5 de CLAUDE.md y no se copia
+  aquí a propósito: lleva guiones dobles, y un comentario XML no los admite.
+  Este archivo estuvo roto por eso del 27/08/2026 al 02/09/2026 —Google no
+  podía leer el sitemap entero— y no se vio porque un XML mal formado no
+  avisa: simplemente no se procesa.
 
   «changefreq» y «priority» los ignora Google desde 2023. Se quedan porque otros
   buscadores todavía los leen y no cuestan nada.
@@ -35,7 +40,7 @@
   <!--  Trabajos  -->
   <url>
     <loc>https://elescaparateweb.com/trabajos</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-09-02</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -88,4 +93,57 @@
     <priority>0.2</priority>
   </url>
 
+
+  <!--  Fichas de proyecto. Una por trabajo publicado; el archivo vive en
+        proyectos/ y la miniatura de /trabajos enlaza aquí. Cuando se añada
+        un trabajo nuevo con su página, hay que añadir aquí su bloque a mano:
+        este archivo no se genera solo.  -->
+  <url>
+    <loc>https://elescaparateweb.com/proyectos/black-lili-tattoos</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://elescaparateweb.com/proyectos/reformas</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://elescaparateweb.com/proyectos/nova-strike</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://elescaparateweb.com/proyectos/clorofila</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://elescaparateweb.com/proyectos/cabo-azul</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://elescaparateweb.com/proyectos/casilla-03</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <url>
+    <loc>https://elescaparateweb.com/proyectos/regleta</loc>
+    <lastmod>2026-09-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+  </url>
 </urlset>

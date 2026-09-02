@@ -1100,6 +1100,9 @@ img.giro__cara,
   box-shadow: var(--sombra-alta);
 }
 
+/* Puede ser un <button> o un <a>: desde el 02/09/2026, el proyecto que tiene
+   página propia enseña un enlace de verdad. De ahí el color y el subrayado,
+   que solo hacen falta en el segundo caso pero no estorban en el primero. */
 .escaparate__lienzo {
   position: relative;
   width: 100%;
@@ -1110,6 +1113,8 @@ img.giro__cara,
   cursor: pointer;
   overflow: hidden;
   display: block;
+  color: inherit;
+  text-decoration: none;
 }
 .calle--destacada > :first-child .escaparate__lienzo { aspect-ratio: 21 / 9; }
 
@@ -1530,6 +1535,77 @@ img.giro__cara,
   text-underline-offset: 3px;
 }
 .texto-legal .apunte { margin-top: var(--e4); margin-bottom: 0; }
+
+/* La miga: el enlace de vuelta que va encima del titular de una ficha de
+   proyecto. No es una miga de pan de las de tres niveles porque no hay tres:
+   de Trabajos se baja a un proyecto y se acabó. */
+.miga {
+  font-size: var(--t-s);
+  margin-bottom: var(--e2);
+}
+.miga a {
+  display: inline-block;
+  padding-block: 0.35rem;
+}
+.miga a::before { content: "\2190"; margin-right: 0.45em; }
+
+/* --- La ficha de un proyecto -------------------------------------------- */
+
+/* Dos columnas: el texto a la izquierda, quieto, y la captura de la web a la
+   derecha, que es la que se desplaza. El texto es corto y la captura mide
+   miles de píxeles de alto, así que sin el sticky la columna izquierda se
+   quedaría arriba del todo y el visitante recorrería cuatro pantallas de
+   captura sin saber de quién es la web que está mirando.
+
+   El ancho de la columna de texto es fijo y no una fracción: lo que lleva son
+   dos párrafos cortos y una lista de datos, y a media pantalla se quedaría en
+   renglones de tres palabras. */
+.ficha {
+  display: grid;
+  gap: var(--e4);
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+@media (min-width: 58rem) {
+  .ficha { grid-template-columns: 21rem minmax(0, 1fr); gap: var(--e5); }
+  .ficha__texto {
+    position: sticky;
+    top: calc(4.25rem + var(--alto-toldo) + var(--e2));
+  }
+}
+
+.ficha__contexto {
+  color: var(--tinta-suave);
+  margin-bottom: var(--e3);
+}
+
+/* El hueco de la captura. La altura mínima está puesta a propósito: la imagen
+   llega de fuera y no se sabe cuánto mide hasta que llega, así que sin ella la
+   página daría un salto de varias pantallas al aparecer. Se queda corta a
+   posta —60vh, no el alto real— porque lo que se evita es el salto brusco, no
+   el crecimiento. */
+.ficha__vista {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--cal-linea);
+  border-radius: var(--radio-g);
+  background: var(--azul-alto);
+  box-shadow: var(--sombra-alta);
+}
+.ficha__vista[data-estado="cargando"],
+.ficha__vista[data-estado="sin"] { min-height: 60vh; }
+
+/* La captura va entera y a lo largo, sin marco con desplazamiento propio.
+   Se probó meterla en una caja con overflow para acortar la página, y en el
+   teléfono el dedo se queda atrapado dentro de la caja: se desplaza la
+   captura y no la página. Vale más una página larga. */
+.ficha__captura {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ficha__vista .escaparate__vacio { border-radius: inherit; }
 
 /* --- 12. Método --------------------------------------------------------- */
 

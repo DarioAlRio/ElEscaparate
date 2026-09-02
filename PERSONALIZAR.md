@@ -111,6 +111,12 @@ que hay que sustituir es ese `<svg>`.
 Todo vive en `assets/js/proyectos.js`. **Solo hace falta la URL**: la miniatura
 se genera sola desde fuera.
 
+⚠️ **Desde el 02/09/2026 cada trabajo publicado tiene además su propia página**
+—`/proyectos/cabo-azul` y las otras seis—, y pulsar una miniatura lleva allí en
+vez de abrir el visor a pantalla completa. Esas páginas **no se generan solas**:
+son siete archivos de verdad en la carpeta `proyectos/`. Lo que te toca a ti
+está en el apartado 11.
+
 ```js
 {
   url: "https://blacklilitattoos.com",  // ← lo único imprescindible
@@ -165,6 +171,51 @@ no gasta ninguna petición.
 
 Revisa también el campo `tipo` de cada uno: los he puesto todos como
 `multipagina` a ojo y tú sabes cuál era cada encargo.
+
+## 11. Los párrafos de las fichas de proyecto ⚠️ SIETE HUECOS
+
+Cada una de las siete páginas de `proyectos/` tiene, comentado dentro del
+archivo, el hueco de un párrafo de contexto. Es lo mismo que hace la referencia
+en la que está copiada la ficha: debajo del nombre va una frase corta —esa ya
+la tienes, es la `nota` de `proyectos.js`— y después dos o tres frases de quién
+es el cliente, con qué llegó y qué resolvió la web.
+
+**Ese párrafo no lo puede escribir nadie más que tú**, así que está comentado y
+no relleno: un párrafo inventado sobre el negocio de un cliente y publicado en
+internet es peor que un hueco. La página funciona igual sin él; solo se ve más
+desnuda la columna de la izquierda.
+
+Para rellenarlo, abre el archivo (por ejemplo `proyectos/cabo-azul.html`), busca
+`EL PARRAFO DE CONTEXTO`, borra el comentario largo de las instrucciones y
+quita las marcas de comentario de la línea que ya trae el párrafo montado.
+
+Mientras tanto, lo que sí sale de verdad en cada ficha es todo lo que ya está
+en `proyectos.js`: el nombre, el año, el sector, el formato contratado, el
+enlace a la web del cliente y la captura de esa web entera.
+
+### Si añades un trabajo nuevo con ficha
+
+Son cuatro sitios y no uno. El enlace de la miniatura sale solo; el archivo no:
+
+1. El bloque en `assets/js/proyectos.js`, con su campo
+   `ficha: "/proyectos/lo-que-sea"`.
+2. El archivo `proyectos/lo-que-sea.html`. Lo más rápido es copiar uno de los
+   siete y cambiar el nombre, el año, el sector, el formato y las dos
+   direcciones de arriba (`canonical` y `og:url`).
+3. Su bloque en `sitemap.xml`, al final, con los demás de `/proyectos/`.
+4. El párrafo de contexto, aquí arriba.
+
+Si pones el campo `ficha` sin crear el archivo, la miniatura enlaza a un 404.
+
+### Si no te convence y quieres volver atrás
+
+No hay que deshacer nada. En `assets/js/escaparates.js`, casi al principio, hay
+una línea que pone `var FICHA_EN_PAGINA = true;`. Ponla en `false` y las
+miniaturas vuelven a abrir el visor a pantalla completa, como hasta ahora. El
+visor no se ha borrado ni se ha tocado: sigue entero y lo usa además el
+escaparate de prueba de `/trabajos`. Las siete páginas se quedan ahí, sin que
+nadie las enlace; si además quieres que desaparezcan, borra la carpeta
+`proyectos/` y sus siete bloques del `sitemap.xml`.
 
 ## 7. El formulario
 
@@ -366,6 +417,7 @@ muerta. Esta página decía lo contrario hasta el 27/08/2026.
 | Cómo trabajo | `/como-trabajo` | Igual que el título de la página |
 | El estudio | `/sobre-mi` | La dirección que todo el mundo espera de un «quién soy» |
 | Contacto | `/presupuesto` | Es lo que se busca con intención de contratar |
+| Ficha de un trabajo | `/proyectos/<nombre>` | Una por trabajo publicado; el archivo está en la carpeta `proyectos/` |
 
 Las antiguas (`/servicios`, `/portfolio`, `/metodo`, `/estudio`, `/contacto`)
 redirigen con un 301 permanente a la nueva, así que ningún enlace se rompe.
