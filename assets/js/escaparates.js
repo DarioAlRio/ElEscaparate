@@ -348,26 +348,41 @@
       img.decoding = "async";
       lienzo.appendChild(img);
 
-      var cortina = document.createElement("span");
-      cortina.className = "escaparate__vacio";
-      cortina.innerHTML = '<span class="cartel">CARGANDO</span>';
-      lienzo.appendChild(cortina);
+      /* Con archivo guardado no hay nada que esperar ni que anunciar: se le
+         pone la dirección y ya. Las medidas van puestas para que la rejilla no
+         dé un salto mientras baja la imagen, y del retraso de la descarga se
+         encarga el propio navegador con loading="lazy", que es lo que hacía a
+         mano el observador de la otra rama. */
+      if (proyecto.imagen) {
+        img.width = 1280;
+        img.height = 800;
+        img.src = proyecto.imagen;
+      } else {
+        /* Sin archivo, la miniatura se pide en el momento a un servicio, que es
+           como funcionó todo el portfolio hasta el 02/09/2026. Se conserva para
+           que un trabajo recién añadido se vea desde el primer día, antes de
+           que nadie le haya guardado su captura. */
+        var cortina = document.createElement("span");
+        cortina.className = "escaparate__vacio";
+        cortina.innerHTML = '<span class="cartel">CARGANDO</span>';
+        lienzo.appendChild(cortina);
 
-      lienzo.addEventListener("cerca", function () {
-        captura(proyecto.url, false, proyecto.espera, true).then(function (src) {
-          img.src = src;
-          cortina.remove();
-        }).catch(function (fallo) {
-          /* Decir por qué: «sin captura» a secas parece una web rota, y casi
-             siempre es el cupo diario del servicio, que se repone solo. */
-          var motivo = fallo && /cupo/.test(fallo.message)
-            ? "Se ha agotado el cupo diario del servicio de capturas. Inténtalo de nuevo más tarde."
-            : "Ábrela en una pestaña nueva para verla.";
-          cortina.innerHTML = '<span class="cartel">SIN CAPTURA</span><span></span>';
-          cortina.lastChild.textContent = motivo;
+        lienzo.addEventListener("cerca", function () {
+          captura(proyecto.url, false, proyecto.espera, true).then(function (src) {
+            img.src = src;
+            cortina.remove();
+          }).catch(function (fallo) {
+            /* Decir por qué: «sin captura» a secas parece una web rota, y casi
+               siempre es el cupo diario del servicio, que se repone solo. */
+            var motivo = fallo && /cupo/.test(fallo.message)
+              ? "Se ha agotado el cupo diario del servicio de capturas. Inténtalo de nuevo más tarde."
+              : "Ábrela en una pestaña nueva para verla.";
+            cortina.innerHTML = '<span class="cartel">SIN CAPTURA</span><span></span>';
+            cortina.lastChild.textContent = motivo;
+          });
         });
-      });
-      observa(lienzo);
+        observa(lienzo);
+      }
     } else {
       var pendiente = document.createElement("span");
       pendiente.className = "escaparate__vacio";
@@ -422,63 +437,6 @@
   }
 
   /* --- La vista de la página de proyecto -------------------------------- */
-
-  /* Cada página de proyectos/ trae una pila de huecos con la dirección puesta
-     en atributos: la portada, otra página de la misma web donde la haya, la
-     vista de móvil y la paleta, que esa sí va escrita en el HTML. Aquí se le
-     pide la captura a cada hueco y se mete dentro. No se guarda ningún
-     archivo: la imagen la genera el servicio y vive en su CDN.
-
-     Son pantallazos, no páginas enteras. La entera se probó el 02/09/2026 y
-     eran 23 MB de mapa de bits descodificado por ficha, contra 4 de un
-     pantallazo; y sobre todo obligaba a recorrer seis mil píxeles de web ajena
-     para ver tres cosas. Enseñar dos pantallas elegidas dice más y pesa menos.
-
-     La de móvil no depende del ancho de quien mira: es un bloque más de la
-     ficha, con su pie, y se ve igual en el teléfono que en el escritorio.
-     Quien decide qué hueco es de móvil es el HTML, con data-vista="movil". */
-  function pintaVista(hueco) {
-    var url = hueco.getAttribute("data-url");
-    if (!url) return;
-
-    var movil = hueco.getAttribute("data-vista") === "movil";
-    var espera = hueco.getAttribute("data-espera");
-
-    var img = document.createElement("img");
-    img.className = "vista__captura";
-    img.alt = hueco.getAttribute("data-alt") || "";
-    img.decoding = "async";
-
-    var cortina = document.createElement("span");
-    cortina.className = "escaparate__vacio";
-    cortina.innerHTML = '<span class="cartel">CARGANDO</span><span></span>';
-    cortina.lastChild.textContent = "La captura se genera ahora mismo. Tarda unos segundos.";
-
-    hueco.appendChild(img);
-    hueco.appendChild(cortina);
-    hueco.setAttribute("data-estado", "cargando");
-
-    /* Estricto, como en el portfolio: aquí la web es trabajo propio y enseñar
-       el intro de un cliente como si fuera su web es peor que no enseñar nada. */
-    captura(url, movil, espera, true).then(function (src) {
-      img.src = src;
-      cortina.remove();
-      hueco.setAttribute("data-estado", "puesta");
-    }).catch(function (fallo) {
-      var motivo = fallo && /cupo/.test(fallo.message)
-        ? "Se ha agotado el cupo diario del servicio de capturas. Vuelve más tarde."
-        : "Ábrela en una pestaña nueva para verla.";
-      img.remove();
-      cortina.innerHTML = '<span class="cartel">SIN CAPTURA</span><span></span>';
-      cortina.lastChild.textContent = motivo;
-      hueco.setAttribute("data-estado", "sin");
-    });
-  }
-
-  function pintaVistas() {
-    var huecos = document.querySelectorAll("[data-captura]");
-    for (var i = 0; i < huecos.length; i++) pintaVista(huecos[i]);
-  }
 
   /* --- Visor ----------------------------------------------------------- */
 
@@ -677,10 +635,6 @@
 
   function arranca() {
     iniciaEscaparateVivo();
-
-    /* Las páginas de proyecto no tienen rejilla ni filtros: solo el hueco de
-       sus huecos de captura. Por eso va antes del return de abajo. */
-    pintaVistas();
 
     var rejilla = document.querySelector("[data-escaparates]");
     if (!rejilla || !window.PROYECTOS) return;

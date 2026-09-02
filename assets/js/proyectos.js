@@ -20,6 +20,18 @@
                abre el visor como toda la vida. Cada página es un archivo de
                verdad en proyectos/, no se genera sola: si pones aquí una
                dirección sin crear el archivo, el enlace da 404.
+     imagen    Miniatura guardada, con barra inicial. Es la captura de la
+               portada del cliente, la misma que enseña su ficha. Sin este
+               campo la miniatura se pide en el momento al servicio de
+               capturas, que es como funcionaba todo antes del 02/09/2026:
+               así un trabajo nuevo se ve enseguida, aunque todavía no se le
+               haya guardado el archivo.
+     imagen    Miniatura guardada, con barra inicial. Es la captura de la
+               portada del cliente, la misma que enseña su ficha. Sin este
+               campo la miniatura se pide en el momento al servicio de
+               capturas, que es como funcionaba todo antes del 02/09/2026:
+               así un trabajo nuevo se ve enseguida, aunque todavía no se le
+               haya guardado el archivo.
      espera    Segundos que el servicio aguanta antes de disparar la captura.
                Ponlo solo si esa web tiene animación de entrada: sin esperar,
                la miniatura sale con el logo del intro en vez de la página.
@@ -36,6 +48,8 @@ window.PROYECTOS = [
     url: "https://blacklilitattoos.com",
     nombre: "Black Lili Tattoos",
     ficha: "/proyectos/black-lili-tattoos",
+    imagen: "/assets/img/webs/black-lili-tattoos.webp",
+    imagen: "/assets/img/webs/black-lili-tattoos.webp",
     oficio: "Estudio de tatuaje",
     tipo: "multipagina",
     anio: "2026",
@@ -47,6 +61,8 @@ window.PROYECTOS = [
     url: "https://reformas-aparejo.vercel.app/",
     nombre: "Reformas",
     ficha: "/proyectos/reformas",
+    imagen: "/assets/img/webs/reformas.webp",
+    imagen: "/assets/img/webs/reformas.webp",
     oficio: "Obra y reforma integral",
     tipo: "multipagina",
     anio: "2026",
@@ -57,6 +73,8 @@ window.PROYECTOS = [
     url: "https://nova-strike-beta.vercel.app/",
     nombre: "Nova Strike",
     ficha: "/proyectos/nova-strike",
+    imagen: "/assets/img/webs/nova-strike.webp",
+    imagen: "/assets/img/webs/nova-strike.webp",
     oficio: "Videojuego arcade",
     tipo: "una-pagina",
     anio: "2026",
@@ -72,6 +90,8 @@ window.PROYECTOS = [
     url: "https://clorofila-estudio-botanico.vercel.app/",
     nombre: "Clorofila",
     ficha: "/proyectos/clorofila",
+    imagen: "/assets/img/webs/clorofila.webp",
+    imagen: "/assets/img/webs/clorofila.webp",
     oficio: "Estudio botánico",
     tipo: "multipagina",
     anio: "2026",
@@ -82,6 +102,8 @@ window.PROYECTOS = [
     url: "https://caboazulbuceo.vercel.app/",
     nombre: "Cabo Azul",
     ficha: "/proyectos/cabo-azul",
+    imagen: "/assets/img/webs/cabo-azul.webp",
+    imagen: "/assets/img/webs/cabo-azul.webp",
     oficio: "Centro de buceo",
     tipo: "una-pagina",
     anio: "2026",
@@ -92,6 +114,8 @@ window.PROYECTOS = [
     url: "https://casilla03asesoria.vercel.app/",
     nombre: "Casilla 03",
     ficha: "/proyectos/casilla-03",
+    imagen: "/assets/img/webs/casilla-03.webp",
+    imagen: "/assets/img/webs/casilla-03.webp",
     oficio: "Asesoría para autónomos",
     tipo: "una-pagina",
     anio: "2026",
@@ -102,6 +126,8 @@ window.PROYECTOS = [
     url: "https://regletaescalada.vercel.app/",
     nombre: "Regleta",
     ficha: "/proyectos/regleta",
+    imagen: "/assets/img/webs/regleta.webp",
+    imagen: "/assets/img/webs/regleta.webp",
     oficio: "Rocódromo de escalada",
     tipo: "una-pagina",
     anio: "2026",
