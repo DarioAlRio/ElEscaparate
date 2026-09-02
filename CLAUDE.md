@@ -33,7 +33,8 @@ Este archivo es lo demás: cómo se trabaja aquí y qué trampas ya se han pagad
    `.html` justo para conservar el doble clic; se cambió para ahorrar el salto
    308 que costaba cada clic del menú. Si algún día vuelve a hacer falta abrirla
    sin servidor, hay que devolver la extensión a los `href` de las diez páginas.
-4. **Sin backend.** Capturas a servicios públicos. El formulario sale por
+4. **Sin backend.** El escaparate en directo pide sus capturas a servicios
+   públicos; las del portfolio son archivos guardados. El formulario sale por
    WhatsApp o por el programa de correo del visitante; el día que haya un
    servicio de formularios dado de alta, se le pone el `action` y ya (ver §5).
 5. **Español de España, tuteo, registro formal, sin jerga.** Se tutea, pero el
@@ -105,6 +106,11 @@ assets/js/sitio.js        Menú, año, el reparto y disparo de .entra, formulari
                           el aviso de cookies con su botón de revocación y los
                           cuatro eventos de medición de las salidas de contacto
 assets/fuentes/*.woff2   Archivo y Bricolage, subconjunto latin. Ver §5
+assets/img/webs/*.webp    Las capturas de las webs de cliente: 17 archivos,
+                          712 KB. Una por portada (1280x800), otra por móvil
+                          (390x780) y tres de segunda página. Las enseña la
+                          rejilla del portfolio y la ficha de cada trabajo.
+                          Ver §5
 assets/img/modelo-NN.webp Los 48 fotogramas de la maqueta, 00 a 47. Ver §5
 assets/img/modelo-00.png  Solo el primero, de respaldo para quien no lea WebP
 assets/img/codigofoto.webp El fondo de la cabecera de /diseno-web. 1200x800,
@@ -430,6 +436,31 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
     thum.io tarda entre 26 y 31, así que se le agotaba el tiempo siempre y la
     ficha acababa en «SIN CAPTURA» con los dos servicios respondiendo. Se vio en
     Regleta. Hizo falta un `MARGEN_ENTERA` de 25 s. Si vuelve, vuelve eso.
+- **Las capturas del portfolio son archivos, no peticiones.** Desde el
+  02/09/2026, por decisión de Dario —«prefiero que las descargues esas
+  capturas para que estén siempre»—. Están en `assets/img/webs/`: 17 archivos,
+  712 KB, sacadas una a una con Microlink y convertidas a WebP al 0,82 con el
+  taller del navegador (canvas → `toBlob` → guardador en el 5188), el mismo
+  método que el recorte del portapapeles. Lo que se gana: la rejilla de
+  `/trabajos` no hace **ninguna** petición a terceros (medido: 7 miniaturas,
+  325 KB, cero peticiones fuera), no hay cupo que agotar, no hay «SIN
+  CAPTURA» y ninguna ficha depende de que un servicio acierte.
+  **Lo que cuesta, y hay que asumirlo:** si un cliente cambia su web, aquí se
+  sigue viendo la de antes hasta que alguien rehaga el archivo.
+  Tres cosas aprendidas sacándolas, que valen para la próxima:
+  - **Mirar cada captura antes de darla por buena.** De 17, tres salieron mal
+    y ninguna avisó: el portfolio de Black Lili con el menú sobre negro (le
+    faltaba la espera), y las dos de Reformas con el aviso de cookies tapando
+    un tercio de la imagen.
+  - **El aviso de cookies se quita con `&hide=`**, que es un parámetro de
+    Microlink al que se le pasa un selector CSS. En Reformas es `.cookies`.
+    thum.io no tiene nada parecido.
+  - **Microlink no sabe devolver WebP.** Se le pide `type=webp` y contesta
+    `jpeg` sin quejarse. De ahí el paso por el canvas: 996 KB de JPEG se
+    quedan en 665 al convertirlos.
+  El motor de capturas **no** se ha retirado: lo sigue usando el escaparate en
+  directo de `/trabajos`, y la rejilla cae en él para cualquier trabajo que
+  todavía no tenga campo `imagen`.
 - **Ningún servicio de capturas respeta un ancla dentro de la página.** Medido
   el 02/09/2026: thum.io devuelve la MISMA imagen byte a byte para
   `caboazulbuceo.vercel.app/` y para `…/#tarifas` —295.090 bytes las dos, mismo
@@ -561,9 +592,11 @@ afirmar que se ha comprobado.
    `sitemap.xml`. Es lo único del sitio que no se actualiza solo. Y si has
    tocado ese archivo, compruébalo con un parser: no avisa cuando se rompe.
 6 bis. Si has añadido un trabajo con ficha propia, son cuatro sitios y no uno:
-   el bloque en `proyectos.js` con su campo `ficha`, el archivo en
-   `proyectos/`, su `<url>` en `sitemap.xml` y el párrafo de contexto en
+   el bloque en `proyectos.js` con sus campos `ficha` e `imagen`, el archivo
+   en `proyectos/`, su `<url>` en `sitemap.xml` y el párrafo de contexto en
    `PERSONALIZAR.md`. El enlace de la miniatura sale solo; el archivo no.
+   Y las capturas tampoco: sin el campo `imagen` la miniatura se pide en vivo
+   —que vale para salir del paso—, pero la ficha se queda sin sus bloques.
 7. Si has tocado las seis preguntas de `/diseno-web`, cambia también su
    `FAQPage`: Google descarta el bloque entero cuando el texto no coincide
    palabra por palabra con lo que ve el visitante.
