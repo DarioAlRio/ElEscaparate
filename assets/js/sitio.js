@@ -246,6 +246,44 @@
 })();
 
 /* =========================================================================
+   Paralaje de la baldosa.
+
+   La retícula de 44 px vive en el fondo del body (§3 de estilos.css) y por
+   defecto sube con el documento a la misma velocidad que todo lo demás: no
+   hay profundidad, solo una hoja pintada detrás del texto. Desplazar esa
+   retícula un poco más despacio que el resto la separa a un plano distinto,
+   como el escaparate y la calle que se refleja en él.
+
+   Se mueve por JavaScript y no con «background-attachment: fixed» — que haría
+   lo mismo sin una sola línea de script — porque un fondo fijo obliga a
+   algunos navegadores a repintarlo entero en cada fotograma de scroll en vez
+   de limitarse a recolocarlo, y esta hoja ya tiene medido lo que cuesta cada
+   repintado (CLAUDE.md, §5). Aquí solo se escribe una propiedad, nunca se lee
+   ninguna, así que no hay «reflow» que forzar.
+   ========================================================================= */
+
+(function () {
+  "use strict";
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  var RITMO = 0.4;  /* la baldosa sube a un 40 % de la velocidad de la página */
+  var pendiente = false;
+
+  function coloca() {
+    pendiente = false;
+    var y = Math.round(window.scrollY * RITMO * -1);
+    document.body.style.backgroundPosition = "0 " + y + "px, 0 " + y + "px";
+  }
+
+  window.addEventListener("scroll", function () {
+    if (pendiente) return;
+    pendiente = true;
+    requestAnimationFrame(coloca);
+  }, { passive: true });
+})();
+
+/* =========================================================================
    Las salidas de contacto, contadas.
 
    Analytics solo sabía cuánta gente entra. Esto le dice cuánta llega a marcar
@@ -705,6 +743,7 @@
      ve como un parpadeo. */
   function gira(sentido) {
     para();
+    paraInercia();
     var meta = crudo + sentido * SALTO;
     if (quieto) { pinta(meta); return; }
     vuelta = setInterval(function () {
@@ -726,12 +765,55 @@
   var origen = null;
   var partida = 0;
 
+  /* Inercia al soltar: la caseta sigue girando y frena, como un plato al que
+     se le ha dado un empujón. Hace falta la velocidad en el instante de
+     soltar, no la del gesto entero —si se frenó antes de levantar el dedo, no
+     debe salir disparada—, así que se guarda solo la última muestra de
+     «pointermove» con su hora, y la de antes de esa. */
+  var muestraX = 0;
+  var muestraT = 0;
+  var previaX = 0;
+  var previaT = 0;
+  var inercia = null;
+
+  function paraInercia() {
+    if (!inercia) return;
+    cancelAnimationFrame(inercia);
+    inercia = null;
+  }
+
+  /* Fricción exponencial: la velocidad se multiplica por FRENO cada segundo,
+     así que decae suave a cualquier tasa de fotogramos en vez de a saltos
+     fijos. Con 0.06 la vuelta se para en poco menos de un segundo tras un
+     giro rápido; por debajo del umbral se corta, o no acabaría nunca del
+     todo. */
+  var FRENO = 0.06;
+  var UMBRAL = 0.02;  /* fotogramas por milisegundo */
+
+  function empuja(velocidad) {
+    var previo = performance.now();
+    var posicion = crudo;
+    function paso(ahora) {
+      var dt = ahora - previo;
+      previo = ahora;
+      posicion += velocidad * dt;
+      velocidad *= Math.pow(FRENO, dt / 1000);
+      pinta(Math.round(posicion));
+      if (Math.abs(velocidad) < UMBRAL) { inercia = null; return; }
+      inercia = requestAnimationFrame(paso);
+    }
+    inercia = requestAnimationFrame(paso);
+  }
+
   lienzo.addEventListener("pointerdown", function (ev) {
     if (caja.getAttribute("data-vivo") !== "si") return;
     if (ev.button !== undefined && ev.button !== 0) return;
     para();
+    paraInercia();
     origen = ev.clientX;
     partida = crudo;
+    muestraX = previaX = ev.clientX;
+    muestraT = previaT = performance.now();
     lienzo.setAttribute("data-agarrado", "si");
     if (lienzo.setPointerCapture) lienzo.setPointerCapture(ev.pointerId);
   });
@@ -739,12 +821,33 @@
   lienzo.addEventListener("pointermove", function (ev) {
     if (origen === null) return;
     pinta(partida + Math.round((ev.clientX - origen) / PASO));
+    previaX = muestraX;
+    previaT = muestraT;
+    muestraX = ev.clientX;
+    muestraT = performance.now();
   });
 
   function suelta(ev) {
     if (origen === null) return;
     origen = null;
     lienzo.removeAttribute("data-agarrado");
+
+    /* La inercia va antes de soltar la captura: son dos llamadas al DOM
+       independientes, y si «releasePointerCapture» decidiera protestar —no
+       hay pointer capturado, por ejemplo, porque el gesto empezó fuera— no
+       tiene que llevarse por delante el arranque del giro. */
+    if (!quieto) {
+      /* La muestra de «pointerup» puede llegar mucho después de la última
+         «pointermove» si el dedo se quedó quieto antes de levantarse: por
+         eso la velocidad sale de las dos últimas muestras de movimiento, no
+         de esta. */
+      var dt = muestraT - previaT;
+      if (dt > 0 && dt <= 120) {
+        var velocidad = (muestraX - previaX) / dt / PASO;
+        if (Math.abs(velocidad) >= UMBRAL) empuja(velocidad);
+      }
+    }
+
     if (lienzo.releasePointerCapture && ev.pointerId !== undefined) {
       lienzo.releasePointerCapture(ev.pointerId);
     }
