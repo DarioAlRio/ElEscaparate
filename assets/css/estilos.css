@@ -401,6 +401,22 @@ body {
   left: 0;
   right: 0;
   bottom: calc(var(--alto-toldo) * -1);
+  /* Se despliega solo al cargar la página, como si se echara por la mañana.
+     Un `clip-path` de arriba abajo, no de alto: animar el alto empujaría la
+     cabecera entera un poco cada fotograma, porque el toldo participa del
+     flujo aunque esté en `position: absolute` sobre un ancestro relativo — no
+     es así, pero el alto sí dispara el `mask`, que se recalcula caro a cada
+     paso. El `clip-path` no toca ninguna de las dos cosas. */
+  animation: despliega-toldo 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes despliega-toldo {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cabecera .toldo { animation: none; }
 }
 
 .cabecera__fila {
