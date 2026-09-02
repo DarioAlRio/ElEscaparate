@@ -130,19 +130,29 @@ lectura acotada a 34–44rem según el bloque.
   a 1440—. Acompaña al titular en vez de competir con él, y de paso no se come
   una pantalla de móvil antes del formulario, que es a lo que se viene.
 
-- **La ficha de un proyecto: texto quieto, web en marcha.** `/proyectos/<slug>`
+- **La ficha de un proyecto: texto quieto, vistas en pila.** `/proyectos/<slug>`
   parte en dos columnas a partir de 58rem: a la izquierda el nombre, el párrafo
   de contexto y los datos del encargo, pegados con `position: sticky`; a la
-  derecha la captura de la web del cliente **de arriba abajo**, que es la que
-  se desplaza. El texto es corto y la captura mide miles de píxeles, así que
-  sin el sticky el visitante recorrería cuatro pantallas de web ajena sin saber
-  de quién es. La columna de texto va a 21rem fijos y no a una fracción: lleva
-  dos párrafos cortos y una lista, y a media pantalla se quedaría en renglones
-  de tres palabras.
-  La captura va suelta y a lo largo, sin caja con desplazamiento propio: se
-  probó meterla en una con `overflow` para acortar la página y en el teléfono
-  el dedo se queda atrapado dentro, desplazando la captura en vez de la página.
-  Vale más una página larga.
+  derecha una pila de bloques, que es la que se desplaza. El texto es corto y la
+  pila es larga, así que sin el sticky el visitante recorrería tres o cuatro
+  pantallas de web ajena sin saber de quién es. La columna de texto va a 21rem
+  fijos y no a una fracción: lleva dos párrafos cortos y una lista, y a media
+  pantalla se quedaría en renglones de tres palabras.
+  **Los bloques son cuatro, o tres:** la portada, otra página de la misma web,
+  la paleta y el móvil. Donde el trabajo es de una sola página no hay segunda
+  página que enseñar —ningún servicio de capturas respeta un ancla, está medido
+  en `CLAUDE.md` §5— y el segundo bloque pasa a ser el teléfono.
+  Cada bloque es un `<figure>` con el rótulo **arriba**, en `<figcaption>`:
+  debajo de una imagen de 800 px nadie lo lee antes que la imagen, que es justo
+  cuando hace falta saber qué se está mirando. Se reordenan moviendo el
+  `<figure>` de sitio, sin tocar ni el CSS ni el JS.
+  Las capturas llevan la proporción puesta de antemano —8:5 la de escritorio,
+  1:2 la de móvil— para que la página no dé un salto cuando lleguen, que vienen
+  de fuera y tardan segundos. La de móvil va a 15rem y centrada, igual en el
+  teléfono que en el escritorio: es un bloque más, no una versión de la página.
+  La paleta son los colores declarados en la hoja de estilos del propio cliente,
+  ordenados por las veces que aparecen en ella, copiados a mano en el HTML.
+  Seis por ficha, en muestras de 3:2 con su hexadecimal debajo.
 
 ## Los motivos
 

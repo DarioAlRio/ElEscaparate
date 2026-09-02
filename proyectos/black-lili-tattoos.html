@@ -145,18 +145,63 @@
         </dl>
       </div>
 
-      <!-- La captura de la pagina entera la pide el motor al llegar aqui: no
-           hay archivo que enlazar, se genera fuera. Por eso el hueco esta
-           vacio en el HTML y es el CSS el que le da altura, para que la
-           pagina no pegue un salto cuando llegue la imagen. -->
-      <div class="ficha__vista" data-ficha-vista
-           data-url="https://blacklilitattoos.com"
-           data-espera="10"
-           data-nombre="Black Lili Tattoos">
-        <noscript>
-          <p class="apunte">La captura se pide en el momento y necesita JavaScript.
-            <a href="https://blacklilitattoos.com" target="_blank" rel="noopener noreferrer">Abre Black Lili Tattoos en una pestaña nueva</a> para verla.</p>
-        </noscript>
+      <!-- La columna de la derecha. Cada bloque es un <figure> suelto: para
+           cambiar el orden basta con moverlo de sitio, y para quitar uno,
+           borrarlo. Las capturas no son archivos, las pide el motor a un
+           servicio al cargar la pagina; los colores de la paleta si estan
+           escritos aqui, sacados de la hoja de estilos del cliente. -->
+      <div class="ficha__vistas">
+
+        <figure class="vista">
+          <figcaption class="vista__pie">La portada</figcaption>
+          <div class="vista__marco" data-captura
+               data-url="https://blacklilitattoos.com"
+               data-espera="10"
+               data-alt="La portada de Black Lili Tattoos, vista en un ordenador.">
+            <noscript>
+              <p class="apunte">La captura se pide en el momento y necesita JavaScript.
+                <a href="https://blacklilitattoos.com" target="_blank" rel="noopener noreferrer">Ábrela en una pestaña nueva</a> para verla.</p>
+            </noscript>
+          </div>
+        </figure>
+
+        <figure class="vista">
+          <figcaption class="vista__pie">El portfolio</figcaption>
+          <div class="vista__marco" data-captura
+               data-url="https://blacklilitattoos.com/portfolio-tatuajes-linea-fina-madrid"
+               data-alt="La página de portfolio de Black Lili Tattoos, con la galería de trabajos.">
+            <noscript>
+              <p class="apunte">La captura se pide en el momento y necesita JavaScript.
+                <a href="https://blacklilitattoos.com/portfolio-tatuajes-linea-fina-madrid" target="_blank" rel="noopener noreferrer">Ábrela en una pestaña nueva</a> para verla.</p>
+            </noscript>
+          </div>
+        </figure>
+
+        <figure class="vista">
+          <figcaption class="vista__pie">La paleta</figcaption>
+          <ul class="paleta">
+            <li style="--tono:#f1ece6"><code>#f1ece6</code></li>
+            <li style="--tono:#18140f"><code>#18140f</code></li>
+            <li style="--tono:#0a0806"><code>#0a0806</code></li>
+            <li style="--tono:#c9a24b"><code>#c9a24b</code></li>
+            <li style="--tono:#4a423a"><code>#4a423a</code></li>
+            <li style="--tono:#7a5b17"><code>#7a5b17</code></li>
+          </ul>
+        </figure>
+
+        <figure class="vista">
+          <figcaption class="vista__pie">En el móvil</figcaption>
+          <div class="vista__marco" data-captura
+               data-vista="movil"
+               data-url="https://blacklilitattoos.com"
+               data-espera="10"
+               data-alt="La portada de Black Lili Tattoos, vista en un teléfono.">
+            <noscript>
+              <p class="apunte">La captura se pide en el momento y necesita JavaScript.
+                <a href="https://blacklilitattoos.com" target="_blank" rel="noopener noreferrer">Ábrela en una pestaña nueva</a> para verla.</p>
+            </noscript>
+          </div>
+        </figure>
       </div>
     </div>
   </section>
