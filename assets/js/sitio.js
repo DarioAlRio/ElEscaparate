@@ -284,6 +284,45 @@
 })();
 
 /* =========================================================================
+   La persiana del pie se va echando.
+
+   Las lamas del §15 estaban siempre a la misma opacidad: el pie es «el cierre
+   del día», pero no se notaba que el visitante se acercara a él. Aquí se mide
+   cuánta pantalla queda de recorrido hasta que el pie asoma del todo, y esa
+   proporción es la que gradúa las lamas —de discretas a cerradas del todo—,
+   así que la persiana baja de verdad conforme se acaba la página, en vez de
+   estar siempre en el mismo punto.
+   ========================================================================= */
+
+(function () {
+  "use strict";
+
+  var pie = document.querySelector(".pie");
+  if (!pie) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  var pendiente = false;
+
+  function calcula() {
+    pendiente = false;
+    var arriba = pie.getBoundingClientRect().top;
+    /* 0 en cuanto el borde superior del pie asoma por abajo de la ventana;
+       1 cuando ya ha subido del todo hasta el borde de arriba. Fuera de ese
+       tramo se recorta, que es lo que hace `Math.min`/`Math.max`. */
+    var fuerza = 1 - arriba / window.innerHeight;
+    pie.style.setProperty("--persiana-fuerza", Math.min(1, Math.max(0, fuerza)).toFixed(3));
+  }
+
+  window.addEventListener("scroll", function () {
+    if (pendiente) return;
+    pendiente = true;
+    requestAnimationFrame(calcula);
+  }, { passive: true });
+
+  calcula();
+})();
+
+/* =========================================================================
    Las salidas de contacto, contadas.
 
    Analytics solo sabía cuánta gente entra. Esto le dice cuánta llega a marcar

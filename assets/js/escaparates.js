@@ -322,6 +322,9 @@
     var art = document.createElement("article");
     art.className = "escaparate";
     art.setAttribute("data-tipo", proyecto.tipo || "");
+    /* Identidad estable para el FLIP de los filtros: el nombre, que es único
+       en proyectos.js y no cambia entre un filtrado y el siguiente. */
+    art.setAttribute("data-nombre", proyecto.nombre);
 
     /* Si el proyecto tiene página propia, la miniatura es un enlace de verdad
        y no un botón: así se puede abrir en otra pestaña, copiar la dirección y
@@ -631,6 +634,29 @@
     }
   }
 
+  /* --- El reflejo del cristal sigue al cursor ---------------------------
+
+     Delegado en el documento y no ficha por ficha: los escaparates se crean
+     y se destruyen todo el rato —al filtrar, al cambiar de página— y un
+     listener por elemento habría que darlo de alta y de baja en cada uno.
+     Solo en pantallas con puntero fino: en un táctil no hay cursor que
+     seguir, y «pointermove» ahí llega igual pero pegado al dedo, tarde y sin
+     sentido. */
+  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    var pendienteReflejo = null;
+    document.addEventListener("pointermove", function (ev) {
+      var lienzo = ev.target.closest(".escaparate__lienzo");
+      if (!lienzo) return;
+      if (pendienteReflejo) return;
+      pendienteReflejo = requestAnimationFrame(function () {
+        pendienteReflejo = null;
+        var caja = lienzo.getBoundingClientRect();
+        lienzo.style.setProperty("--mx", ((ev.clientX - caja.left) / caja.width * 100) + "%");
+        lienzo.style.setProperty("--my", ((ev.clientY - caja.top) / caja.height * 100) + "%");
+      });
+    });
+  }
+
   /* --- Arranque -------------------------------------------------------- */
 
   function arranca() {
@@ -659,9 +685,63 @@
         otro.setAttribute("aria-pressed", otro === boton ? "true" : "false");
       });
       var tipo = boton.getAttribute("data-filtro");
-      pinta(rejilla, window.PROYECTOS.filter(function (p) {
+      refiltra(rejilla, window.PROYECTOS.filter(function (p) {
         return tipo === "todos" || p.tipo === tipo;
       }));
+    });
+  }
+
+  /* --- FLIP del filtrado -------------------------------------------------
+
+     Al cambiar de filtro, «pinta» borra la rejilla entera y la vuelve a
+     escribir: las fichas que se quedan reaparecen en su nuevo sitio sin
+     recorrido, como un salto. Esto mide dónde estaba cada ficha ANTES de
+     redibujar, deja que «pinta» haga su trabajo tal cual, y luego arranca
+     cada ficha que sigue viva desde su posición vieja hasta la nueva —la
+     técnica FLIP: First, Last, Invert, Play.
+
+     La lectura de geometría de después de «pinta» sí fuerza un recálculo,
+     y a propósito: es uno solo, en respuesta a un clic, no 48 veces dentro
+     de un bucle como los casos que arregló la §5 de CLAUDE.md. No hay forma
+     de invertir un movimiento sin saber antes dónde ha caído. */
+  var quietoFlip = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function refiltra(rejilla, lista) {
+    if (quietoFlip) { pinta(rejilla, lista); return; }
+
+    var antes = {};
+    rejilla.querySelectorAll("[data-nombre]").forEach(function (nodo) {
+      antes[nodo.getAttribute("data-nombre")] = nodo.getBoundingClientRect();
+    });
+
+    pinta(rejilla, lista);
+
+    var moviendo = [];
+    rejilla.querySelectorAll("[data-nombre]").forEach(function (nodo) {
+      var previa = antes[nodo.getAttribute("data-nombre")];
+      if (!previa) return;
+      var ahora = nodo.getBoundingClientRect();
+      var dx = previa.left - ahora.left;
+      var dy = previa.top - ahora.top;
+      if (!dx && !dy) return;
+      nodo.style.transition = "none";
+      nodo.style.transform = "translate(" + dx + "px, " + dy + "px)";
+      moviendo.push(nodo);
+    });
+    if (!moviendo.length) return;
+
+    /* Dos «requestAnimationFrame» seguidos, no uno: el navegador garantiza un
+       cálculo de estilos entre el segundo y la siguiente pintura, así que sirve
+       para confirmar el punto de partida sin leer ninguna geometría a mano —lo
+       mismo que lograría un getBoundingClientRect() de propina, pero sin
+       forzar un segundo recálculo. */
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        moviendo.forEach(function (nodo) {
+          nodo.style.transition = "transform 0.45s var(--salida)";
+          nodo.style.transform = "";
+        });
+      });
     });
   }
 
