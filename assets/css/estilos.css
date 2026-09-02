@@ -532,6 +532,20 @@ body {
   transform: translateY(-2px);
   box-shadow: var(--sombra);
 }
+
+/* Un único respiro, un segundo después de cargar: el botón principal de la
+   portada —el primero de «.acciones» en el bloque de texto del héroe— llama
+   la atención sin tener que moverse ni un píxel de más. Una sola vez y a
+   cámara lenta, o se leería como un latido nervioso. Escogido por posición y
+   no con una clase nueva: es el único «.boton» de toda la web que abre el
+   primer «.acciones» de la portada. */
+@keyframes respira {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.015); }
+}
+.portada__texto .acciones .boton:first-child {
+  animation: respira 1.6s ease-in-out 1s 1;
+}
 .boton:active { transform: translateY(0); }
 
 .boton--fantasma {
@@ -939,6 +953,11 @@ img.giro__cara,
   display: inline-flex;
   align-items: center;
   padding-inline: 0.55rem;
+  /* El resto del conmutador usa --azul-suave porque va sobre --azul y es
+     texto secundario. Aquí no hay texto detrás con quien competir, así que se
+     sube a --cal: unas flechas que se ven a media asta parecen deshabilitadas
+     y no lo están. */
+  color: var(--cal);
 }
 .giro__pie .conmutador svg { width: 14px; height: 14px; }
 
@@ -1269,6 +1288,15 @@ img.giro__cara,
   display: grid;
   grid-template-rows: auto 1fr;
   gap: var(--e2);
+  /* Entra enfocando, no apareciendo: empieza un poco borroso y aclara, como
+     quien se acerca a mirar el escaparate de otro. La animación arranca en
+     cuanto el elemento pasa a «display: grid» —no hace falta más gancho— y
+     por eso no estorba el «display: none» de cuando está cerrado. */
+  animation: enfoca-visor 0.22s ease both;
+}
+@keyframes enfoca-visor {
+  from { opacity: 0; filter: blur(6px); }
+  to { opacity: 1; filter: blur(0); }
 }
 
 .visor__barra {
@@ -1735,6 +1763,16 @@ img.giro__cara,
   line-height: 1;
   min-width: 2.5rem;
 }
+/* El numeral se sella al entrar el paso, como un tampón: llega grande y
+   torcido y cae en su sitio con un pequeño rebote. Va con retraso sobre el
+   propio «.entra» —que tarda 0.8s en asentar la tarjeta— para que no se vea
+   el sello antes de que la tarjeta haya terminado de posarse. */
+.entra .fase__marca {
+  transform: scale(1.5) rotate(6deg);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: 0.3s;
+}
+.entra[data-visto="si"] .fase__marca { transform: scale(1) rotate(0deg); }
 .franja--azul .fase .fase__marca,
 .franja--hondo .fase .fase__marca { color: var(--accion); }
 .fase h3 { font-size: var(--t-xl); margin-bottom: var(--e1); }
@@ -1778,6 +1816,23 @@ img.giro__cara,
 }
 .franja--azul .lista-marcada li::before,
 .franja--hondo .lista-marcada li::before { background: var(--accion); }
+
+/* Los rombos se marcan uno a uno al entrar el bloque, en vez de aparecer los
+   de la lista todos a la vez con el resto del panel. Solo dentro de un
+   bloque que ya lleva «.entra»: es el mismo gesto de la §14, no uno nuevo, y
+   sin ese ancestro —una lista suelta en cualquier otro sitio— los rombos
+   siguen apareciendo enteros, que es lo seguro por defecto. */
+.entra .lista-marcada li::before {
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.3s var(--salida);
+}
+.entra[data-visto="si"] .lista-marcada li::before { transform: rotate(45deg) scale(1); }
+.entra[data-visto="si"] .lista-marcada li:nth-child(1)::before { transition-delay: 0.05s; }
+.entra[data-visto="si"] .lista-marcada li:nth-child(2)::before { transition-delay: 0.11s; }
+.entra[data-visto="si"] .lista-marcada li:nth-child(3)::before { transition-delay: 0.17s; }
+.entra[data-visto="si"] .lista-marcada li:nth-child(4)::before { transition-delay: 0.23s; }
+.entra[data-visto="si"] .lista-marcada li:nth-child(5)::before { transition-delay: 0.29s; }
+.entra[data-visto="si"] .lista-marcada li:nth-child(n+6)::before { transition-delay: 0.35s; }
 
 /* Atajos de contacto: icono a la izquierda, enlace arriba y coletilla debajo.
    El icono ocupa las dos filas para que el bloque quede alineado. */
