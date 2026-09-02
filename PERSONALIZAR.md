@@ -219,6 +219,10 @@ que cambiar a mano:
   `data-url`. La de la portada y la del móvil son la misma; la de «otra página»
   solo la pones si el trabajo tiene una segunda página de verdad. Si esa página
   tarda en pintarse —una ruta de hash, un canvas—, añádele `data-espera="5"`.
+  **Y si el trabajo tiene `espera` en `proyectos.js`, esa espera vale para todas
+  sus páginas, no solo para la portada.** Le pasó al portfolio de Black Lili el
+  02/09/2026: sin espera, la captura salía con el menú sobre un fondo negro
+  porque el servicio disparaba antes de que pintase la galería.
 - **Los seis colores de la paleta.** Van escritos en el `<li>`, dos veces cada
   uno: en `style="--tono:#xxxxxx"` y en el `<code>`. Sácalos de la hoja de
   estilos de la web del cliente, no a ojo de la captura.
