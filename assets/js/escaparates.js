@@ -6,10 +6,12 @@
    No hay backend ni claves. La dirección que se pide sí viaja al servicio.
 
    Expone window.Escaparates con:
-     captura(url, movil, espera, estricto)
+     captura(url, movil, espera, estricto, entera)
                            → Promise con la dirección de una imagen válida.
                              `espera` en segundos; `estricto` prohíbe que la
-                             sirva un servicio que no respete esa espera.
+                             sirva un servicio que no respete esa espera;
+                             `entera` pide la página completa en vez del
+                             primer pantallazo.
      normaliza(texto)      → URL completa o null
      pinta(nodo, lista)    → rellena una rejilla de fichas
      abreVisor(proyecto)   → abre el visor a pantalla completa
@@ -23,11 +25,37 @@
      antes de pasar al siguiente servicio. */
   var ESPERA = 22000;
 
+  /* Lo que se le regala de más a la captura de página ENTERA, encima de los 22
+     de arriba. No es un margen de cortesía: sin él, el respaldo no puede ganar
+     nunca. Medido el 02/09/2026, thum.io tarda entre 26 y 31 segundos en
+     devolver una página completa —contra menos de uno en una miniatura—, así
+     que con el plazo normal se le agotaba el tiempo siempre y la ficha acababa
+     en «SIN CAPTURA» aunque el servicio estuviera respondiendo. Se vio con la
+     ficha de Regleta: microlink no contestó a tiempo, thum.io entró de relevo y
+     se quedó a mitad de trabajo cuando se le cortó. */
+  var MARGEN_ENTERA = 25000;
+
   /* Lo que se le pide al servicio que aguante con la web abierta antes de
      disparar, cuando la dirección la escribe el visitante. Diez segundos es lo
      que tardan en pasar los intros más largos que hemos visto. Es el único
      número que hay que tocar si algún día se prefiere velocidad a fidelidad. */
   var ESPERA_VISITANTE = 10;
+
+  /* EL INTERRUPTOR PARA VOLVER ATRÁS. En true, pulsar una miniatura lleva a la
+     página del proyecto —la que vive en proyectos/— siempre que ese proyecto
+     declare su «ficha» en proyectos.js. En false, la miniatura vuelve a abrir
+     el visor a pantalla completa, que es como funcionó hasta el 02/09/2026.
+     El visor no se ha tocado ni se ha borrado: sigue entero aquí abajo y lo
+     usa además el escaparate de prueba de /trabajos, así que este booleano es
+     todo lo que hay que cambiar para deshacerlo. */
+  var FICHA_EN_PAGINA = true;
+
+  /* Ancho de la captura de página entera. 1000 y no 1280 porque lo que manda
+     aquí no es el peso en el cable —325 kB contra 878— sino el mapa de bits
+     descodificado: 23 MB contra 33. Medido el 02/09/2026 sobre caboazulbuceo.
+     La de móvil sale a 390 y son 12 MB, que es la razón de repartirlas. */
+  var ANCHO_ENTERA = 1000;
+  var ANCHO_ENTERA_MOVIL = 390;
 
   var memoria = {};
 
@@ -70,7 +98,16 @@
   }
 
   var SERVICIOS = {
-    thum: function (url, movil) {
+    thum: function (url, movil, espera, entera) {
+      if (entera) {
+        var ancho = movil ? ANCHO_ENTERA_MOVIL : ANCHO_ENTERA;
+        return {
+          ancho: ancho,
+          src: "https://image.thum.io/get/width/" + ancho +
+            (movil ? "/viewportWidth/390" : "") +
+            "/fullpage/noanimate/" + url
+        };
+      }
       return {
         ancho: movil ? 480 : 1280,
         src: "https://image.thum.io/get/width/" + (movil ? 480 : 1280) +
@@ -97,16 +134,23 @@
          misma ficha no gasta ninguna: el CDN no cuenta para el cupo.
        · Por defecto devuelve un PNG de 2560×1600 y 2,7 MB. Pidiéndole JPEG al
          72 % y sin doblar la densidad, la misma captura pesa 104 KB. */
-    microlink: function (url, movil, espera) {
+    microlink: function (url, movil, espera, entera) {
+      /* La página entera se le pide con «fullPage», y va con menos calidad que
+         la miniatura —60 en vez de 72— porque una captura entera son seis mil
+         píxeles de alto y ahí cada punto de calidad se paga seis veces. */
+      var anchoPedido = entera
+        ? (movil ? ANCHO_ENTERA_MOVIL : ANCHO_ENTERA)
+        : (movil ? 390 : 1280);
       var api = "https://api.microlink.io/?url=" + encodeURIComponent(url) +
-        "&screenshot=true&meta=false&type=jpeg&quality=72" +
+        "&screenshot=true&meta=false&type=jpeg" +
+        "&quality=" + (entera ? 60 : 72) +
         "&viewport.deviceScaleFactor=1" +
-        "&viewport.width=" + (movil ? 390 : 1280) +
-        "&viewport.height=" + (movil ? 780 : 800) +
+        "&viewport.width=" + anchoPedido +
+        (entera ? "&fullPage=true" : "&viewport.height=" + (movil ? 780 : 800)) +
         (espera ? "&waitForTimeout=" + (espera * 1000) : "");
 
       return {
-        ancho: movil ? 390 : 1280,
+        ancho: anchoPedido,
         fuente: function () {
           /* Abriendo la web con doble clic no hay fetch que valga: el origen es
              un archivo. Ahí se cae al modo antiguo, que es un <img> normal. */
@@ -114,7 +158,8 @@
 
           var corta;
           var plazo = new Promise(function (_, mal) {
-            corta = setTimeout(function () { mal(new Error("microlink no contesta")); }, ESPERA + espera * 1000);
+            corta = setTimeout(function () { mal(new Error("microlink no contesta")); },
+              ESPERA + espera * 1000 + (entera ? MARGEN_ENTERA : 0));
           });
 
           var consulta = fetch(api, { referrerPolicy: "no-referrer" })
@@ -192,7 +237,13 @@
      web de un cliente como si fuera su web.
      En el escaparate del visitante sí se permite el relevo: ahí puede entrar
      cualquier dirección y enseñar algo vale más que no enseñar nada. */
-  function turnos(espera, estricto) {
+  /* Para la página entera el orden se invierte, y no por gusto: medido el
+     02/09/2026 sobre caboazulbuceo, thum.io tarda 31 s en devolver la página
+     completa y la manda en PNG de 667 kB; microlink tarda 3 s y son 325 kB de
+     JPEG. mShots ni siquiera sabe hacerla, así que se queda fuera de la cola:
+     devolvería el primer pantallazo haciéndolo pasar por la página entera. */
+  function turnos(espera, estricto, entera) {
+    if (entera) return ["microlink", "thum"];
     if (!espera) return ["thum", "mshots", "microlink"];
     return estricto ? ["microlink", "microlink"] : ["microlink", "thum", "mshots"];
   }
@@ -235,12 +286,15 @@
     });
   }
 
-  function captura(url, movil, espera, estricto) {
+  function captura(url, movil, espera, estricto, entera) {
     var pausa = segundos(espera);
-    var clave = (movil ? "m|" : "e|") + pausa + (estricto ? "|x|" : "|·|") + url;
+    /* La entera va en su propia llave: es otra imagen, y guardarlas juntas
+       serviría la miniatura en la ficha del proyecto y al revés. */
+    var clave = (movil ? "m|" : "e|") + pausa + (estricto ? "|x|" : "|·|") +
+      (entera ? "entera|" : "") + url;
     if (memoria[clave]) return memoria[clave];
 
-    var cola = turnos(pausa, estricto);
+    var cola = turnos(pausa, estricto, entera);
     var indice = 0;
     function intenta() {
       if (indice >= cola.length) {
@@ -253,12 +307,14 @@
          fallar por su límite de uso, necesita un momento. */
       var respiro = indice > 0 && cola[indice - 1] === nombre ? 1500 : 0;
       indice++;
-      var receta = SERVICIOS[nombre](url, movil, pausa);
+      var receta = SERVICIOS[nombre](url, movil, pausa, entera);
       /* La espera del servicio se suma al plazo propio: si le pedimos que
          aguante diez segundos, no podemos rendirnos antes de que dispare. */
       return new Promise(function (sigue) { setTimeout(sigue, respiro); })
         .then(function () { return receta.fuente ? receta.fuente() : receta.src; })
-        .then(function (src) { return pide(src, pausa * 1000, receta.ancho); })
+        .then(function (src) {
+          return pide(src, pausa * 1000 + (entera ? MARGEN_ENTERA : 0), receta.ancho);
+        })
         .catch(intenta);
     }
 
@@ -314,8 +370,15 @@
     art.className = "escaparate";
     art.setAttribute("data-tipo", proyecto.tipo || "");
 
+    /* Si el proyecto tiene página propia, la miniatura es un enlace de verdad
+       y no un botón: así se puede abrir en otra pestaña, copiar la dirección y
+       seguirla un buscador. Un botón con listener no da nada de eso. */
     var lienzo;
-    if (proyecto.url) {
+    if (proyecto.url && FICHA_EN_PAGINA && proyecto.ficha) {
+      lienzo = document.createElement("a");
+      lienzo.href = proyecto.ficha;
+      lienzo.setAttribute("aria-label", "Ver la ficha de " + proyecto.nombre);
+    } else if (proyecto.url) {
       lienzo = document.createElement("button");
       lienzo.type = "button";
       lienzo.setAttribute("aria-label", "Ver " + proyecto.nombre + " a pantalla completa");
@@ -403,6 +466,58 @@
       return;
     }
     lista.forEach(function (proyecto) { nodo.appendChild(ficha(proyecto)); });
+  }
+
+  /* --- La vista de la página de proyecto -------------------------------- */
+
+  /* Cada página de proyectos/ trae un hueco vacío con la dirección del cliente
+     puesta en atributos. Aquí se le pide la captura de la página ENTERA y se
+     mete dentro. No se guarda ningún archivo: la imagen la genera el servicio
+     y vive en su CDN.
+
+     El ancho se decide una vez, al entrar, y no se vuelve a mirar: a 768 px se
+     pide la de 1000 y por debajo la de 390. La razón es la de siempre en este
+     sitio —el mapa de bits descodificado, 23 MB contra 12—, y por eso no hay
+     conmutador ni se recarga al girar el teléfono: cambiar de una a otra en
+     caliente significa tener las dos en memoria a la vez, que es justo lo que
+     se está evitando. */
+  function pintaVista(hueco) {
+    var url = hueco.getAttribute("data-url");
+    var nombre = hueco.getAttribute("data-nombre") || "esta web";
+    var espera = hueco.getAttribute("data-espera");
+    if (!url) return;
+
+    var movil = !(window.matchMedia && window.matchMedia("(min-width: 48em)").matches);
+
+    var img = document.createElement("img");
+    img.className = "ficha__captura";
+    img.alt = "La web de " + nombre + ", de arriba abajo";
+    img.decoding = "async";
+
+    var cortina = document.createElement("span");
+    cortina.className = "escaparate__vacio";
+    cortina.innerHTML = '<span class="cartel">CARGANDO</span><span></span>';
+    cortina.lastChild.textContent = "La captura se genera ahora mismo. Tarda unos segundos.";
+
+    hueco.appendChild(img);
+    hueco.appendChild(cortina);
+    hueco.setAttribute("data-estado", "cargando");
+
+    /* Estricto, como en el portfolio: aquí la web es trabajo propio y enseñar
+       el intro de un cliente como si fuera su web es peor que no enseñar nada. */
+    captura(url, movil, espera, true, true).then(function (src) {
+      img.src = src;
+      cortina.remove();
+      hueco.setAttribute("data-estado", "puesta");
+    }).catch(function (fallo) {
+      var motivo = fallo && /cupo/.test(fallo.message)
+        ? "Se ha agotado el cupo diario del servicio de capturas. Vuelve más tarde."
+        : "Ábrela en una pestaña nueva para verla.";
+      img.remove();
+      cortina.innerHTML = '<span class="cartel">SIN CAPTURA</span><span></span>';
+      cortina.lastChild.textContent = motivo;
+      hueco.setAttribute("data-estado", "sin");
+    });
   }
 
   /* --- Visor ----------------------------------------------------------- */
@@ -602,6 +717,11 @@
 
   function arranca() {
     iniciaEscaparateVivo();
+
+    /* Las páginas de proyecto no tienen rejilla ni filtros: solo el hueco de
+       la captura. Por eso va antes del return de abajo. */
+    var hueco = document.querySelector("[data-ficha-vista]");
+    if (hueco) pintaVista(hueco);
 
     var rejilla = document.querySelector("[data-escaparates]");
     if (!rejilla || !window.PROYECTOS) return;
