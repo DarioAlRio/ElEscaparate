@@ -412,30 +412,37 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   La carpeta se llama `proyectos` y no `trabajos` a propósito: `trabajos.html`
   ya sirve `/trabajos`, y una carpeta con ese mismo nombre al lado es pedirle
   al hosting que decida cuál gana. No se ha probado y no hace falta probarlo.
-- **La captura de la ficha es de página entera, y ahí el relevo va al revés.**
-  En las miniaturas manda thum.io por rápido. En la página entera no: medido el
-  02/09/2026 sobre `caboazulbuceo`, thum.io tarda **31 s** y devuelve un PNG de
-  667 kB; Microlink tarda **3 s** y son 325 kB de JPEG. Y mShots no sabe hacer
-  la página entera, así que se queda fuera de la cola: devolvería el primer
-  pantallazo haciéndolo pasar por la página completa, que es peor que fallar.
-  **El ancho es 1000 y no 1280 por el mapa de bits, no por el peso.** A 1280 la
-  captura entera de esa web son 1280x6520: 878 kB en el cable, pero **33 MB**
-  descodificados. A 1000 son 1000x6142, 325 kB y 23 MB. Y en móvil se pide la
-  de 390, que son 390x8139, 269 kB y **12 MB**. Ese reparto por anchura —768 px
-  arriba, 390 abajo— es el mismo criterio con el que la maqueta de la portada
-  no baja su tercera tanda en móvil, y por el mismo motivo.
-  El ancho se decide **una sola vez, al entrar**, y no se vuelve a mirar: no
-  hay conmutador ni se recarga al girar el teléfono, porque tener las dos en
-  memoria a la vez es justo lo que se está evitando.
-  **Y la página entera necesita más plazo que la miniatura, o el respaldo no
-  puede ganar nunca.** El motor aguanta 22 s antes de pasar al siguiente
-  servicio, y eso vale para una miniatura, que tarda menos de uno. Una página
-  completa de thum.io tarda entre 26 y 31, así que con el plazo normal se le
-  agotaba el tiempo siempre: microlink no contestaba, thum.io entraba de
-  relevo y se le cortaba a mitad, y la ficha acababa en «SIN CAPTURA» con los
-  dos servicios respondiendo. Se vio en la ficha de Regleta. De ahí
-  `MARGEN_ENTERA`, 25 s que se suman al plazo solo cuando la captura es
-  entera. Si algún día se toca `ESPERA`, hay que mirar también esa.
+- **La ficha se armó con una captura de página entera y duró unas horas.** El
+  02/09/2026 Dario la retiró —«no quiero que pilles una captura gigante de todo
+  el sitio»— y en su sitio va una pila de bloques: la portada, otra página de la
+  misma web, la paleta y el móvil. El código de la página entera se sacó entero;
+  esto es lo que se aprendió pagándolo, para no repetir el intento a ciegas:
+  - **Pesa lo que no se ve.** A 1280 px de ancho, `caboazulbuceo` entera son
+    1280x6520: 878 kB en el cable, pero **33 MB** descodificados. A 1000, 325 kB
+    y 23 MB. En móvil, 390x8139: 269 kB y 12 MB. Un pantallazo normal son 4. El
+    peso del cable engaña; lo que ahoga el teléfono es el mapa de bits.
+  - **En la página entera el relevo iba al revés.** thum.io, que manda en las
+    miniaturas por rápido, tardaba **31 s** y devolvía PNG de 667 kB; Microlink
+    tardaba **3 s** y eran 325 kB de JPEG. mShots ni sabe hacerla: habría
+    colado el primer pantallazo como si fuera la página completa.
+  - **Y necesitaba más plazo que la miniatura, o el respaldo no ganaba nunca.**
+    El motor aguanta 22 s antes de pasar al siguiente servicio; una entera de
+    thum.io tarda entre 26 y 31, así que se le agotaba el tiempo siempre y la
+    ficha acababa en «SIN CAPTURA» con los dos servicios respondiendo. Se vio en
+    Regleta. Hizo falta un `MARGEN_ENTERA` de 25 s. Si vuelve, vuelve eso.
+- **Ningún servicio de capturas respeta un ancla dentro de la página.** Medido
+  el 02/09/2026: thum.io devuelve la MISMA imagen byte a byte para
+  `caboazulbuceo.vercel.app/` y para `…/#tarifas` —295.090 bytes las dos, mismo
+  md5—, y Microlink devuelve para el ancla exactamente el mismo tamaño que para
+  la portada. Consecuencia directa: **una web de una sola página no puede tener
+  bloque de «otra página»**, porque sus únicos enlaces internos son anclas. De
+  las siete fichas solo tres lo tienen: Black Lili, Reformas y Clorofila. En las
+  otras cuatro el segundo bloque es la vista de móvil, y no es un parche: es lo
+  único distinto que hay de verdad que enseñar.
+  **Las rutas de hash sí funcionan, pero solo con espera.** `#/plantas` de
+  Clorofila por thum.io sale con la portada pintada; por Microlink con
+  `waitForTimeout=5000` sale el catálogo. Por eso ese bloque lleva `data-espera`
+  y los demás no.
 - **Un comentario XML no admite guiones dobles, y el `sitemap.xml` estuvo roto
   por eso seis días.** La cabecera del archivo traía escrito el comando
   `git log -1` con sus dos banderas largas, y `--format` lleva `--`. Un XML mal

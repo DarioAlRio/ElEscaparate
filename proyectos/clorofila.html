@@ -145,17 +145,62 @@
         </dl>
       </div>
 
-      <!-- La captura de la pagina entera la pide el motor al llegar aqui: no
-           hay archivo que enlazar, se genera fuera. Por eso el hueco esta
-           vacio en el HTML y es el CSS el que le da altura, para que la
-           pagina no pegue un salto cuando llegue la imagen. -->
-      <div class="ficha__vista" data-ficha-vista
-           data-url="https://clorofila-estudio-botanico.vercel.app/"
-           data-nombre="Clorofila">
-        <noscript>
-          <p class="apunte">La captura se pide en el momento y necesita JavaScript.
-            <a href="https://clorofila-estudio-botanico.vercel.app/" target="_blank" rel="noopener noreferrer">Abre Clorofila en una pestaña nueva</a> para verla.</p>
-        </noscript>
+      <!-- La columna de la derecha. Cada bloque es un <figure> suelto: para
+           cambiar el orden basta con moverlo de sitio, y para quitar uno,
+           borrarlo. Las capturas no son archivos, las pide el motor a un
+           servicio al cargar la pagina; los colores de la paleta si estan
+           escritos aqui, sacados de la hoja de estilos del cliente. -->
+      <div class="ficha__vistas">
+
+        <figure class="vista">
+          <figcaption class="vista__pie">La portada</figcaption>
+          <div class="vista__marco" data-captura
+               data-url="https://clorofila-estudio-botanico.vercel.app/"
+               data-alt="La portada de Clorofila, vista en un ordenador.">
+            <noscript>
+              <p class="apunte">La captura se pide en el momento y necesita JavaScript.
+                <a href="https://clorofila-estudio-botanico.vercel.app/" target="_blank" rel="noopener noreferrer">Ábrela en una pestaña nueva</a> para verla.</p>
+            </noscript>
+          </div>
+        </figure>
+
+        <figure class="vista">
+          <figcaption class="vista__pie">El catálogo</figcaption>
+          <div class="vista__marco" data-captura
+               data-url="https://clorofila-estudio-botanico.vercel.app/#/plantas"
+               data-espera="5"
+               data-alt="El catálogo de plantas de Clorofila, con una ficha de herbario por planta.">
+            <noscript>
+              <p class="apunte">La captura se pide en el momento y necesita JavaScript.
+                <a href="https://clorofila-estudio-botanico.vercel.app/#/plantas" target="_blank" rel="noopener noreferrer">Ábrela en una pestaña nueva</a> para verla.</p>
+            </noscript>
+          </div>
+        </figure>
+
+        <figure class="vista">
+          <figcaption class="vista__pie">La paleta</figcaption>
+          <ul class="paleta">
+            <li style="--tono:#ffffff"><code>#ffffff</code></li>
+            <li style="--tono:#8fa98f"><code>#8fa98f</code></li>
+            <li style="--tono:#17281d"><code>#17281d</code></li>
+            <li style="--tono:#42513f"><code>#42513f</code></li>
+            <li style="--tono:#a5432e"><code>#a5432e</code></li>
+            <li style="--tono:#e3b23c"><code>#e3b23c</code></li>
+          </ul>
+        </figure>
+
+        <figure class="vista">
+          <figcaption class="vista__pie">En el móvil</figcaption>
+          <div class="vista__marco" data-captura
+               data-vista="movil"
+               data-url="https://clorofila-estudio-botanico.vercel.app/"
+               data-alt="La portada de Clorofila, vista en un teléfono.">
+            <noscript>
+              <p class="apunte">La captura se pide en el momento y necesita JavaScript.
+                <a href="https://clorofila-estudio-botanico.vercel.app/" target="_blank" rel="noopener noreferrer">Ábrela en una pestaña nueva</a> para verla.</p>
+            </noscript>
+          </div>
+        </figure>
       </div>
     </div>
   </section>
