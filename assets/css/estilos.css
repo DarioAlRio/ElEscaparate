@@ -981,7 +981,10 @@ img.giro__cara,
   background: var(--tono, var(--accion));
   transform: scaleX(0);
   transform-origin: left;
-  transition: transform 0.35s var(--salida);
+  /* Con un poco de rebote, no una curva de salida lisa: es un filete que
+     imita el borde de un toldo, y un toldo al levantarse de golpe vibra un
+     poco antes de quedarse quieto. */
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .oferta__fila:hover::before,
 .oferta__fila:focus-visible::before { transform: scaleX(1); }
@@ -1147,17 +1150,22 @@ img.giro__cara,
   filter: saturate(1.05);
 }
 
-/* Reflejo del cristal: una sola diagonal, que barre al pasar el ratón. */
+/* Reflejo del cristal: un brillo que sigue al cursor, como el que se mueve
+   sobre un escaparate de verdad al pasar por delante. «--mx»/«--my» los pone
+   «escaparates.js» en cada «pointermove»; sin JavaScript —o en un táctil, que
+   no manda esas coordenadas— se queda centrado, que es un reflejo quieto y no
+   uno roto. La posición se escribe directamente, sin transición: un brillo
+   que llega tarde al dedo se siente pegajoso, no líquido. */
 .escaparate__lienzo::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(104deg, transparent 38%, rgba(234, 238, 242, 0.26) 46%, transparent 56%);
-  transform: translateX(-60%);
-  transition: transform 0.75s var(--salida);
+  background: radial-gradient(circle 220px at var(--mx, 50%) var(--my, 50%), rgba(234, 238, 242, 0.3), transparent 68%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
   pointer-events: none;
 }
-.escaparate:hover .escaparate__lienzo::after { transform: translateX(60%); }
+.escaparate:hover .escaparate__lienzo::after { opacity: 1; }
 
 .escaparate__vacio {
   position: absolute;
@@ -2035,6 +2043,10 @@ img.giro__cara,
   background: var(--azul-hondo);
   color: var(--cal);
   padding-block: var(--e5) var(--e3);
+  /* Por defecto, echada del todo: es lo que hay sin JavaScript y lo que pide
+     «prefers-reduced-motion». «sitio.js» la va destensando en cuanto puede
+     medir el scroll real. */
+  --persiana-fuerza: 1;
 }
 
 /* La persiana bajada del pie: el mismo paso de 9 px que .persiana-textura, pero
@@ -2056,6 +2068,9 @@ img.giro__cara,
     rgba(255, 255, 255, 0.02) 1px 3px,
     rgba(0, 0, 0, 0) 3px 9px
   );
+  /* Se echa del todo justo al llegar al final, no antes: la persiana del
+     cierre es la última señal de que no queda más página. */
+  opacity: var(--persiana-fuerza);
 }
 .pie > * { position: relative; z-index: 1; }
 /* Las columnas van fijadas a mano y no con auto-fit. Motivo medido: la última
@@ -2285,15 +2300,28 @@ html.sin-js .entra { opacity: 1; transform: none; }
   color: var(--cal);
   opacity: 0;
   transition: opacity 0.2s ease;
+  /* Hace falta perspectiva en el padre para que el volteo del cartel se vea
+     como un giro y no como un aplastamiento en el eje X. */
+  perspective: 700px;
 }
 .cierre-fachada[data-estado="cerrada"] .cierre-fachada__nucleo {
   opacity: 1;
   transition-delay: 0.42s;
 }
+/* El cartel de CERRADO entra volteándose, como el cartel colgado que gira al
+   girarlo una mano. Solo aquí: el «.cartel» base de las capturas en directo
+   —CARGANDO, EN OBRA— no lleva este volteo, que sería un gesto de más en un
+   sitio donde ya hay una barra de barrido contando la carga. */
 .cierre-fachada .cartel {
   font-size: var(--t-xl);
   letter-spacing: 0.2em;
   padding: 0.5rem 1.3rem;
+  transform: rotate(-2.5deg) rotateY(-100deg);
+  transition: transform 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);
+  transition-delay: 0.42s;
+}
+.cierre-fachada[data-estado="cerrada"] .cartel {
+  transform: rotate(-2.5deg) rotateY(0deg);
 }
 .cierre-fachada p {
   max-width: 26rem;
