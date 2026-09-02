@@ -130,6 +130,20 @@ lectura acotada a 34–44rem según el bloque.
   a 1440—. Acompaña al titular en vez de competir con él, y de paso no se come
   una pantalla de móvil antes del formulario, que es a lo que se viene.
 
+- **La ficha de un proyecto: texto quieto, web en marcha.** `/proyectos/<slug>`
+  parte en dos columnas a partir de 58rem: a la izquierda el nombre, el párrafo
+  de contexto y los datos del encargo, pegados con `position: sticky`; a la
+  derecha la captura de la web del cliente **de arriba abajo**, que es la que
+  se desplaza. El texto es corto y la captura mide miles de píxeles, así que
+  sin el sticky el visitante recorrería cuatro pantallas de web ajena sin saber
+  de quién es. La columna de texto va a 21rem fijos y no a una fracción: lleva
+  dos párrafos cortos y una lista, y a media pantalla se quedaría en renglones
+  de tres palabras.
+  La captura va suelta y a lo largo, sin caja con desplazamiento propio: se
+  probó meterla en una con `overflow` para acortar la página y en el teléfono
+  el dedo se queda atrapado dentro, desplazando la captura en vez de la página.
+  Vale más una página larga.
+
 ## Los motivos
 
 Cuatro, y los cuatro son CSS, sin imágenes:

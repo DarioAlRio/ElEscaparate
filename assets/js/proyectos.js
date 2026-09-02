@@ -12,7 +12,14 @@
                (tiene que coincidir con los filtros de trabajos.html)
      anio      Año de entrega.
      destacado true para que salga en la portada. Deja tres o cuatro.
-     nota      Una frase de lo que resolviste. Sale en la ficha.
+     nota      Una frase de lo que resolviste. Sale en la ficha y encabeza
+               su página de proyecto.
+     ficha     Dirección de su página de proyecto, si la tiene:
+               "/proyectos/lo-que-sea". Con ella, pulsar la miniatura lleva
+               a esa página en vez de abrir el visor. Sin ella, la miniatura
+               abre el visor como toda la vida. Cada página es un archivo de
+               verdad en proyectos/, no se genera sola: si pones aquí una
+               dirección sin crear el archivo, el enlace da 404.
      espera    Segundos que el servicio aguanta antes de disparar la captura.
                Ponlo solo si esa web tiene animación de entrada: sin esperar,
                la miniatura sale con el logo del intro en vez de la página.
@@ -28,6 +35,7 @@ window.PROYECTOS = [
   {
     url: "https://blacklilitattoos.com",
     nombre: "Black Lili Tattoos",
+    ficha: "/proyectos/black-lili-tattoos",
     oficio: "Estudio de tatuaje",
     tipo: "multipagina",
     anio: "2026",
@@ -38,6 +46,7 @@ window.PROYECTOS = [
   {
     url: "https://reformas-aparejo.vercel.app/",
     nombre: "Reformas",
+    ficha: "/proyectos/reformas",
     oficio: "Obra y reforma integral",
     tipo: "multipagina",
     anio: "2026",
@@ -47,6 +56,7 @@ window.PROYECTOS = [
   {
     url: "https://nova-strike-beta.vercel.app/",
     nombre: "Nova Strike",
+    ficha: "/proyectos/nova-strike",
     oficio: "Videojuego arcade",
     tipo: "una-pagina",
     anio: "2026",
@@ -61,6 +71,7 @@ window.PROYECTOS = [
        (#/plantas, #/talleres, #/nosotras). El visitante ve seis páginas. */
     url: "https://clorofila-estudio-botanico.vercel.app/",
     nombre: "Clorofila",
+    ficha: "/proyectos/clorofila",
     oficio: "Estudio botánico",
     tipo: "multipagina",
     anio: "2026",
@@ -70,6 +81,7 @@ window.PROYECTOS = [
   {
     url: "https://caboazulbuceo.vercel.app/",
     nombre: "Cabo Azul",
+    ficha: "/proyectos/cabo-azul",
     oficio: "Centro de buceo",
     tipo: "una-pagina",
     anio: "2026",
@@ -79,6 +91,7 @@ window.PROYECTOS = [
   {
     url: "https://casilla03asesoria.vercel.app/",
     nombre: "Casilla 03",
+    ficha: "/proyectos/casilla-03",
     oficio: "Asesoría para autónomos",
     tipo: "una-pagina",
     anio: "2026",
@@ -88,6 +101,7 @@ window.PROYECTOS = [
   {
     url: "https://regletaescalada.vercel.app/",
     nombre: "Regleta",
+    ficha: "/proyectos/regleta",
     oficio: "Rocódromo de escalada",
     tipo: "una-pagina",
     anio: "2026",

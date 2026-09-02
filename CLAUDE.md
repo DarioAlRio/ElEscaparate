@@ -91,10 +91,14 @@ están en la cabecera de `_render-modelo.html`. Nada de esto se publica.
 | `privacidad.html` | `/privacidad` | Datos, finalidades, proveedores, derechos |
 | `cookies.html` | `/cookies` | Las dos de Analytics, el `localStorage` y el botón de revocación |
 | `404.html` | — | Lo sirve Vercel solo |
+| `proyectos/*.html` | `/proyectos/<slug>` | Una ficha por trabajo publicado. Siete |
 
 ```
 assets/css/estilos.css    Sistema entero, 18 secciones numeradas en comentarios
 assets/js/proyectos.js    Datos del portfolio — lo único que se toca a menudo
+proyectos/*.html          Las siete fichas de proyecto. Cada una es un archivo
+                          escrito a mano; el campo «ficha» de proyectos.js dice
+                          a cuál apunta su miniatura. Ver §5
 assets/js/escaparates.js  Motor de capturas, fichas y visor
 assets/js/sitio.js        Menú, año, el reparto y disparo de .entra, formulario,
                           varilla, cierre, giro,
@@ -398,6 +402,50 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   —11rem, que es lo que mide el texto de al lado—, y para eso **tiene que
   llevar `width: auto`**: `.ilustracion` pone `width: 100 %`, y con el ancho
   fijado el `max-height` no reduce la imagen, la aplasta.
+- **Las fichas de proyecto viven en `proyectos/`, y por eso sus rutas llevan
+  barra inicial.** Es la misma trampa que la de `404.html` y por la misma
+  razón: desde `/proyectos/cabo-azul`, un `href="assets/css/estilos.css"`
+  pide `/proyectos/assets/css/estilos.css` y la página sale en Times New Roman.
+  Las nueve de la raíz siguen con ruta relativa y funcionan porque están todas
+  en la raíz; **en `proyectos/` no le quites la barra a nada**: ni al CSS, ni a
+  los tres JS, ni a las fuentes, ni al icono.
+  La carpeta se llama `proyectos` y no `trabajos` a propósito: `trabajos.html`
+  ya sirve `/trabajos`, y una carpeta con ese mismo nombre al lado es pedirle
+  al hosting que decida cuál gana. No se ha probado y no hace falta probarlo.
+- **La captura de la ficha es de página entera, y ahí el relevo va al revés.**
+  En las miniaturas manda thum.io por rápido. En la página entera no: medido el
+  02/09/2026 sobre `caboazulbuceo`, thum.io tarda **31 s** y devuelve un PNG de
+  667 kB; Microlink tarda **3 s** y son 325 kB de JPEG. Y mShots no sabe hacer
+  la página entera, así que se queda fuera de la cola: devolvería el primer
+  pantallazo haciéndolo pasar por la página completa, que es peor que fallar.
+  **El ancho es 1000 y no 1280 por el mapa de bits, no por el peso.** A 1280 la
+  captura entera de esa web son 1280x6520: 878 kB en el cable, pero **33 MB**
+  descodificados. A 1000 son 1000x6142, 325 kB y 23 MB. Y en móvil se pide la
+  de 390, que son 390x8139, 269 kB y **12 MB**. Ese reparto por anchura —768 px
+  arriba, 390 abajo— es el mismo criterio con el que la maqueta de la portada
+  no baja su tercera tanda en móvil, y por el mismo motivo.
+  El ancho se decide **una sola vez, al entrar**, y no se vuelve a mirar: no
+  hay conmutador ni se recarga al girar el teléfono, porque tener las dos en
+  memoria a la vez es justo lo que se está evitando.
+  **Y la página entera necesita más plazo que la miniatura, o el respaldo no
+  puede ganar nunca.** El motor aguanta 22 s antes de pasar al siguiente
+  servicio, y eso vale para una miniatura, que tarda menos de uno. Una página
+  completa de thum.io tarda entre 26 y 31, así que con el plazo normal se le
+  agotaba el tiempo siempre: microlink no contestaba, thum.io entraba de
+  relevo y se le cortaba a mitad, y la ficha acababa en «SIN CAPTURA» con los
+  dos servicios respondiendo. Se vio en la ficha de Regleta. De ahí
+  `MARGEN_ENTERA`, 25 s que se suman al plazo solo cuando la captura es
+  entera. Si algún día se toca `ESPERA`, hay que mirar también esa.
+- **Un comentario XML no admite guiones dobles, y el `sitemap.xml` estuvo roto
+  por eso seis días.** La cabecera del archivo traía escrito el comando
+  `git log -1` con sus dos banderas largas, y `--format` lleva `--`. Un XML mal
+  formado no avisa de nada: simplemente no se procesa, así que Google no pudo
+  leer el sitemap entero entre el 27/08/2026 y el 02/09/2026 y no había manera
+  de notarlo mirando la web. Si tocas ese archivo, **pásalo por un parser**
+  antes de darlo por bueno; con el navegador delante basta
+  `new DOMParser().parseFromString(texto, "application/xml")` y mirar si hay
+  `parsererror`. El comando con banderas vive ahora solo aquí, en §5, que es
+  Markdown y sí lo admite: `git log -1 --format=%ad --date=short -- pagina.html`
 - **`404.html` enlaza sus assets con barra inicial, y ahí no es cosmético.** El
   hosting sirve ese archivo desde la dirección que pidió el visitante, no desde
   la raíz. Con rutas relativas, un 404 en `/blog/algo/x` pedía
@@ -503,7 +551,12 @@ afirmar que se ha comprobado.
 5. Si has cambiado precios, plazos, contacto o condiciones, actualiza también
    `PERSONALIZAR.md`; si has cambiado el sistema visual, `DESIGN.md`.
 6. Si has cambiado el contenido de una página, ponle su `lastmod` de hoy en
-   `sitemap.xml`. Es lo único del sitio que no se actualiza solo.
+   `sitemap.xml`. Es lo único del sitio que no se actualiza solo. Y si has
+   tocado ese archivo, compruébalo con un parser: no avisa cuando se rompe.
+6 bis. Si has añadido un trabajo con ficha propia, son cuatro sitios y no uno:
+   el bloque en `proyectos.js` con su campo `ficha`, el archivo en
+   `proyectos/`, su `<url>` en `sitemap.xml` y el párrafo de contexto en
+   `PERSONALIZAR.md`. El enlace de la miniatura sale solo; el archivo no.
 7. Si has tocado las seis preguntas de `/diseno-web`, cambia también su
    `FAQPage`: Google descarta el bloque entero cuando el texto no coincide
    palabra por palabra con lo que ve el visitante.

@@ -3,36 +3,38 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trabajos · Proyectos entregados · El Escaparate</title>
-<meta name="description" content="Portfolio de webs con previsualización en directo: cada trabajo se captura desde fuera al abrir la página, y cada uno tiene su ficha con la web entera de arriba abajo. Compruébalo con cualquier dirección.">
-<link rel="canonical" href="https://elescaparateweb.com/trabajos">
+<title>Regleta · Rocódromo de escalada · El Escaparate</title>
+<meta name="description" content="Las vías de la semana y las tarifas, sin matrícula ni permanencia. Web de una página entregada en 2026.">
+<link rel="canonical" href="https://elescaparateweb.com/proyectos/regleta">
 <meta name="theme-color" content="#0b2350">
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="es_ES">
-<meta property="og:title" content="Trabajos · El Escaparate">
-<meta property="og:description" content="Cada proyecto, capturado en directo desde fuera. Sin maquetas.">
-<meta property="og:url" content="https://elescaparateweb.com/trabajos">
+<meta property="og:title" content="Regleta · Rocódromo de escalada">
+<meta property="og:description" content="Las vías de la semana y las tarifas, sin matrícula ni permanencia.">
+<meta property="og:url" content="https://elescaparateweb.com/proyectos/regleta">
 <meta property="og:site_name" content="El Escaparate">
-<!-- La tarjeta para compartir. Sin esto, pasar el enlace por WhatsApp daba
-     texto pelado y ninguna imagen, que es por donde llegan los clientes.
-     Es la misma en las nueve paginas a proposito: es la tarjeta de la marca,
-     no un resumen de cada pagina. 1200x630, que es lo que piden Facebook,
-     WhatsApp, LinkedIn y X. La dibuja un canvas con el logo y las tipografias
-     de la web; no hay original en Photoshop que buscar. -->
+<!-- La tarjeta para compartir es la de la marca, la misma en todo el sitio.
+     Aqui pediria una por proyecto, pero saldria de la captura, que se genera
+     en el navegador del visitante y no existe como archivo: no hay nada que
+     enlazar. Ver la seccion 5 de CLAUDE.md. -->
 <meta property="og:image" content="https://elescaparateweb.com/og-escaparate.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="El Escaparate. En la calle tienes escaparate. En internet, la persiana bajada.">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="icono-buscador-192.png" type="image/png" sizes="192x192">
-<link rel="stylesheet" href="assets/css/estilos.css">
+<!-- Rutas de raiz, con barra, y aqui no es cosmetico: esta pagina vive en
+     proyectos/, asi que assets/css/estilos.css pediria
+     /proyectos/assets/css/estilos.css y la pagina saldria sin una sola regla
+     de estilo. Es la misma trampa que la de 404.html. -->
+<link rel="icon" href="/icono-buscador-192.png" type="image/png" sizes="192x192">
+<link rel="stylesheet" href="/assets/css/estilos.css">
 <link rel="preload" href="/assets/fuentes/bricolage-v9-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fuentes/archivo-v25-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preconnect" href="https://image.thum.io">
+<link rel="preconnect" href="https://api.microlink.io">
 <script>document.documentElement.classList.remove("sin-js");</script>
-<script src="assets/js/proyectos.js" defer></script>
-<script src="assets/js/escaparates.js" defer></script>
-<script src="assets/js/sitio.js" defer></script>
+<script src="/assets/js/proyectos.js" defer></script>
+<script src="/assets/js/escaparates.js" defer></script>
+<script src="/assets/js/sitio.js" defer></script>
 <!-- Medicion: no se carga hasta que hay un si. Este trozo solo deja gtag
      preparado y lo arranca si ya habia permiso guardado; el aviso que lo
      pide vive en sitio.js. gtag y dataLayer van tal cual los publica
@@ -89,7 +91,7 @@
     <nav class="nav cabecera__nav" id="nav-principal" data-nav data-abierta="no" aria-label="Navegación principal">
       <a href="/">Inicio</a>
       <a href="/diseno-web">Servicios</a>
-      <a href="/trabajos" aria-current="page">Trabajos</a>
+      <a href="/trabajos" aria-current="true">Trabajos</a>
       <a href="/como-trabajo">Cómo trabajo</a>
       <a href="/sobre-mi">El estudio</a>
       <a href="/presupuesto">Contacto</a>
@@ -111,63 +113,48 @@
 <main id="contenido">
 
   <section class="franja franja--corta franja--azul">
-    <div class="envoltura portada__rejilla">
-      <div>
-        <h1 class="titulo-pagina">Trabajos entregados</h1>
-        <p class="portada__entrada">
-          Aquí no hay maquetas. Cada ficha se captura en directo desde fuera al
-          abrir esta página, igual que la vería cualquier visitante. Pulsa una y
-          verás su ficha, con la web entera de arriba abajo.
-        </p>
-      </div>
-
-      <!-- El mismo mecanismo, aquí como demostración abierta -->
-      <div class="escaparate-vivo" data-escaparate-vivo data-estado="cerrado">
-        <div class="toldo toldo--fino escaparate-vivo__toldo" aria-hidden="true"></div>
-        <form class="escaparate-vivo__forma" novalidate>
-          <label for="url-prueba">Compruébalo con la web que quieras</label>
-          <input id="url-prueba" type="text" inputmode="url" autocomplete="url"
-                 placeholder="tunegocio.es" aria-describedby="pie-prueba">
-          <button class="boton boton--pequeno" type="submit">Subir la persiana</button>
-        </form>
-        <div class="marco" data-vista="escritorio">
-          <div class="persiana">
-            <span class="cartel">CERRADO</span>
-            <p>Funciona con cualquier dirección pública. Es el mismo motor que genera las fichas de abajo.</p>
-          </div>
-          <div class="marco__cargando" role="status" aria-live="polite">
-            <span class="oculto-visual">Generando la captura…</span>
-          </div>
-          <div class="marco__aviso" role="alert">
-            <span>
-              <strong>No ha salido</strong>
-              <span data-mensaje></span>
-            </span>
-          </div>
-        </div>
-        <div class="escaparate-vivo__pie" id="pie-prueba">
-          <span>La dirección se envía al servicio de capturas.</span>
-          <div class="conmutador" role="group" aria-label="Ancho de pantalla">
-            <button type="button" data-vista="escritorio" aria-pressed="true">Escritorio</button>
-            <button type="button" data-vista="movil" aria-pressed="false">Móvil</button>
-          </div>
-        </div>
-      </div>
+    <div class="envoltura">
+      <p class="miga"><a href="/trabajos">Volver a Trabajos</a></p>
+      <h1 class="titulo-pagina">Regleta</h1>
+      <p class="portada__entrada">Las vías de la semana y las tarifas, sin matrícula ni permanencia.</p>
     </div>
   </section>
 
   <section class="franja">
-    <div class="envoltura">
-      <div class="filtros" data-filtros role="group" aria-label="Filtrar por tipo de web">
-        <button type="button" data-filtro="todos" aria-pressed="true">Todos</button>
-        <button type="button" data-filtro="una-pagina" aria-pressed="false">Una página</button>
-        <button type="button" data-filtro="multipagina" aria-pressed="false">Multipágina</button>
-        <button type="button" data-filtro="tienda" aria-pressed="false">Tienda</button>
+    <div class="envoltura ficha">
+      <div class="ficha__texto">
+
+        <!-- EL PARRAFO DE CONTEXTO VA AQUI, Y LO ESCRIBES TU.
+
+             Dos o tres frases: quien es el cliente, con que llego y que
+             resolvio la web. Sin cifras que no puedas sostener.
+             Cuando lo tengas, borra este comentario y quita el de la linea
+             de abajo, que ya trae el parrafo montado.
+
+             Va comentado a proposito y no con texto de relleno: un parrafo
+             inventado sobre el negocio de un cliente y publicado en internet
+             es peor que un hueco. Apuntado en PERSONALIZAR.md. -->
+        <!-- <p class="ficha__contexto">CONTEXTO: quien es Regleta, con que llego y que resolvio la web.</p> -->
+
+        <dl class="datos">
+          <div><dt>Cliente</dt><dd>Regleta</dd></div>
+          <div><dt>Año</dt><dd>2026</dd></div>
+          <div><dt>Sector</dt><dd>Rocódromo de escalada</dd></div>
+          <div><dt>Servicio</dt><dd><a href="/diseno-web#una-pagina">Web de una página</a></dd></div>
+          <div><dt>Enlace</dt><dd><a href="https://regletaescalada.vercel.app/" target="_blank" rel="noopener noreferrer">regletaescalada.vercel.app ↗</a></dd></div>
+        </dl>
       </div>
 
-      <div class="calle" data-escaparates>
+      <!-- La captura de la pagina entera la pide el motor al llegar aqui: no
+           hay archivo que enlazar, se genera fuera. Por eso el hueco esta
+           vacio en el HTML y es el CSS el que le da altura, para que la
+           pagina no pegue un salto cuando llegue la imagen. -->
+      <div class="ficha__vista" data-ficha-vista
+           data-url="https://regletaescalada.vercel.app/"
+           data-nombre="Regleta">
         <noscript>
-          <p>Las fichas se generan con JavaScript, porque las capturas se piden en el momento. Si lo tienes desactivado, escríbeme y te envío los enlaces directos.</p>
+          <p class="apunte">La captura se pide en el momento y necesita JavaScript.
+            <a href="https://regletaescalada.vercel.app/" target="_blank" rel="noopener noreferrer">Abre Regleta en una pestaña nueva</a> para verla.</p>
         </noscript>
       </div>
     </div>
@@ -175,12 +162,12 @@
 
   <section class="franja franja--accion cierre">
     <div class="envoltura pareja">
-      <h2>El siguiente proyecto puede ser el tuyo</h2>
+      <h2>¿Te gusta lo que ves?</h2>
       <div>
         <p class="lectura">Cuéntame qué negocio tienes y qué esperas que ocurra cuando alguien entre en tu web. Te contesto con un precio cerrado y un plazo.</p>
         <div class="acciones">
           <a class="boton" href="/presupuesto">Pedir presupuesto</a>
-          <a class="boton boton--fantasma" href="/diseno-web">Ver los tres formatos</a>
+          <a class="boton boton--fantasma" href="/trabajos">Ver los demás trabajos</a>
         </div>
       </div>
     </div>

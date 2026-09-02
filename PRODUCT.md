@@ -22,7 +22,9 @@ móvil, sin instalar nada. El estudio usa eso para dos cosas:
 
 1. **El portfolio se mantiene solo.** Cada trabajo es una URL; la miniatura se
    genera desde fuera. Dario añade un cliente escribiendo una línea en
-   `assets/js/proyectos.js`, no exportando imágenes.
+   `assets/js/proyectos.js`, no exportando imágenes. Desde el 02/09/2026 cada
+   trabajo publicado tiene además su ficha en `/proyectos/<nombre>`, con la
+   captura de la web del cliente entera y los datos del encargo.
 2. **El espejo.** El visitante pega la dirección de su web actual y la ve como
    la ve un desconocido. Nadie discute su propia captura.
 
