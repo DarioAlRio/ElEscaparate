@@ -954,11 +954,14 @@ img.giro__cara,
   align-items: center;
   padding-inline: 0.55rem;
   /* El resto del conmutador usa --azul-suave porque va sobre --azul y es
-     texto secundario. Aquí no hay texto detrás con quien competir, así que se
-     sube a --cal: unas flechas que se ven a media asta parecen deshabilitadas
-     y no lo están. */
-  color: var(--cal);
+     texto secundario. Aquí no hay texto detrás con quien competir, así que
+     lleva relleno propio: fondo de acción y --tinta encima, la misma pareja
+     que .boton, no --cal, que sobre bermellón baja de 4,5:1. */
+  background: var(--accion);
+  color: var(--tinta);
+  transition: background-color 0.18s ease;
 }
+.giro__pie .conmutador button:hover { background: var(--accion-hondo); }
 .giro__pie .conmutador svg { width: 14px; height: 14px; }
 
 /* Sin JavaScript, o con movimiento reducido, o si no hay más fotograma que el
