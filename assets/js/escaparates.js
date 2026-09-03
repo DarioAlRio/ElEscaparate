@@ -675,6 +675,7 @@
     lista.sort(function (a, b) { return (a.url ? 0 : 1) - (b.url ? 0 : 1); });
     if (soloDestacados) lista = lista.slice(0, 3);
     pinta(rejilla, lista);
+    iniciaCalle(rejilla);
 
     var filtros = document.querySelector("[data-filtros]");
     if (!filtros) return;
@@ -706,6 +707,12 @@
      de invertir un movimiento sin saber antes dónde ha caído. */
   var quietoFlip = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* La rejilla de /trabajos gira sus fichas al desplazarse (ver «La calle en
+     perspectiva» más abajo); al refiltrar hay fichas nuevas que medir. Se
+     guarda aquí la función que las vuelve a alinear, y no se llama a ciegas
+     porque en la portada —la rejilla «--destacada»— no existe. */
+  var actualizaCalle = null;
+
   function refiltra(rejilla, lista) {
     if (quietoFlip) { pinta(rejilla, lista); return; }
 
@@ -715,6 +722,13 @@
     });
 
     pinta(rejilla, lista);
+    /* Al filtrar, la calle vuelve al principio: si se deja donde estaba, el
+       navegador recorta «scrollLeft» al nuevo máximo y la primera ficha del
+       filtro nuevo puede quedar fuera de vista, como si la calle hubiera
+       empezado a mitad. En la rejilla de la portada no hace nada, porque esa
+       no se desplaza en horizontal. */
+    rejilla.scrollLeft = 0;
+    if (actualizaCalle) actualizaCalle();
 
     var moviendo = [];
     rejilla.querySelectorAll("[data-nombre]").forEach(function (nodo) {
@@ -743,6 +757,51 @@
         });
       });
     });
+  }
+
+  /* --- La calle en perspectiva -------------------------------------------
+
+     Solo en /trabajos: la rejilla de la portada es la «--destacada» y va en
+     cuadrícula, sin nada que recorrer. Aquí no hay cuadrícula, hay una fila
+     que se cruza en horizontal, y cada escaparate gira sobre su eje vertical
+     según lo lejos que quede del centro —como una fachada que se ve de
+     refilón según por dónde vas andando la calle.
+
+     El giro se escribe en «.escaparate__lienzo», no en «.escaparate»: el
+     artículo entero ya lleva su propio transform del FLIP de arriba, y un
+     mismo elemento no puede sostener dos transformaciones independientes sin
+     que la última pise a la primera. */
+  function iniciaCalle(calle) {
+    if (!calle || calle.classList.contains("calle--destacada")) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    var GRADOS = 14;
+    var pendienteGiro = false;
+
+    function gira() {
+      pendienteGiro = false;
+      var caja = calle.getBoundingClientRect();
+      if (!caja.width) return;
+      var centro = caja.left + caja.width / 2;
+      calle.querySelectorAll(".escaparate__lienzo").forEach(function (lienzo) {
+        var suyo = lienzo.getBoundingClientRect();
+        var t = (suyo.left + suyo.width / 2 - centro) / (caja.width / 2);
+        if (t > 1) t = 1;
+        if (t < -1) t = -1;
+        lienzo.style.transform = "rotateY(" + (-t * GRADOS).toFixed(1) + "deg)";
+      });
+    }
+
+    function pideGiro() {
+      if (pendienteGiro) return;
+      pendienteGiro = true;
+      requestAnimationFrame(gira);
+    }
+
+    calle.addEventListener("scroll", pideGiro, { passive: true });
+    window.addEventListener("resize", pideGiro, { passive: true });
+    actualizaCalle = pideGiro;
+    pideGiro();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", arranca);
