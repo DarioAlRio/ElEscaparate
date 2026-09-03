@@ -800,7 +800,46 @@
 
     calle.addEventListener("scroll", pideGiro, { passive: true });
     window.addEventListener("resize", pideGiro, { passive: true });
-    actualizaCalle = pideGiro;
+
+    /* --- Anda sola --------------------------------------------------------
+
+       La calle se recorre despacio de un extremo a otro y vuelve, sin pausa,
+       como un fondo con vida y no como un carrusel que hay que empujar. No
+       se detiene con el puntero ni con el foco a propósito: es un desplazamiento
+       continuo. «posicion» lleva la cuenta en coma flotante porque a esta
+       velocidad el incremento por fotograma es menor que un píxel entero, y
+       se resincroniza con el «scrollLeft» real cuando un cambio de filtro deja
+       la calle en su sitio (ver «actualizaCalle» más abajo). */
+    var VELOCIDAD = 0.05; /* px por milisegundo: cruza los ~2100px de nueve fichas en menos de un minuto */
+    var TOPE_SALTO = 100; /* ms. Con la pestaña en segundo plano el navegador deja de
+       llamar a requestAnimationFrame, así que al volver el primer fotograma trae un
+       «marca - marcaAnterior» de minutos, no de milisegundos. Sin este tope, ese
+       salto se multiplica por la velocidad y la calle aparece de golpe en un
+       extremo en vez de seguir por donde iba. */
+    var direccion = 1;
+    var marcaAnterior = null;
+    var posicion = calle.scrollLeft;
+
+    function avanza(marca) {
+      if (marcaAnterior !== null) {
+        var max = calle.scrollWidth - calle.clientWidth;
+        if (max > 0) {
+          posicion += direccion * VELOCIDAD * Math.min(marca - marcaAnterior, TOPE_SALTO);
+          if (posicion >= max) { posicion = max; direccion = -1; }
+          else if (posicion <= 0) { posicion = 0; direccion = 1; }
+          calle.scrollLeft = posicion;
+        }
+      }
+      marcaAnterior = marca;
+      requestAnimationFrame(avanza);
+    }
+
+    requestAnimationFrame(avanza);
+
+    actualizaCalle = function () {
+      posicion = calle.scrollLeft;
+      pideGiro();
+    };
     pideGiro();
   }
 
