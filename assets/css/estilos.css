@@ -1156,7 +1156,12 @@ img.giro__cara,
      más se nota el giro de los escaparates de los lados. 1400px da un giro
      que se lee sin marear. */
   perspective: 1400px;
+  /* Sin barra: la calle se mueve sola (ver escaparates.js) y además deja un
+     hueco de escaparate asomando en el borde, que ya avisa de que sigue. Una
+     barra debajo solo repetiría ese aviso. */
+  scrollbar-width: none;
 }
+.calle:not(.calle--destacada)::-webkit-scrollbar { display: none; }
 .calle:not(.calle--destacada) > .escaparate {
   flex: 0 0 min(78vw, 19rem);
   scroll-snap-align: center;
