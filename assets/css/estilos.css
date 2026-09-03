@@ -2490,9 +2490,58 @@ html.sin-js .entra { opacity: 1; transform: none; }
    dependen de nada. Misma clase que usa el resto del sitio para lo mismo. */
 .sin-js .revoca-galletas { display: none; }
 
-/* --- 18. Impresión ------------------------------------------------------ */
+/* --- 18. Transición de página -------------------------------------------
+
+   Cada página abre con la persiana echada y la sube al cargar; al pulsar un
+   enlace interno, «sitio.js» la vuelve a bajar antes de navegar. Como el
+   sitio no tiene enrutado propio —cada página es una carga de verdad—, lo
+   único que conecta un lado de la navegación con el otro es que las dos
+   persianas, la que baja aquí y la que sube en el destino, son del mismo
+   color: el blanco en blanco del navegador que hay en medio queda tapado.
+
+   Por eso el div vive en el HTML, no lo crea JavaScript: tiene que estar
+   pintado antes del primer fotograma, con la persiana ya bajada por CSS y
+   sin esperar a ningún script. Iniciarlo con un `<script>` con «defer» —que
+   corre después del primer diseño de la página— dejaría ver el contenido
+   entero un instante antes de tapar nada. */
+.transicion-persiana {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  background-color: var(--azul-alto);
+  background-image: repeating-linear-gradient(
+    180deg,
+    rgba(6, 21, 47, 0.5) 0 1px,
+    rgba(234, 238, 242, 0.06) 1px 3px,
+    rgba(6, 21, 47, 0.16) 3px 9px
+  );
+  pointer-events: none;
+  animation: sube-persiana-pagina 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+@keyframes sube-persiana-pagina {
+  from { transform: translateY(0); }
+  to { transform: translateY(-100%); }
+}
+.transicion-persiana[data-cerrando="si"] {
+  pointer-events: auto;
+  animation: baja-persiana-pagina 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes baja-persiana-pagina {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
+}
+
+/* Sin JavaScript nadie vuelve a poner «data-cerrando»: la persiana sube sola
+   al cargar —eso no depende de ningún script, es la regla de arriba— y ya no
+   se mueve más. Un candado sin JavaScript sería peor que no ponerlo. */
+
+@media (prefers-reduced-motion: reduce) {
+  .transicion-persiana { display: none; }
+}
+
+/* --- 19. Impresión ------------------------------------------------------ */
 
 @media print {
-  .cabecera, .pie, .visor, .escaparate-vivo, .cierre-fachada, .galletas { display: none; }
+  .cabecera, .pie, .visor, .escaparate-vivo, .cierre-fachada, .galletas, .transicion-persiana { display: none; }
   body { background: #fff; color: #000; }
 }
