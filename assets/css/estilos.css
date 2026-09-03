@@ -1129,6 +1129,57 @@ img.giro__cara,
   .calle--destacada > :first-child { grid-column: 1 / -1; }
 }
 
+/* La rejilla de /trabajos —la que no es «--destacada»— va en fila, no en
+   cuadrícula: es la calle, y una calle se recorre, no se hojea de arriba
+   abajo. Sale a sangre respecto a «.envoltura» (el margen negativo compensa
+   exactamente su relleno fluido) para que el primer escaparate no se quede
+   pegado al borde del texto de encima; el relleno propio deja el mismo aire
+   en las puntas. Los que no son «--destacada» son solo los de /trabajos: los
+   destacados de la portada siguen en cuadrícula, sin tocar. */
+.calle:not(.calle--destacada) {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--e4);
+  overflow-x: auto;
+  overflow-y: visible;
+  /* Sin esto, llegar al final de la calle deja que el gesto se escape hacia
+     el navegador: un swipe de más y Chrome lo lee como «atrás» o «adelante»
+     y te saca de /trabajos. Comprobado el 03/09/2026: sin la propiedad, un
+     scroll horizontal que agota el recorrido de verdad cambia de página. */
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: clamp(1.125rem, 4vw, 2.5rem);
+  margin-inline: calc(clamp(1.125rem, 4vw, 2.5rem) * -1);
+  padding-inline: clamp(1.125rem, 4vw, 2.5rem);
+  padding-block: var(--e2) var(--e5);
+  /* La distancia a la que se pone el ojo de quien mira: cuanto más corta,
+     más se nota el giro de los escaparates de los lados. 1400px da un giro
+     que se lee sin marear. */
+  perspective: 1400px;
+}
+.calle:not(.calle--destacada) > .escaparate {
+  flex: 0 0 min(78vw, 19rem);
+  scroll-snap-align: center;
+}
+.calle:not(.calle--destacada) .escaparate__lienzo {
+  transition: transform 0.2s linear;
+}
+
+/* La acera: una línea al pie de la sección, no una textura, para no competir
+   con la baldosa que ya corre por debajo de toda la página. */
+.franja:has(> .envoltura > .calle:not(.calle--destacada)) {
+  position: relative;
+}
+.franja:has(> .envoltura > .calle:not(.calle--destacada))::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--e3);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cal-linea) 12%, var(--cal-linea) 88%, transparent);
+}
+
 .escaparate {
   display: flex;
   flex-direction: column;
