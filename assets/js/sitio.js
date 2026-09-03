@@ -3,6 +3,48 @@
    y validación del formulario de presupuesto.
    ========================================================================= */
 
+/* =========================================================================
+   La persiana entre una página y la siguiente.
+
+   El div y su animación de subida están en el CSS y no aquí: tienen que
+   pintarse con el primer fotograma, antes de que corra ningún script con
+   «defer» (§18 de estilos.css). Lo único que hace falta en JavaScript es la
+   mitad de vuelta: bajarla antes de dejar la página.
+
+   Solo en los enlaces que ya cumplen la regla 3 de CLAUDE.md —internos,
+   absolutos de raíz, sin extensión—: son los únicos que se sabe que van a
+   otra página de este sitio. Un enlace a un cliente, un «mailto:» o un ancla
+   de la propia página siguen navegando tal cual, sin persiana de por medio. */
+
+(function () {
+  "use strict";
+
+  var persiana = document.querySelector(".transicion-persiana");
+  if (!persiana) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  var ESPERA = 400; /* casa con la duración de baja-persiana-pagina en el CSS */
+
+  document.addEventListener("click", function (ev) {
+    if (ev.defaultPrevented || ev.button !== 0) return;
+    if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+
+    var enlace = ev.target.closest ? ev.target.closest("a[href]") : null;
+    if (!enlace || (enlace.target && enlace.target !== "_self")) return;
+    if (enlace.hasAttribute("download")) return;
+
+    var destino = enlace.getAttribute("href");
+    /* Un enlace interno de verdad empieza por «/». Todo lo demás —anclas,
+       «mailto:», «tel:», las webs de cliente— navega sin pasar por aquí. */
+    if (!destino || destino.charAt(0) !== "/") return;
+    if (destino === location.pathname) return;
+
+    ev.preventDefault();
+    persiana.setAttribute("data-cerrando", "si");
+    setTimeout(function () { window.location.href = destino; }, ESPERA);
+  });
+})();
+
 (function () {
   "use strict";
 
