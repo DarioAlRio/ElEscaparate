@@ -61,7 +61,8 @@ son tuyas: **mitad y mitad**, **dos rondas de cambios**, **un mes de ajustes**,
 **684 08 24 90**, en el pie de las seis páginas con pie completo y en la lista
 «Si prefieres el camino corto» de `presupuesto.html`. Va de dos formas:
 
-- `https://wa.me/34684082490` abre el chat de WhatsApp directamente.
+- `https://api.whatsapp.com/send?phone=34684082490` abre el chat de WhatsApp
+  directamente (antes `wa.me`, que solo redirige a esta misma dirección).
 - `tel:+34684082490` marca desde el móvil.
 
 Si algún día cambias de número, búscalo como `684082490` y aparece en los siete
