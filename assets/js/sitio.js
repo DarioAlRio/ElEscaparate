@@ -235,7 +235,7 @@
   function porWhatsapp() {
     var numero = forma.getAttribute("data-whatsapp");
     if (!numero) return;
-    var url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje());
+    var url = "https://api.whatsapp.com/send?phone=" + numero + "&text=" + encodeURIComponent(mensaje());
     apunta("envio_whatsapp");
     avisa("Abriendo WhatsApp con el mensaje redactado. Solo queda enviarlo.");
     var ventana = window.open(url, "_blank", "noopener");
@@ -388,7 +388,7 @@
   "use strict";
 
   var SALIDAS = [
-    { prueba: "https://wa.me/", evento: "clic_whatsapp" },
+    { prueba: "https://api.whatsapp.com/send", evento: "clic_whatsapp" },
     { prueba: "tel:", evento: "clic_telefono" }
   ];
 
