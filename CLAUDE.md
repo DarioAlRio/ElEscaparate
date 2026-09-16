@@ -505,7 +505,7 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   una pantalla entera de advertencia. Lo pagaba el 100 % de las visitas con
   Chrome, y justo en los cuatro campos que el navegador sabe rellenar solo
   (nombre, negocio, correo y teléfono), para cubrir un camino de respaldo que no
-  usa casi nadie. Ese respaldo ya lo dan los enlaces de `mailto:` y de `wa.me`
+  usa casi nadie. Ese respaldo ya lo dan los enlaces de `mailto:` y de WhatsApp
   que están sueltos debajo del formulario, y esos no disparan nada.
   Antes el `action` estuvo en `PENDIENTE-pon-aqui-tu-endpoint`, que no es la
   dirección de nada: sin JavaScript el navegador enviaba ahí y daba un 404 en el
@@ -567,6 +567,19 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   midió al probar una marca de agua de fondo: sobre la baldosa el techo salía
   en 0,06 de opacidad y sobre el azul en 0,042, y quien mandaba no era el
   dibujo, era este par. Tenlo presente antes de poner nada detrás del texto.
+- **Los enlaces de WhatsApp van a `api.whatsapp.com/send`, no a `wa.me`.**
+  `wa.me/<número>` es cómodo de escribir pero es un simple atajo: siempre
+  responde con un 302 a `api.whatsapp.com/send/?phone=<número>&…`, que es la
+  misma dirección de siempre y la que de verdad abre el chat. Ahrefs lo marcó
+  el 12/09/2026 como «Page has links to redirect» en las 16 páginas que llevan
+  el enlace del pie —y encima como salto **externo**, no interno, así que a
+  quien lo sufre es al visitante, no al rastreo del propio sitio—. El arreglo
+  es enlazar directo al destino final, sin escala. Los dos usos del código se
+  cambiaron a la vez: el `href` suelto del pie y de los atajos, y la
+  construcción del enlace en `porWhatsapp()` (`sitio.js`), que arma la
+  dirección con el mensaje ya escrito. El emparejamiento de clics que cuenta
+  `clic_whatsapp` mira el principio del `href` (ver más abajo), así que tuvo
+  que cambiar con ellos o habría dejado de contar en silencio.
 
 ## 6. Cómo verificar
 
