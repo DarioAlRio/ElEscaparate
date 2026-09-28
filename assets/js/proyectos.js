@@ -60,6 +60,10 @@ window.PROYECTOS = [
   {
     url: "https://mascotaideal.es/",
     nombre: "Mascota Ideal",
+    /* Guardada a mano con waitForTimeout=6000: pedida en vivo salía en
+       blanco, porque la web pinta después de cargar. */
+    imagen: "/assets/img/webs/mascota-ideal.webp",
+    espera: 6,
     oficio: "Accesorios para perros y gatos",
     tipo: "tienda",
     anio: "2026",
