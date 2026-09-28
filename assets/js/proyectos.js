@@ -58,6 +58,24 @@ window.PROYECTOS = [
     nota: "Galería de artista y solicitud de cita sin llamadas."
   },
   {
+    url: "https://mascotaideal.es/",
+    nombre: "Mascota Ideal",
+    oficio: "Accesorios para perros y gatos",
+    tipo: "tienda",
+    anio: "2026",
+    destacado: true,
+    nota: "Guías y comparativas para elegir arneses, camas, comederos y transportines."
+  },
+  {
+    url: "https://elnidobiblioteca.com/",
+    nombre: "Biblioteca El Nido",
+    oficio: "Biblioteca vecinal",
+    tipo: "multipagina",
+    anio: "2026",
+    destacado: true,
+    nota: "Más de mil libros cedidos por el pueblo, préstamo gratuito y actividades de lectura."
+  },
+  {
     url: "https://reformas-aparejo.vercel.app/",
     nombre: "Reformas",
     ficha: "/proyectos/reformas",
@@ -95,7 +113,7 @@ window.PROYECTOS = [
     oficio: "Estudio botánico",
     tipo: "multipagina",
     anio: "2026",
-    destacado: true,
+    destacado: false,
     nota: "Catálogo con ficha de herbario por planta, talleres y suscripción mensual."
   },
   {
@@ -107,7 +125,7 @@ window.PROYECTOS = [
     oficio: "Centro de buceo",
     tipo: "una-pagina",
     anio: "2026",
-    destacado: true,
+    destacado: false,
     nota: "Cursos e inmersiones en la reserva marina, con la plaza guardada desde la propia página."
   },
   {
@@ -142,14 +160,5 @@ window.PROYECTOS = [
     anio: "2026",
     destacado: false,
     nota: "Carta de tratamientos con precios y reserva directa."
-  },
-  {
-    url: "",
-    nombre: "Biblioteca",
-    oficio: "Centro cultural",
-    tipo: "multipagina",
-    anio: "2026",
-    destacado: false,
-    nota: "Agenda de actividades que se actualiza sin tocar código."
   }
 ];
