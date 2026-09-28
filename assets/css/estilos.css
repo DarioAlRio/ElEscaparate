@@ -653,6 +653,20 @@ body {
   font-size: var(--t-4xl);
   letter-spacing: -0.045em;
 }
+/* La línea de arriba lleva las palabras que se buscan («diseño web en Madrid»)
+   dentro del h1 sin tocar el titular: el nombre del estudio es ambiguo y
+   Google lo emparejaba con escaparates de tienda. Va en letra de texto,
+   pequeña, para que el titular siga siendo lo que se lee primero. */
+.portada__antetitulo {
+  display: block;
+  margin-bottom: var(--e2);
+  font-family: inherit;
+  font-size: var(--t-s);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--azul-suave);
+}
 .portada h1 em {
   font-style: normal;
   color: var(--accion);
