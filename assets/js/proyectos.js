@@ -60,6 +60,7 @@ window.PROYECTOS = [
   {
     url: "https://mascotaideal.es/",
     nombre: "Mascota Ideal",
+    ficha: "/proyectos/mascota-ideal",
     /* Guardada a mano con waitForTimeout=6000: pedida en vivo salía en
        blanco, porque la web pinta después de cargar. */
     imagen: "/assets/img/webs/mascota-ideal.webp",
@@ -73,6 +74,8 @@ window.PROYECTOS = [
   {
     url: "https://elnidobiblioteca.com/",
     nombre: "Biblioteca El Nido",
+    ficha: "/proyectos/el-nido",
+    imagen: "/assets/img/webs/el-nido.webp",
     oficio: "Biblioteca vecinal",
     tipo: "multipagina",
     anio: "2026",
