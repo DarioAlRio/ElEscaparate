@@ -1210,6 +1210,7 @@ img.giro__cara,
   pointer-events: none;
 }
 .escaparate:hover .escaparate__lienzo::after { opacity: 1; }
+.escaparate[data-enlazada="si"] { cursor: pointer; }
 
 .escaparate__vacio {
   position: absolute;
