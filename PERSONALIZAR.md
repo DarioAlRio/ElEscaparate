@@ -175,7 +175,7 @@ Revisa también el campo `tipo` de cada uno: los he puesto todos como
 
 ## 11. Los párrafos de las fichas de proyecto ⚠️ SIETE HUECOS
 
-Cada una de las siete páginas de `proyectos/` tiene, comentado dentro del
+Cada una de las nueve páginas de `proyectos/` tiene, comentado dentro del
 archivo, el hueco de un párrafo de contexto. Es lo mismo que hace la referencia
 en la que está copiada la ficha: debajo del nombre va una frase corta —esa ya
 la tienes, es la `nota` de `proyectos.js`— y después dos o tres frases de quién
