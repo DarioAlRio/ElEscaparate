@@ -334,6 +334,16 @@
       lienzo = document.createElement("a");
       lienzo.href = proyecto.ficha;
       lienzo.setAttribute("aria-label", "Ver la ficha de " + proyecto.nombre);
+      /* El resto de la tarjeta —nombre, oficio, nota— también lleva a la
+         ficha: se pulsaba el nombre esperando abrirla y no pasaba nada. Se
+         reenvía al enlace en vez de envolver la tarjeta en otro <a>, que
+         leería todo el texto como nombre del enlace. */
+      art.setAttribute("data-enlazada", "si");
+      art.addEventListener("click", function (ev) {
+        if (ev.target.closest("a, button")) return;
+        if (window.getSelection && String(window.getSelection())) return;
+        lienzo.click();
+      });
     } else if (proyecto.url) {
       lienzo = document.createElement("button");
       lienzo.type = "button";
