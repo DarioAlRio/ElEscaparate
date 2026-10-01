@@ -213,12 +213,18 @@ Son cuatro sitios y no uno. El enlace de la miniatura sale solo; el archivo no:
 3. Su bloque en `sitemap.xml`, al final, con los demás de `/proyectos/`.
 4. El párrafo de contexto, aquí arriba.
 
-Y dentro del archivo copiado, dos cosas que **no** salen de `proyectos.js` y hay
+Y dentro del archivo copiado, tres cosas que **no** salen de `proyectos.js` y hay
 que cambiar a mano:
 
 - **Las capturas.** Cada `<figure class="vista">` lleva una `<img>` que apunta a
   un archivo de `assets/img/webs/`. Hay que sacarlas y guardarlas antes: no se
   generan solas. Cómo, en el apartado de aquí abajo.
+  Cada captura de ordenador (1280x800) necesita además su hermana de 640 px
+  con el mismo nombre y `-640` al final, que es la que baja el móvil:
+  `ffmpeg -i nombre.webp -vf scale=640:-1 -c:v libwebp -quality 82 nombre-640.webp`.
+  Sin ella, la miniatura y la ficha piden un archivo que no existe.
+- **El schema de la ficha.** En la cabecera, el bloque `CreativeWork` lleva el
+  nombre, la nota, la captura y la web del cliente. Se cambia junto con lo demás.
 - **Los seis colores de la paleta.** Van escritos en el `<li>`, dos veces cada
   uno: en `style="--tono:#xxxxxx"` y en el `<code>`. Sácalos de la hoja de
   estilos de la web del cliente, no a ojo de la captura.

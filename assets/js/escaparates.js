@@ -369,6 +369,11 @@
       if (proyecto.imagen) {
         img.width = 1280;
         img.height = 800;
+        /* La variante de 640 la generó ffmpeg al lado de cada captura: en un
+           móvil la miniatura mide unos 350 px y bajar la de 1280 era pagar el
+           doble por nada. Si añades una captura nueva, saca también su -640. */
+        img.srcset = proyecto.imagen.replace(/.webp$/, "-640.webp") + " 640w, " + proyecto.imagen + " 1280w";
+        img.sizes = "(min-width: 62rem) 25vw, calc(100vw - 2.25rem)";
         img.src = proyecto.imagen;
       } else {
         /* Sin archivo, la miniatura se pide en el momento a un servicio, que es
@@ -446,7 +451,17 @@
       nodo.appendChild(vacio);
       return;
     }
-    lista.forEach(function (proyecto) { nodo.appendChild(ficha(proyecto)); });
+    lista.forEach(function (proyecto, i) {
+      var art = ficha(proyecto);
+      /* La primera fila de /trabajos se ve sin desplazarse en escritorio: con
+         loading="lazy" el navegador esperaba a maquetar para pedirla y era la
+         imagen más grande de la página, la que mide el LCP. Las tres primeras
+         van sin diferir; el resto, y las de portada, que quedan muy abajo,
+         siguen esperando a que se acerquen. */
+      var img = i < 3 && !nodo.hasAttribute("data-destacados") && art.querySelector("img");
+      if (img) img.loading = "eager";
+      nodo.appendChild(art);
+    });
   }
 
   /* --- La vista de la página de proyecto -------------------------------- */
