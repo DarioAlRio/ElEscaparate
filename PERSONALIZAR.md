@@ -219,10 +219,11 @@ que cambiar a mano:
 - **Las capturas.** Cada `<figure class="vista">` lleva una `<img>` que apunta a
   un archivo de `assets/img/webs/`. Hay que sacarlas y guardarlas antes: no se
   generan solas. Cómo, en el apartado de aquí abajo.
-  Cada captura de ordenador (1280x800) necesita además su hermana de 640 px
-  con el mismo nombre y `-640` al final, que es la que baja el móvil:
+  Cada captura de ordenador (1280x800) necesita además dos hermanas, de 640 y
+  960 px, con el mismo nombre y `-640` o `-960` al final; la de 960 es la que
+  baja un móvil normal. Cambia el 640 por 960 para sacar la segunda:
   `ffmpeg -i nombre.webp -vf scale=640:-1 -c:v libwebp -quality 82 nombre-640.webp`.
-  Sin ella, la miniatura y la ficha piden un archivo que no existe.
+  Sin ellas, la miniatura y la ficha piden un archivo que no existe.
 - **El schema de la ficha.** En la cabecera, el bloque `CreativeWork` lleva el
   nombre, la nota, la captura y la web del cliente. Se cambia junto con lo demás.
 - **Los seis colores de la paleta.** Van escritos en el `<li>`, dos veces cada

@@ -371,8 +371,11 @@
         img.height = 800;
         /* La variante de 640 la generó ffmpeg al lado de cada captura: en un
            móvil la miniatura mide unos 350 px y bajar la de 1280 era pagar el
-           doble por nada. Si añades una captura nueva, saca también su -640. */
-        img.srcset = proyecto.imagen.replace(/.webp$/, "-640.webp") + " 640w, " + proyecto.imagen + " 1280w";
+           doble por nada. La de 960 es la que coge un móvil normal, de densidad 2
+           (354 px × 2 = 708). Si añades una captura nueva, saca las dos. */
+        img.srcset = proyecto.imagen.replace(/\.webp$/, "-640.webp") + " 640w, " +
+                     proyecto.imagen.replace(/\.webp$/, "-960.webp") + " 960w, " +
+                     proyecto.imagen + " 1280w";
         img.sizes = "(min-width: 62rem) 25vw, calc(100vw - 2.25rem)";
         img.src = proyecto.imagen;
       } else {
