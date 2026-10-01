@@ -28,6 +28,15 @@
 <link rel="stylesheet" href="assets/css/estilos.css">
 <link rel="preload" href="/assets/fuentes/bricolage-v9-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fuentes/archivo-v25-latin.woff2" as="font" type="font/woff2" crossorigin>
+<!-- La primera miniatura de la rejilla. La pinta escaparates.js, así que el
+     navegador no la vería hasta ejecutar el script; con esto la pide con los
+     primeros bytes. imagesrcset e imagesizes son copia de los de la miniatura:
+     si no coinciden, baja dos archivos. SI CAMBIA EL PRIMER TRABAJO DE
+     proyectos.js, hay que cambiar aquí el nombre, o se precarga una imagen
+     que nadie usa. -->
+<link rel="preload" as="image" href="/assets/img/webs/black-lili-tattoos.webp"
+      imagesrcset="/assets/img/webs/black-lili-tattoos-640.webp 640w, /assets/img/webs/black-lili-tattoos-960.webp 960w, /assets/img/webs/black-lili-tattoos.webp 1280w"
+      imagesizes="(min-width: 62rem) 25vw, calc(100vw - 2.25rem)">
 <link rel="preconnect" href="https://image.thum.io">
 <script>document.documentElement.classList.remove("sin-js");</script>
 <script src="assets/js/proyectos.js" defer></script>
