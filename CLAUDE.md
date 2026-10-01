@@ -131,6 +131,8 @@ _render-servidor.js       Lo sirve y recoge lo que manda el navegador
 vercel.json               cleanUrls + los 301 de las direcciones antiguas
 .htaccess                 Lo mismo para Apache, por si se muda
 robots.txt · sitemap.xml
+llms.txt                  Resumen del estudio para buscadores con IA. Opcional;
+                          si cambian servicios, plazos o contacto, cámbialo
 icono-buscador-192.png    El ÚNICO que enlazan las diez páginas. Ver §5
 og-escaparate.png         La tarjeta de og:image, 1200x630. La dibuja un canvas
                           con el logo y las tipografías: no hay original fuera
