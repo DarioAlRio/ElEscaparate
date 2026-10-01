@@ -64,6 +64,7 @@
     "@type": "ProfessionalService",
     "@id": "https://elescaparateweb.com/#estudio",
     "name": "El Escaparate",
+    "alternateName": "El Escaparate, diseño web",
     "url": "https://elescaparateweb.com/",
     "image": "https://elescaparateweb.com/og-escaparate.png",
     "logo": "https://elescaparateweb.com/icono-buscador-192.png",
@@ -82,6 +83,7 @@
     ],
     "founder": {
       "@type": "Person",
+      "@id": "https://elescaparateweb.com/sobre-mi#dario",
       "name": "Darío Domínguez García",
       "url": "https://elescaparateweb.com/sobre-mi"
     },
@@ -93,6 +95,20 @@
       "Accesibilidad web",
       "Rendimiento web"
     ]
+  }
+</script>
+<!-- WebSite: le dice al buscador el nombre del sitio y lo ata a la ficha del estudio por @id. -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://elescaparateweb.com/#web",
+    "name": "El Escaparate",
+    "alternateName": "El Escaparate, diseño web",
+    "url": "https://elescaparateweb.com/",
+    "publisher": {
+      "@id": "https://elescaparateweb.com/#estudio"
+    }
   }
 </script>
 </head>
@@ -192,7 +208,7 @@
     <div class="envoltura portada__rejilla cabecera-foto__texto">
 
       <div class="portada__texto">
-        <h1><span class="portada__antetitulo">Diseño web en Madrid para pequeños negocios</span>En la calle tienes escaparate.<br><em>En internet, la persiana bajada.</em></h1>
+        <h1><span class="portada__antetitulo">Diseño web en Madrid para pequeños negocios</span> En la calle tienes escaparate.<br><em>En internet, la persiana bajada.</em></h1>
         <p class="portada__entrada">
           Diseño y programo webs para negocios que ya tienen clientes y no tienen
           presencia en internet. Tres formatos, un presupuesto cerrado por escrito
@@ -245,9 +261,12 @@
       <div class="giro" data-giro data-cara="0" data-fotogramas="48" data-ruta="assets/img/modelo-">
         <div class="giro__caras" role="img"
              aria-label="Maqueta de la caseta de El Escaparate: rótulo en las dos fachadas, toldos de rayas sobre los escaparates acristalados y, por detrás, la puerta de servicio sobre una acera de adoquín.">
+          <!-- Sin fetchpriority a propósito: lo lleva el fondo del barrio, que es
+               la imagen grande del primer pantallazo. Con las dos en alta
+               competían por la conexión en el móvil. -->
           <picture class="giro__cara" data-visible="si">
             <source srcset="assets/img/modelo-00.webp" type="image/webp">
-            <img src="assets/img/modelo-00.png" alt="" width="640" height="348" fetchpriority="high" decoding="async">
+            <img src="assets/img/modelo-00.png" alt="" width="640" height="348" decoding="async">
           </picture>
         </div>
 

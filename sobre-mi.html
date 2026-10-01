@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>El estudio · Quién está detrás · El Escaparate</title>
+<title>Darío Domínguez, diseñador web en Madrid | El Escaparate</title>
 <meta name="description" content="El Escaparate es el estudio de Darío Domínguez García, en Madrid. Desarrollo web a medida, sin plantillas ni intermediarios, para pymes.">
 <link rel="canonical" href="https://elescaparateweb.com/sobre-mi">
 <meta name="theme-color" content="#0b2350">
@@ -48,6 +48,49 @@
     gtag('config', 'G-97JZNBDJE6');
   };
   try { if (localStorage.getItem("galletas") === "si") window.cargaMedicion(); } catch (e) {}
+</script>
+<!-- Ficha de persona: misma @id que el founder de la portada, para que el buscador sepa que son la misma. sameAs se añadirá cuando haya perfiles reales. -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://elescaparateweb.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Sobre mí",
+        "item": "https://elescaparateweb.com/sobre-mi"
+      }
+    ]
+  }
+</script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "url": "https://elescaparateweb.com/sobre-mi",
+    "mainEntity": {
+      "@type": "Person",
+      "@id": "https://elescaparateweb.com/sobre-mi#dario",
+      "name": "Darío Domínguez García",
+      "jobTitle": "Diseñador y desarrollador web",
+      "url": "https://elescaparateweb.com/sobre-mi",
+      "worksFor": {
+        "@id": "https://elescaparateweb.com/#estudio"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Madrid",
+        "addressCountry": "ES"
+      }
+    }
+  }
 </script>
 </head>
 <body>

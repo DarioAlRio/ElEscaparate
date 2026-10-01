@@ -54,6 +54,54 @@
   };
   try { if (localStorage.getItem("galletas") === "si") window.cargaMedicion(); } catch (e) {}
 </script>
+<!-- Migas y la ficha como obra: la web del cliente es el objeto, el estudio quien la hizo. Sin fecha: proyectos.js solo guarda el año. -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Inicio",
+        "item": "https://elescaparateweb.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Trabajos",
+        "item": "https://elescaparateweb.com/trabajos"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Clorofila",
+        "item": "https://elescaparateweb.com/proyectos/clorofila"
+      }
+    ]
+  }
+</script>
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": "Web de Clorofila",
+    "description": "Catálogo con ficha de herbario por planta, talleres y suscripción mensual.",
+    "url": "https://elescaparateweb.com/proyectos/clorofila",
+    "image": "https://elescaparateweb.com/assets/img/webs/clorofila.webp",
+    "about": {
+      "@type": "WebSite",
+      "name": "Clorofila",
+      "url": "https://clorofila-estudio-botanico.vercel.app/"
+    },
+    "creator": {
+      "@id": "https://elescaparateweb.com/sobre-mi#dario"
+    },
+    "publisher": {
+      "@id": "https://elescaparateweb.com/#estudio"
+    }
+  }
+</script>
 </head>
 <body>
 
@@ -156,6 +204,8 @@
         <figure class="vista">
           <figcaption class="vista__pie">La portada</figcaption>
           <img class="vista__captura" src="/assets/img/webs/clorofila.webp"
+               srcset="/assets/img/webs/clorofila-640.webp 640w, /assets/img/webs/clorofila.webp 1280w"
+               sizes="(min-width: 62rem) 52vw, calc(100vw - 2.25rem)"
                width="1280" height="800" loading="lazy" decoding="async"
                alt="La portada de Clorofila, vista en un ordenador.">
         </figure>
@@ -163,6 +213,8 @@
         <figure class="vista">
           <figcaption class="vista__pie">El catálogo</figcaption>
           <img class="vista__captura" src="/assets/img/webs/clorofila-plantas.webp"
+               srcset="/assets/img/webs/clorofila-plantas-640.webp 640w, /assets/img/webs/clorofila-plantas.webp 1280w"
+               sizes="(min-width: 62rem) 52vw, calc(100vw - 2.25rem)"
                width="1280" height="800" loading="lazy" decoding="async"
                alt="El catálogo de plantas de Clorofila, con una ficha de herbario por planta.">
         </figure>
