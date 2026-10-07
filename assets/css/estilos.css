@@ -1032,6 +1032,11 @@ img.giro__cara,
 }
 .oferta__fila:hover::before,
 .oferta__fila:focus-visible::before { transform: scaleX(1); }
+/* En pantalla táctil no hay hover que lo despliegue, y el filete es lo único
+   que distingue un formato de otro: se queda puesto. */
+@media (hover: none) {
+  .oferta__fila::before { transform: scaleX(1); }
+}
 
 .oferta__nombre {
   font-family: var(--letra-titular);
@@ -1667,6 +1672,14 @@ img.giro__cara,
 .ficha__vistas {
   display: grid;
   gap: var(--e4);
+  /* En una columna los datos iban delante y empujaban la primera captura por
+     debajo del primer pantallazo: 883 px de alto a 375 de ancho. Sin sticky ya
+     no hacen de rótulo —el nombre está en el h1 de la franja—, así que en
+     estrecho van al final. En ancho se devuelve el orden o cambian de columna. */
+  order: -1;
+}
+@media (min-width: 58rem) {
+  .ficha__vistas { order: 0; }
 }
 
 .vista { margin: 0; }

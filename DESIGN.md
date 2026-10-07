@@ -81,7 +81,8 @@ lectura acotada a 34–44rem según el bloque.
   un titular que debajo.
 - **La oferta son filas, no tarjetas.** Cada uno de los tres formatos es una
   fila de rejilla con su tono (bermellón, turquesa, amarillo de señal) en una
-  barra superior que se despliega al pasar por encima. La rejilla de tarjetas
+  barra superior que se despliega al pasar por encima. En pantalla táctil
+  (`hover: none`) la barra va siempre puesta, que si no las tres filas son iguales. La rejilla de tarjetas
   iguales estaba descartada desde el principio.
 - El portfolio sí es rejilla, porque ahí las fichas son escaparates de una calle
   y esa repetición es el contenido. La primera ocupa el ancho completo.
@@ -307,12 +308,14 @@ disfraz y sin tarjetas dentro de tarjetas.
 
 ```
 index.html · diseno-web.html · trabajos.html · como-trabajo.html
-sobre-mi.html · presupuesto.html · 404.html
+sobre-mi.html · presupuesto.html · aviso-legal.html · privacidad.html
+cookies.html · 404.html · proyectos/*.html
 assets/css/estilos.css     Sistema completo, un solo archivo
 assets/js/proyectos.js     Datos del portfolio (lo único que se toca a menudo)
 assets/js/escaparates.js   Motor de capturas, fichas y visor
-assets/js/sitio.js         Menú, año, entrada y validación del formulario
+assets/js/sitio.js         Menú, entrada, formulario, giro, cookies, medición
 ```
 
-Sin build, sin dependencias, sin módulos ES: los `<script>` son clásicos a
-propósito, para que la web funcione abriendo el archivo con doble clic.
+Sin build, sin dependencias, sin módulos ES. Los enlaces van sin extensión y
+los resuelve el hosting: para verla en local hace falta `node _dev-servidor.js`,
+ya no se abre con doble clic (ver `CLAUDE.md`, regla 3).
