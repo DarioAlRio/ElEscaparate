@@ -1,6 +1,6 @@
 # CLAUDE.md — El Escaparate
 
-Web del estudio de Darío Domínguez García. Siete páginas estáticas, sin build.
+Web del estudio de Darío Domínguez García. Diez páginas estáticas, la 404 y nueve fichas de proyecto, sin build.
 Dominio: `elescaparateweb.com`.
 
 Antes de tocar nada, mira si la respuesta ya está escrita:
@@ -92,12 +92,12 @@ están en la cabecera de `_render-modelo.html`. Nada de esto se publica.
 | `privacidad.html` | `/privacidad` | Datos, finalidades, proveedores, derechos |
 | `cookies.html` | `/cookies` | Las dos de Analytics, el `localStorage` y el botón de revocación |
 | `404.html` | — | Lo sirve Vercel solo |
-| `proyectos/*.html` | `/proyectos/<slug>` | Una ficha por trabajo publicado. Siete |
+| `proyectos/*.html` | `/proyectos/<slug>` | Una ficha por trabajo publicado. Nueve |
 
 ```
 assets/css/estilos.css    Sistema entero, 18 secciones numeradas en comentarios
 assets/js/proyectos.js    Datos del portfolio — lo único que se toca a menudo
-proyectos/*.html          Las siete fichas de proyecto. Cada una es un archivo
+proyectos/*.html          Las nueve fichas de proyecto. Cada una es un archivo
                           escrito a mano; el campo «ficha» de proyectos.js dice
                           a cuál apunta su miniatura. Ver §5
 assets/js/escaparates.js  Motor de capturas, fichas y visor
@@ -469,8 +469,8 @@ No las vuelvas a pisar; todas están comprobadas midiendo, no a ojo.
   md5—, y Microlink devuelve para el ancla exactamente el mismo tamaño que para
   la portada. Consecuencia directa: **una web de una sola página no puede tener
   bloque de «otra página»**, porque sus únicos enlaces internos son anclas. De
-  las siete fichas solo tres lo tienen: Black Lili, Reformas y Clorofila. En las
-  otras cuatro el segundo bloque es la vista de móvil, y no es un parche: es lo
+  las nueve fichas solo tres lo tienen: Black Lili, Reformas y Clorofila. En las
+  otras seis el segundo bloque es la vista de móvil, y no es un parche: es lo
   único distinto que hay de verdad que enseñar.
   **Las rutas de hash sí funcionan, pero solo con espera.** `#/plantas` de
   Clorofila por thum.io sale con la portada pintada; por Microlink con
