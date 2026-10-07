@@ -33,12 +33,11 @@ trampas del toldo, la máscara `left bottom`, la especificidad de los numerales
 **Recomendación: quedarse en 98.** No está decidido; si prefieres el punto, se
 hace en una sesión.
 
-### El `www` y la foto
+### El `www`
 
-Dos cosas que solo puedes hacer tú y que están explicadas en `PERSONALIZAR.md`:
-dar de alta `www.elescaparateweb.com` en Vercel —ahora mismo no resuelve, así
-que quien lo escriba por costumbre no llega— y mandar una foto tuya para el
-bloque de biografía de `sobre-mi.html`, que está montado y comentado esperando.
+Solo puedes hacerlo tú y está explicado en `PERSONALIZAR.md`: dar de alta
+`www.elescaparateweb.com` en Vercel. Ahora mismo no resuelve, así que quien lo
+escriba por costumbre no llega.
 
 ### El portfolio y sus dominios
 
@@ -81,6 +80,7 @@ sección 5 de `CLAUDE.md`.
 | El botón «Añadir a fuentes preferidas» de Google | Ver abajo |
 | Bajar el registro de `/sobre-mi` y `/como-trabajo` | Preguntado el 27/08/2026: es el tono que Dario quiere para esas dos páginas, aunque suene más de despacho que la portada |
 | Una Content-Security-Policy | Habría que listar Analytics y los tres servicios de capturas, y olvidar uno deja el portfolio en blanco. Las otras tres cabeceras sí están puestas |
+| Una foto de Dario en `/sobre-mi` | Descartado para siempre el 08/10/2026. El bloque de biografía no lleva foto; no volver a proponerlo |
 | Un `<label>` de casilla obligatoria en el formulario | Se decidió el aviso enlazado sin casilla: el envío por WhatsApp o correo ya es un acto voluntario, y la casilla resta envíos |
 
 ### El botón de fuentes preferidas de Google
