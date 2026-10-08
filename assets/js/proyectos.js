@@ -72,6 +72,17 @@ window.PROYECTOS = [
     nota: "Guías y comparativas para elegir arneses, camas, comederos y transportines."
   },
   {
+    url: "https://apirober.es/",
+    nombre: "Apirober",
+    ficha: "/proyectos/apirober",
+    imagen: "/assets/img/webs/apirober.webp",
+    oficio: "Miel de apicultor",
+    tipo: "una-pagina",
+    anio: "2026",
+    destacado: true,
+    nota: "Miel cruda de Fuentemolinos en tarros de 250 g, 500 g y 1 kg, con el pedido por WhatsApp."
+  },
+  {
     url: "https://elnidobiblioteca.com/",
     nombre: "Biblioteca El Nido",
     ficha: "/proyectos/el-nido",
@@ -79,7 +90,7 @@ window.PROYECTOS = [
     oficio: "Biblioteca vecinal",
     tipo: "multipagina",
     anio: "2026",
-    destacado: true,
+    destacado: false,
     nota: "Más de mil libros cedidos por el pueblo, préstamo gratuito y actividades de lectura."
   },
   {
