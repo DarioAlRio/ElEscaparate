@@ -173,9 +173,9 @@ no gasta ninguna petición.
 Revisa también el campo `tipo` de cada uno: los he puesto todos como
 `multipagina` a ojo y tú sabes cuál era cada encargo.
 
-## 11. Los párrafos de las fichas de proyecto ⚠️ SIETE HUECOS
+## 11. Los párrafos de las fichas de proyecto ⚠️ OCHO HUECOS
 
-Cada una de las nueve páginas de `proyectos/` tiene, comentado dentro del
+Cada una de las diez páginas de `proyectos/` tiene, comentado dentro del
 archivo, el hueco de un párrafo de contexto. Es lo mismo que hace la referencia
 en la que está copiada la ficha: debajo del nombre va una frase corta —esa ya
 la tienes, es la `nota` de `proyectos.js`— y después dos o tres frases de quién
@@ -196,8 +196,8 @@ enlace a la web del cliente— más los bloques de la derecha: la captura de la
 portada, la de otra página del mismo sitio donde la hay, la paleta de colores y
 la vista de móvil.
 
-Los cuatro trabajos de una sola página (Nova Strike, Cabo Azul, Casilla 03 y
-Regleta) no tienen bloque de «otra página», y no es un olvido: los servicios de
+Los cinco trabajos de una sola página (Apirober, Nova Strike, Cabo Azul,
+Casilla 03 y Regleta) no tienen bloque de «otra página», y no es un olvido: los servicios de
 capturas devuelven la misma imagen para `/` que para `/#tarifas`, así que no hay
 segunda pantalla que pedir. Ahí el segundo bloque es el teléfono.
 

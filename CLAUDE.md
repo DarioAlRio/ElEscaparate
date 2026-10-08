@@ -1,6 +1,6 @@
 # CLAUDE.md — El Escaparate
 
-Web del estudio de Darío Domínguez García. Diez páginas estáticas, la 404 y nueve fichas de proyecto, sin build.
+Web del estudio de Darío Domínguez García. Diez páginas estáticas, la 404 y diez fichas de proyecto, sin build.
 Dominio: `elescaparateweb.com`.
 
 Antes de tocar nada, mira si la respuesta ya está escrita:
@@ -92,12 +92,12 @@ están en la cabecera de `_render-modelo.html`. Nada de esto se publica.
 | `privacidad.html` | `/privacidad` | Datos, finalidades, proveedores, derechos |
 | `cookies.html` | `/cookies` | Las dos de Analytics, el `localStorage` y el botón de revocación |
 | `404.html` | — | Lo sirve Vercel solo |
-| `proyectos/*.html` | `/proyectos/<slug>` | Una ficha por trabajo publicado. Nueve |
+| `proyectos/*.html` | `/proyectos/<slug>` | Una ficha por trabajo publicado. Diez |
 
 ```
 assets/css/estilos.css    Sistema entero, 18 secciones numeradas en comentarios
 assets/js/proyectos.js    Datos del portfolio — lo único que se toca a menudo
-proyectos/*.html          Las nueve fichas de proyecto. Cada una es un archivo
+proyectos/*.html          Las diez fichas de proyecto.  Cada una es un archivo
                           escrito a mano; el campo «ficha» de proyectos.js dice
                           a cuál apunta su miniatura. Ver §5
 assets/js/escaparates.js  Motor de capturas, fichas y visor
@@ -106,8 +106,9 @@ assets/js/sitio.js        Menú, año, el reparto y disparo de .entra, formulari
                           el aviso de cookies con su botón de revocación y los
                           cuatro eventos de medición de las salidas de contacto
 assets/fuentes/*.woff2   Archivo y Bricolage, subconjunto latin. Ver §5
-assets/img/webs/*.webp    Las capturas de las webs de cliente: 17 archivos,
-                          712 KB. Una por portada (1280x800), otra por móvil
+assets/img/webs/*.webp    Las capturas de las webs de cliente: 49 archivos,
+                          1,6 MB con las variantes de 640 y 960. Una por
+                          portada (1280x800), otra por móvil
                           (390x780) y tres de segunda página. Las enseña la
                           rejilla del portfolio y la ficha de cada trabajo.
                           Ver §5
