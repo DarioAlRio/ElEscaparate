@@ -48,8 +48,22 @@
      y vuelta tal como se quedó, con la persiana bajada y el script ya corrido,
      así que nada la subía y la pantalla se quedaba tapada. Quitar el atributo
      devuelve la animación de subida del CSS, que arranca de nuevo. */
+  function suelta() {
+    persiana.removeAttribute("data-cerrando");
+  }
+  /* Se quita dos veces a propósito. Al irse, para que la copia que guarda el
+     navegador no lleve la persiana bajada. Y al volver, por si esa copia se
+     guardó antes del pagehide; ahí además se reinicia la subida a mano —fuera
+     la animación, una lectura que obliga a aplicarlo, y otra vez dentro—,
+     porque algunos navegadores restauran la animación ya terminada y no la
+     vuelven a correr. */
+  window.addEventListener("pagehide", suelta);
   window.addEventListener("pageshow", function (ev) {
-    if (ev.persisted) persiana.removeAttribute("data-cerrando");
+    if (!ev.persisted) return;
+    suelta();
+    persiana.style.animation = "none";
+    void persiana.offsetHeight;
+    persiana.style.animation = "";
   });
 })();
 
