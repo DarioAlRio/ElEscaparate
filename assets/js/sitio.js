@@ -43,6 +43,14 @@
     persiana.setAttribute("data-cerrando", "si");
     setTimeout(function () { window.location.href = destino; }, ESPERA);
   });
+
+  /* Al volver atrás el móvil no recarga la página: la saca de la caché de ida
+     y vuelta tal como se quedó, con la persiana bajada y el script ya corrido,
+     así que nada la subía y la pantalla se quedaba tapada. Quitar el atributo
+     devuelve la animación de subida del CSS, que arranca de nuevo. */
+  window.addEventListener("pageshow", function (ev) {
+    if (ev.persisted) persiana.removeAttribute("data-cerrando");
+  });
 })();
 
 (function () {
