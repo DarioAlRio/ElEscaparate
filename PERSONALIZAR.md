@@ -434,11 +434,8 @@ la configuración del navegador, y el RGPD pide que cuesten lo mismo.
 
 Y las dos que sí son tuyas:
 
-- **El `www` no funciona.** `www.elescaparateweb.com` no existe: no hay registro
-  DNS. Quien lo escriba por costumbre no llega. Se arregla en Vercel
-  (*Settings → Domains → Add*), creando el `CNAME` que te indique en tu
-  proveedor del dominio y eligiendo *Redirect* al dominio a secas. No hay nada
-  que cambiar en el repositorio.
+- **El `www`, hecho el 05/11/2026.** `CNAME` en Cloudflare con la nube gris
+  (sin proxy) y redirección 308 de Vercel al dominio sin `www`.
 - **Los `lastmod` del sitemap.** Hay que tocarlos cuando publiques cambios de
   contenido. Están explicados dentro del propio `sitemap.xml`.
 

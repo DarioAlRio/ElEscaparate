@@ -33,12 +33,6 @@ trampas del toldo, la máscara `left bottom`, la especificidad de los numerales
 **Recomendación: quedarse en 98.** No está decidido; si prefieres el punto, se
 hace en una sesión.
 
-### El `www`
-
-Solo puedes hacerlo tú y está explicado en `PERSONALIZAR.md`: dar de alta
-`www.elescaparateweb.com` en Vercel. Ahora mismo no resuelve, así que quien lo
-escriba por costumbre no llega.
-
 ### El portfolio y sus dominios
 
 Siete de las nueve fichas apuntan a `*.vercel.app` bajo el titular «Trabajos
@@ -112,6 +106,8 @@ con fecha, la cuenta cambia y se vuelve a mirar.
 ---
 
 ## 3. Hecho en agosto de 2026
+
+- (05/11/2026) `www.elescaparateweb.com` dado de alta: CNAME en Cloudflare sin proxy y 308 de Vercel al dominio sin `www`, conservando la ruta.
 
 - Las fuentes se sirven desde el propio sitio; Google fuera de la ruta crítica.
 - Los tres `<script>` a la cabecera con `defer`.
